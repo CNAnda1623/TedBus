@@ -17,6 +17,16 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { DialogComponent } from './component/landing-page/dialog/dialog';
 import { Router, RouterModule } from '@angular/router';
+import { SelectbusPage } from './component/selectbus-page/selectbus-page';
+import { Header } from './component/selectbus-page/header/header';
+import { LeftComponent } from './component/selectbus-page/left/left';
+import { Right } from './component/selectbus-page/right/right';
+import { MatIconModule } from '@angular/material/icon';
+import { SortingBar } from './component/selectbus-page/right/sorting-bar/sorting-bar';
+import { BusBox } from './component/selectbus-page/right/bus-box/bus-box';
+import { CommonModule } from '@angular/common';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -24,22 +34,29 @@ import { Router, RouterModule } from '@angular/router';
     Navbar,
     Footer,
     LandingPage,
-    DialogComponent
+    DialogComponent,
+    SelectbusPage,
+    Header,
+    Right,
+    SortingBar,
+    BusBox
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule,
     MatMenuModule,
     MatButtonModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule
-    ],
+    FormsModule,
+    MatIconModule,
+    LeftComponent,
+    CommonModule,
+    MatSidenavModule,
+    MatDividerModule
+  ],
   providers: [
     provideNativeDateAdapter(),
     provideBrowserGlobalErrorListeners()

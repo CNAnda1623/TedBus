@@ -42,8 +42,14 @@ export class LandingPage {
            this.fromoption === 'KolKata' && this.tooption === 'Darjeeling' ||
            this.fromoption === 'Chennai' && this.tooption === 'Pondicherry')
            {
-           this.router.navigate([''])
-            }else{
+           this.router.navigate(['select-bus'],{
+            queryParams: {
+              departure: this.fromoption,
+              arrival: this.tooption,
+              date: this.date
+           }
+          });
+          }else{
                 const dialogRef = this.dialog.open(DialogComponent);
                 dialogRef.afterClosed().subscribe(result => {
                   console.log(`Dialog result: ${result}`);
