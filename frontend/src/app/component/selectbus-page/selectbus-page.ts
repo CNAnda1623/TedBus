@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-selectbus-page',
   standalone: false,
   templateUrl: './selectbus-page.html',
-  styleUrl: './selectbus-page.css'
+  styleUrls: ['./selectbus-page.css']
 })
 export class SelectbusPage {
-
+  constructor(){
+    console.log("SelectbusPage component initialized");
+  }
 }

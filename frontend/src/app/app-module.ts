@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { DialogComponent } from './component/landing-page/dialog/dialog';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { SelectbusPage } from './component/selectbus-page/selectbus-page';
 import { Header } from './component/selectbus-page/header/header';
 import { LeftComponent } from './component/selectbus-page/left/left';
@@ -36,10 +36,7 @@ import { MatDividerModule } from '@angular/material/divider';
     LandingPage,
     DialogComponent,
     SelectbusPage,
-    Header,
-    Right,
     SortingBar,
-    BusBox
   ],
   imports: [
     BrowserModule,
@@ -51,8 +48,11 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatTableModule,
     FormsModule,
-    MatIconModule,
     LeftComponent,
+    Header,
+    Right,
+    BusBox,
+    MatIconModule,
     CommonModule,
     MatSidenavModule,
     MatDividerModule

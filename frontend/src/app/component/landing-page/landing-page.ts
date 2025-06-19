@@ -42,7 +42,7 @@ export class LandingPage {
            this.fromoption === 'KolKata' && this.tooption === 'Darjeeling' ||
            this.fromoption === 'Chennai' && this.tooption === 'Pondicherry')
            {
-           this.router.navigate(['select-bus'],{
+           this.router.navigate(['/selectbus-page'],{
             queryParams: {
               departure: this.fromoption,
               arrival: this.tooption,
