@@ -27,6 +27,11 @@ import { BusBox } from './component/selectbus-page/right/bus-box/bus-box';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
+import { BusBookingForm } from './component/selectbus-page/right/bus-booking-form/bus-booking-form';
+import { FromDrawer } from './component/selectbus-page/right/from-drawer/from-drawer';
+import { SmallSeats } from './component/selectbus-page/right/small-seats/small-seats';
+import { ViewSeats } from './component/selectbus-page/right/view-seats/view-seats';
+import { BottomTab } from './component/selectbus-page/right/bus-book/bottom-tab/bottom-tab';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,12 @@ import { MatDividerModule } from '@angular/material/divider';
     DialogComponent,
     SelectbusPage,
     SortingBar,
+    BusBookingForm,
+    FromDrawer,
+    SmallSeats,
+    ViewSeats,
+    BusBox,
+    BottomTab,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +62,6 @@ import { MatDividerModule } from '@angular/material/divider';
     LeftComponent,
     Header,
     Right,
-    BusBox,
     MatIconModule,
     CommonModule,
     MatSidenavModule,
