@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FromDrawer } from './from-drawer';
+import { FromDrawer } from './form-drawer';
 
 describe('FromDrawer', () => {
   let component: FromDrawer;

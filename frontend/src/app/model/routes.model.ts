@@ -1,4 +1,4 @@
-export interface Route {
+export interface RoutesModel {
     _id:string,
     departureLocation: {
       name: string;

@@ -39,7 +39,7 @@ export class LandingPage {
         if(this.fromoption === 'Delhi' && this.tooption === 'Jaipur' ||
            this.fromoption === 'Mumbai' && this.tooption === 'Goa' ||
            this.fromoption === 'Bangalore' && this.tooption === 'Mysore' ||
-           this.fromoption === 'KolKata' && this.tooption === 'Darjeeling' ||
+           this.fromoption === 'Kolkata' && this.tooption === 'Darjeeling' ||
            this.fromoption === 'Chennai' && this.tooption === 'Pondicherry')
            {
            this.router.navigate(['/selectbus-page'],{

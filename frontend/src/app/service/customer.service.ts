@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CustomerModel } from '../model/customer.model';
+import { url } from '../config';
 @Injectable({
   providedIn: 'root'
 })
-export class Customer {
-
-  constructor() { }
+export class CustomerService {
+  private apiurl:string=url + 'customer/'
+  constructor(private http:HttpClient) { }
+  addcustomermongo(user:any):Observable<CustomerModel>{
+    const customer:CustomerModel={
+      name:user.name,
+      email:user.email,
+      googleId:user.id,
+      profilepicture:user.picture
+    }
+    return this.http.post<CustomerModel>(this.apiurl,customer  )
+}
 }

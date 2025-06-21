@@ -2,19 +2,20 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-bus-box',
-  templateUrl: './bus-box.component.html',
-  styleUrl: './bus-box.component.css'
+  templateUrl: './bus-box.html',
+  styleUrls: ['./bus-box.css'],
+  standalone: false,
 })
 export class BusBox {
 @Input() rating:number[]=[];
-@Input() operatorname:string=''
-@Input() bustype:string=''
-@Input() departuretime:string=""
-@Input() reschedulable :number=0
-@Input() livetracking: number=0
-@Input() filledseats:any[]=[]
-@Input() routedetails: any
-@Input() busid:string=''
+@Input() operatorname:string='';
+@Input() bustype:string='';
+@Input() departuretime:string="";
+@Input() reschedulable :number=0;
+@Input() livetracking: number=0;
+@Input() filledseats:any[]=[];
+@Input() routedetails: any;
+@Input() busid:string='';
 avgrating:number=0
 totalreview:number=0
 seatprivce:number=0

@@ -1,4 +1,4 @@
-export interface Bus {
+export interface BusModel {
     _id?: string; // Optional if you are using MongoDB's default _id field
     operatorName: string;
     busType: string;

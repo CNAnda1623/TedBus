@@ -1,12 +1,12 @@
 import { Component , Input} from '@angular/core';
 
 @Component({
-  selector: 'app-from-drawer',
+  selector: 'app-form-drawer',
   standalone: false,
-  templateUrl: './from-drawer.html',
-  styleUrl: './from-drawer.css'
+  templateUrl: './form-drawer.html',
+  styleUrls: ['./form-drawer.css']
 })
-export class FromDrawer {
+export class FormDrawer {
   @Input() selectedseat:number[]=[]
   @Input() seatprice:number=0;
   @Input() routedetails: any;
