@@ -35,6 +35,8 @@ import { ViewSeats } from './component/selectbus-page/right/view-seats/view-seat
 import { BottomTab } from './component/selectbus-page/right/bus-book/bottom-tab/bottom-tab';
 import { Bus } from './service/bus.service';
 import { PaymentPage } from './component/payment-page/payment-page';
+import { ProfilePage } from './component/profile-page/profile-page';
+import { MyTrip } from './component/profile-page/my-trip/my-trip';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { PaymentPage } from './component/payment-page/payment-page';
     ViewSeats,
     BottomTab,
     PaymentPage,
+    ProfilePage,
+    MyTrip,
   ],
   imports: [
     BrowserModule,
