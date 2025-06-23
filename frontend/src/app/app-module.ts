@@ -34,6 +34,7 @@ import { SmallSeats } from './component/selectbus-page/right/small-seats/small-s
 import { ViewSeats } from './component/selectbus-page/right/view-seats/view-seats';
 import { BottomTab } from './component/selectbus-page/right/bus-book/bottom-tab/bottom-tab';
 import { Bus } from './service/bus.service';
+import { PaymentPage } from './component/payment-page/payment-page';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { Bus } from './service/bus.service';
     SmallSeats,
     ViewSeats,
     BottomTab,
+    PaymentPage,
   ],
   imports: [
     BrowserModule,
