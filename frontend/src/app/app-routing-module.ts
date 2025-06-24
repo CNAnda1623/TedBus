@@ -7,7 +7,7 @@ import { ProfilePage } from './component/profile-page/profile-page';
 const routes: Routes = [
   {path: '',component: LandingPage},
   {path: 'selectbus-page',component: SelectbusPage},
-  {path: 'payment', component: PaymentPage}
+  {path: 'payment', component: PaymentPage},
   {path: 'profile', component: ProfilePage}
 ];
 

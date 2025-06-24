@@ -11,7 +11,7 @@ import { DataService } from '../../../../service/data.service';
 export class BusBookingForm {
     @Input() selectedseat:number[]=[]
     @Input() seatprice:number=0
-    @Input()routedetails :any
+    @Input() routedetails :any
     @Input() busid:string =''
     @Input() busarrivaltime: number=0
     @Input() busdeparturetime: number=0

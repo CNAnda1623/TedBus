@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ required for *ngIf, *ngFor
-import { MatIconModule } from '@angular/material/icon'; // ✅ required for <mat-icon>
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-left',
-  imports: [CommonModule, MatIconModule],
   standalone: true,
   templateUrl: './left.html',
-  styleUrls: ['./left.css']
+  styleUrls: ['./left.css'],
+  imports: [CommonModule, MatIconModule],
 })
 export class LeftComponent {
   amenityIcon:{[key:string]: string}={

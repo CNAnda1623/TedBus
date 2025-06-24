@@ -7,7 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./selectbus-page.css']
 })
 export class SelectbusPage {
-  constructor(){
-    console.log("SelectbusPage component initialized");
-  }
+
 }

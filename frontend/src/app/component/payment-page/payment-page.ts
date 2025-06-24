@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { HttpClient } from '@angular/common/http';
@@ -27,9 +27,10 @@ export class PaymentPage implements OnInit {
   arrivaldetails: any = [];
   duration: string = '';
   isbusinesstravel: boolean = false;
+  iscoviddonated: boolean = false;
   isinsurance: boolean = false;
   bookingdate: string = new Date().toISOString().split('T')[0];
-constructor(private route: ActivatedRoute) {}
+constructor(private route: ActivatedRoute, private dataservice : DataService, private http: HttpClient, private busservice: Bus) {}
 ngOnInit(): void {
   this.route.params.subscribe(params => {
     const passSeatsArray = params['selectedseat'];
@@ -47,21 +48,21 @@ ngOnInit(): void {
     this.passseatarray=passSeatsArray
     this.email=email
     this.phonenumber=phoneNumber
-    this.isbuisnesstravel=isBusinessTravel
+    this.isbusinesstravel=isBusinessTravel
     this.isinsurance=isInsurance
     this.passfare=passFare
     this.busid=busId
     this.busarrivaltime=busArrivalTime
-    this.busdepauturetime=busDepartureTime
+    this.busdeparturetime=busDepartureTime
     this.iscoviddonated=iscoviddonated
     this.getloggedinuser()
 })
 
-this.dataservice.currentdata.subscribe(data=>{
+this.dataservice.currentdata.subscribe((data: any)=>{
     this.routedetails=data;
     console.log(data)
   })
-  this.dataservice.passdata.subscribe(data=>{
+  this.dataservice.passdata.subscribe((data: any)=>{
     this.passengerdetails=data;
     console.log(data)
   })
@@ -69,7 +70,7 @@ this.dataservice.currentdata.subscribe(data=>{
 getloggedinuser():any{
     const loggedinuserjson=sessionStorage.getItem("Loggedinuser");
     if(loggedinuserjson){
-      this.customerid=JSON.parse(loggedinuserjson)
+      this.customerId=JSON.parse(loggedinuserjson)
     }
     else{
       alert("please login to continue")
@@ -79,9 +80,9 @@ getloggedinuser():any{
 
 makepayment():void{
   let myBooking: any = {};
-    myBooking.customerId = this.customerid._id;
+    myBooking.customerId = this.customerId._id;
     myBooking.passengerDetails = this.passengerdetails;
-    myBooking.email = this.customerid.email;
+    myBooking.email = this.customerId.email;
     myBooking.phoneNumber = this.phonenumber;
     myBooking.fare = this.passfare;
     myBooking.status = "upcoming";
@@ -90,7 +91,7 @@ makepayment():void{
     myBooking.bookingDate=`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
     myBooking.seats = this.passseatarray;
     myBooking.departureDetails = {city:this.routedetails.departureLocation.name,
-      time:this.busdepauturetime,
+      time:this.busdeparturetime,
       date:this.bookingdate
     }
     myBooking.arrivalDetails = {city:this.routedetails.arrivalLocation.name,
@@ -98,15 +99,15 @@ makepayment():void{
       date:this.bookingdate
     }
     myBooking.duration = this.routedetails.duration;
-    myBooking.isBusinessTravel = this.isbuisnesstravel;
+    myBooking.isBusinessTravel = this.isbusinesstravel;
     myBooking.isInsurance = this.isinsurance;
     myBooking.isCovidDonated = this.iscoviddonated;
     // console.log(myBooking)
     this.busservice.addbusmongo(myBooking).subscribe({
-      next:(response)=>{
+      next:(response: any)=>{
         console.log('Bus post request success',response);
       },
-      error:(error)=>{
+      error:(error: any)=>{
         console.error('Post request failed',error)
       }
     })

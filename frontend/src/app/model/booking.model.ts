@@ -1,13 +1,13 @@
 export interface BookingModel {
-    id?: string; // Optional if you are using MongoDB's default _id field
-    customerId: string; // Assuming customerId is stored as ObjectId reference
+    id?: string; 
+    customerId: string; 
     passengerDetails: Passenger[];
     email: string;
     phoneNumber: string;
     fare: number;
     status: string;
     bookingDate: string;
-    busId: string; // Assuming busId is stored as ObjectId reference
+    busId: string; 
     seats: number[];
     departureDetails: TripDetails;
     arrivalDetails: TripDetails;

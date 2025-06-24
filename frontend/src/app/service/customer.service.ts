@@ -9,6 +9,7 @@ import { url } from '../config';
 export class CustomerService {
   private apiurl:string=url + 'customer/'
   constructor(private http:HttpClient) { }
+  
   addcustomermongo(user:any):Observable<CustomerModel>{
     const customer:CustomerModel={
       name:user.name,
