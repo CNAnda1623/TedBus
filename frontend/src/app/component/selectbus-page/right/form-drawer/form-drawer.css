@@ -21,8 +21,8 @@
   .example-container {
     width: 600px;
     height: 500px;
-    background-color: transparent;
+    /* background-color: transparent; */
   }
   ::ng-deep .mat-drawer-container{
-    background-color: transparent;
+    /* background-color: transparent; */
   }

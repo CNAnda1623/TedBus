@@ -4,10 +4,10 @@ import { Component , Input} from '@angular/core';
   selector: 'app-my-trip',
   standalone: false,
   templateUrl: './my-trip.html',
-  styleUrl: './my-trip.css'
+  styleUrls: ['./my-trip.css']
 })
 export class MyTrip {
-  @Input() booking:any
+  @Input() booking: any
  
 
   imageArr = [

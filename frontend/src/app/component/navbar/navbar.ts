@@ -9,7 +9,7 @@ import { Route } from '@angular/router';
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.html',
-  styleUrls: ['./navbar.css']
+  styleUrls: ['./navbar.css'],
 })
 
 export class Navbar implements OnInit {
@@ -34,7 +34,7 @@ export class Navbar implements OnInit {
   }
 
   private rendergooglebutton():void {
-    const googlebtn = document.getElementById('googlebtn');
+    const googlebtn = document.getElementById('google-btn');
     if (googlebtn) {
       google.accounts.id.renderButton(
         googlebtn,

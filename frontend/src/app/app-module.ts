@@ -38,6 +38,7 @@ import { PaymentPage } from './component/payment-page/payment-page';
 import { ProfilePage } from './component/profile-page/profile-page';
 import { MyTrip } from './component/profile-page/my-trip/my-trip';
 
+
 @NgModule({
   declarations: [
     App,
