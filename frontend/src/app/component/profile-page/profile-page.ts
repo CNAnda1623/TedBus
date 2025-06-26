@@ -24,7 +24,7 @@ export class ProfilePage {
     this.currentname = user.name;
     this.currentemail = user.email;
     this.busbooking.getbusmongo(user._id).subscribe((response:any) => {
-      this.mytrip = response;
+      this.mytrip = response.length > 0 ? [response[response.length - 1]] : [];
       console.log(this.mytrip);
     });
   }

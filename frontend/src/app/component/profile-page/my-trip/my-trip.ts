@@ -7,7 +7,7 @@ import { Component , Input} from '@angular/core';
   styleUrls: ['./my-trip.css']
 })
 export class MyTrip {
-  @Input() booking: any
+  @Input() booking: any[] = [];
  
 
   imageArr = [
@@ -142,7 +142,9 @@ export class MyTrip {
   randomimage:string=''
   ngOnInit(){
     const randomindex=Math.floor(Math.random() * this.imageArr.length);
-    this.randomimage=this.imageArr[randomindex].images
+    this.randomimage=this.imageArr[randomindex].images;
+
+    // console.log('🔁 MyTrip component loaded. TripList length:', this.tripList.length);
   }
   // getrandomimage():string{
   //   return this.imageArr[Math.floor(Math.random()*(18-0+1)+0)].images
