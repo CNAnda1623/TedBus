@@ -30,9 +30,11 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
-                "glob": "**/*",
+                "glob": "/*",
                 "input": "public"
-              }
+                
+              },
+               "src/assets"
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
@@ -88,10 +90,11 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+            {
+              "glob": "/*",
+              "input": "public"
+            },
+            "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -100,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "b92c6971-fef8-423c-b7be-b1692690c100"
   }
 }

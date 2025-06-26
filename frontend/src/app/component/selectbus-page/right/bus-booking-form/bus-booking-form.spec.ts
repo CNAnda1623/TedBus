@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BusBookingForm } from './bus-booking-form';
 
 describe('BusBookingForm', () => {

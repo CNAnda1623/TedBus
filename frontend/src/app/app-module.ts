@@ -37,6 +37,8 @@ import { Bus } from './service/bus.service';
 import { PaymentPage } from './component/payment-page/payment-page';
 import { ProfilePage } from './component/profile-page/profile-page';
 import { MyTrip } from './component/profile-page/my-trip/my-trip';
+import { MatDrawerContainer } from '@angular/material/sidenav';
+
 
 
 @NgModule({
@@ -68,6 +70,7 @@ import { MyTrip } from './component/profile-page/my-trip/my-trip';
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatDrawerContainer,
     HttpClientModule,
     MatTableModule,
     LeftComponent,
