@@ -9,20 +9,24 @@
     overflow: hidden;
     position: relative;
     text-decoration: none;
-    transition: 0.1s;
     border: none;
     text-align: center;
     background-color: #d84e55;
     color: #fff;
     margin-top: 30px;
     cursor: pointer;
-    
-  }
-  .example-container {
-    width: 600px;
-    height: 500px;
-    background-color: transparent;
-  }
-  ::ng-deep .mat-drawer-container{
-    background-color: transparent;
-  }
+}
+
+.form-container {
+    width: 100%;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1000;
+}
