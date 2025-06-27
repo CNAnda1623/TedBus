@@ -14,8 +14,8 @@ export class Bus {
   constructor(private http: HttpClient) { }
   GETBUSDETAILS(depart: string, arrival: string, date: string): Observable<Bus[]> {
     const formattedDate = date.replaceAll('/', '-');
-    const url = `${this.apiurl}${depart}/${arrival}/${formattedDate}`;
-    console.log(depart,arrival,formattedDate)
+    const fullUrl = `${this.apiurl}${depart}/${arrival}/${formattedDate}`;
+    console.log("📦 Requesting:", fullUrl);
     return this.http.get<Bus[]>(url);
   }
 addbusmongo(myBooking:any):Observable<BookingModel>{
