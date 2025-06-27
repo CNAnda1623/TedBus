@@ -5,7 +5,9 @@ const mongoose=require('mongoose')
 
 const app=express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://get-bus.netlify.app/',
+}));
 app.use(bodyparser.json())
 const customerroutes=require("./routes/customer");
 const routesroute=require("./routes/route");
