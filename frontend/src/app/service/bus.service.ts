@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BusModel } from "../model/bus.model"
-import { url } from '../config';
+import { url } from '../config/index';
 import { BookingModel } from '../model/booking.model';
 
 @Injectable({
