@@ -1,1 +1,1 @@
-export const url:string='https://tedbus-sxrx.onrender.com';
+export const url:string='https://tedbus-sxrx.onrender.com/';
