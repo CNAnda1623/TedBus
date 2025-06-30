@@ -1,15 +1,85 @@
 <div class="header">
-    <div class="headerOne">
-        <p>
-            Home &gt; Bus Tickets &gt; {{this.departure}} Bus &gt; {{this.departure}} to {{this.arrival}}
-        </p>
-        <p>
-            Fare Starts From INR 100
-        </p>
-    </div>
-    <div class="HeaderTwo">
-        <h3>
-            Departure to {{this.arrival}} on {{this.date}}
-        </h3>
+    <div class="search-container">
+        <!-- From Section - Made non-editable -->
+        <div class="search-field from-field">
+            <div class="field-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="field-content">
+                <label class="field-label">From</label>
+                <div class="field-value">{{this.departure}}</div>
+            </div>
+        </div>
+
+        <!-- Swap Button -->
+        <div class="swap-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M17 17L22 12L17 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 12H9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 7L2 12L7 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- To Section - Made non-editable -->
+        <div class="search-field to-field">
+            <div class="field-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" stroke="#666" stroke-width="2"/>
+                    <circle cx="12" cy="10" r="3" stroke="#666" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="field-content">
+                <label class="field-label">To</label>
+                <div class="field-value">{{this.arrival}}</div>
+            </div>
+        </div>
+
+        <!-- Date Section - Removed today/tomorrow buttons -->
+        <div class="search-field date-field">
+            <div class="field-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#666" stroke-width="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6" stroke="#666" stroke-width="2"/>
+                    <line x1="8" y1="2" x2="8" y2="6" stroke="#666" stroke-width="2"/>
+                    <line x1="3" y1="10" x2="21" y2="10" stroke="#666" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="field-content">
+                <label class="field-label">Date of journey</label>
+                <div class="field-value">{{this.date}}</div>
+            </div>
+        </div>
+
+        <!-- Custom Busses Button Section -->
+        <div class="search-field custom-busses-field">
+            <div class="field-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2" stroke="#666" stroke-width="2"/>
+                    <line x1="7" y1="5" x2="7" y2="19" stroke="#666" stroke-width="2"/>
+                    <line x1="17" y1="5" x2="17" y2="19" stroke="#666" stroke-width="2"/>
+                    <circle cx="7" cy="19" r="2" stroke="#666" stroke-width="2"/>
+                    <circle cx="17" cy="19" r="2" stroke="#666" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="field-content">
+                <label class="field-label">Bus Options</label>
+                <button class="custom-busses-btn" onclick="handleCustomBusses()">Custom Busses</button>
+            </div>
+        </div>
+
+        <!-- Removed Search Button -->
     </div>
 </div>
+
+<script>
+function handleCustomBusses() {
+    // Add your custom functionality here
+    console.log('Custom busses button clicked!');
+    // For example: redirect to a custom busses page, open a modal, etc.
+}
+</script>
