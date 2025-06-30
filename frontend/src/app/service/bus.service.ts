@@ -16,7 +16,7 @@ export class Bus {
     const formattedDate = date.replaceAll('/', '-');
     const fullUrl = `${this.apiurl}${depart}/${arrival}/${formattedDate}`;
     console.log("📦 Requesting:", fullUrl);
-    return this.http.get<Bus[]>(url);
+    return this.http.get<Bus[]>(fullUrl);
   }
 addbusmongo(myBooking:any):Observable<BookingModel>{
   const busbook: BookingModel = {

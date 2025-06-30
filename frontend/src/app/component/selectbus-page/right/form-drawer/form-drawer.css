@@ -29,4 +29,40 @@
     overflow-x: hidden;
     position: relative;
     z-index: 1000;
+    animation: slideInFromRight 0.4s ease-out;
+    transform-origin: right center;
+}
+
+.form-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.form-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 6px;
+    border: 2px solid #f1f1f1;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.form-container::-webkit-scrollbar-thumb:active {
+    background: #8a8a8a;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

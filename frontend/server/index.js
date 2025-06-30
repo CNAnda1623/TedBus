@@ -5,9 +5,22 @@ const mongoose=require('mongoose')
 
 const app=express();
 
+const allowedOrigins = [
+  "https://get-bus.netlify.app",
+  "http://localhost:4200"
+];
+
 app.use(cors({
-    origin: 'https://get-bus.netlify.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 }));
+
 app.use(bodyparser.json())
 const customerroutes=require("./routes/customer");
 const routesroute=require("./routes/route");

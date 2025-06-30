@@ -1,6 +1,7 @@
 <button class="proceedButton" (click)="toggleForm()">Proceed To Book</button>
 
-<div *ngIf="showForm" class="form-container">
+<div *ngIf="showForm" class="form-container" [class.slide-in]="showForm">
     <app-bus-booking-form [selectedseat]="selectedseat" [seatprice]="seatprice" [routedetails]="routedetails"
-        [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname"></app-bus-booking-form>
+        [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname">
+    </app-bus-booking-form>
 </div>
