@@ -1,4 +1,67 @@
+.selectbus{
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
 .SelectBus_MAINCONTENT{
-    display: grid;
-    grid-template-columns: 20% 80%;
+    display: 20px;
+    background-color: #f8f9fa;
+    max-width: 1200px; /* Same as header max-width */
+    margin: 0 auto; /* Center align like header */
+}
+
+.SelectBus_MAINCONTENT:has(app-left):has(app-right) {
+    display: flex;
+    gap: 20px;
+    /* max-width: 1200px; 
+    margin: 0 auto;  */
+}
+
+.SelectBus_MAINCONTENT {
+    display: flex;
+    gap: 20px;
+    /* max-width: 1200px;
+    margin: 0 auto; */
+}
+
+.SelectBus_MAINCONTENT:has(app-custom-bus) {
+    display: block;
+}
+
+.SelectBus_MAINCONTENT app-left {
+    flex: 0 0 280px; /* Fixed width for filters */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures content respects border radius */
+}
+
+.SelectBus_MAINCONTENT app-right {
+    flex: 1; /* Takes remaining space */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures content respects border radius */
+}
+
+/* Custom bus component takes full width */
+.SelectBus_MAINCONTENT app-custom-bus {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .SelectBus_MAINCONTENT {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .SelectBus_MAINCONTENT app-left {
+        flex: none;
+        width: 100%;
+    }
 }

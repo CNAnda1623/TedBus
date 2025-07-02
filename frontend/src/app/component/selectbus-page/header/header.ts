@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: false,
   templateUrl: './header.html',
-  styleUrl: './header.css'
+  styleUrls : ['./header.css']
 })
 export class Header {
+  @Output() customBusClicked = new EventEmitter<void>();
+
+  onCustomBusClick(){
+    this.customBusClicked.emit();
+  }
   departure: string = '';
   arrival: string = '';
   date: string = '';

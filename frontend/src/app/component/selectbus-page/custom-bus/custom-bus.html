@@ -1,0 +1,197 @@
+<div class="custom-bus-container">
+  <!-- Bus Size Box (Top-Left, RED) -->
+  <div class="bus-option-box red-box">
+    <h2 class="box-title">Bus Size</h2>
+    <ul class="option-list">
+      <li class="option-item" (click)="selectBusSize('mini')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusSize === 'mini'"></div>
+          <div class="option-text">
+            <div class="option-label">Mini (18-24)</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusSize('midsize')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusSize === 'midsize'"></div>
+          <div class="option-text">
+            <div class="option-label">Midsize (25-30)</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusSize('standard')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusSize === 'standard'"></div>
+          <div class="option-text">
+            <div class="option-label">Standard (31-40)</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusSize('fullsize')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusSize === 'fullsize'"></div>
+          <div class="option-text">
+            <div class="option-label">Fullsize (41-49)</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Select Route Box (Top-Right, WHITE) -->
+  <div class="bus-option-box white-box">
+    <h2 class="box-title">Select Route</h2>
+    <ul class="option-list">
+      <li class="option-item" (click)="selectRouteType('round-trip')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedRouteType === 'round-trip'"></div>
+          <div class="option-text">
+            <div class="option-label">Round Trip</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectRouteType('single-trip')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedRouteType === 'single-trip'"></div>
+          <div class="option-text">
+            <div class="option-label">Single Trip</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectRouteType('no-stops')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedRouteType === 'no-stops'"></div>
+          <div class="option-text">
+            <div class="option-label">No Stops</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedRouteType === 'select-stops'"></div>
+          <div class="option-text">
+            <div class="option-label">Select Stops</div>
+            <select class="stops-dropdown" [(ngModel)]="selectedStops" (change)="selectRouteType('select-stops')">
+              <option value="">Choose cities...</option>
+              <option value="delhi">Delhi</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="bangalore">Bangalore</option>
+              <option value="chennai">Chennai</option>
+              <option value="kolkata">Kolkata</option>
+              <option value="hyderabad">Hyderabad</option>
+              <option value="pune">Pune</option>
+              <option value="ahmedabad">Ahmedabad</option>
+            </select>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Bus Type Box (Bottom-Left, WHITE) -->
+  <div class="bus-option-box white-box">
+    <h2 class="box-title">Bus Type</h2>
+    <ul class="option-list">
+      <li class="option-item" (click)="selectBusType('seater')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusType === 'seater'"></div>
+          <div class="option-text">
+            <div class="option-label">Seater</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusType('sleeper')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusType === 'sleeper'"></div>
+          <div class="option-text">
+            <div class="option-label">Sleeper</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusType('premium')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusType === 'premium'"></div>
+          <div class="option-text">
+            <div class="option-label">Premium Seating</div>
+            <div class="option-description">Extra comfort, private pods, etc.</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+      <li class="option-item" (click)="selectBusType('double-deck')">
+        <div class="option-left">
+          <div class="option-radio" [class.selected]="selectedBusType === 'double-deck'"></div>
+          <div class="option-text">
+            <div class="option-label">Double Deck</div>
+            <div class="option-description">Sleeper + Seating</div>
+          </div>
+        </div>
+        <button class="select-btn">Select</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Amenities Box (Bottom-Right, RED) -->
+  <div class="bus-option-box red-box">
+    <h2 class="box-title">Amenities</h2>
+    <div class="amenities-container">
+      <div class="amenity-item" (click)="toggleAmenity('ac')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('ac')"></div>
+        <div class="amenity-label">AC</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('toilets')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('toilets')"></div>
+        <div class="amenity-label">Toilets</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('charging-points')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('charging-points')"></div>
+        <div class="amenity-label">Charging Points</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('tv')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('tv')"></div>
+        <div class="amenity-label">TV</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('veg-food')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('veg-food')"></div>
+        <div class="amenity-label">Veg Food</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('non-veg-food')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('non-veg-food')"></div>
+        <div class="amenity-label">Non-Veg Food</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('wifi')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('wifi')"></div>
+        <div class="amenity-label">WiFi</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('blankets')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('blankets')"></div>
+        <div class="amenity-label">Blankets</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('cctv')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('cctv')"></div>
+        <div class="amenity-label">CCTV</div>
+      </div>
+      <div class="amenity-item" (click)="toggleAmenity('live-tracking')">
+        <div class="amenity-checkbox" [class.selected]="selectedAmenities.includes('live-tracking')"></div>
+        <div class="amenity-label">Live Tracking</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proceed Button -->
+<div class="proceed-container">
+  <button class="proceed-btn" (click)="proceedWithSelection()">
+    Proceed
+  </button>
+</div>
+</div>

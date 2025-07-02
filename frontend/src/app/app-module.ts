@@ -38,6 +38,7 @@ import { PaymentPage } from './component/payment-page/payment-page';
 import { ProfilePage } from './component/profile-page/profile-page';
 import { MyTrip } from './component/profile-page/my-trip/my-trip';
 import { MatDrawerContainer } from '@angular/material/sidenav';
+import { CustomBus } from './component/selectbus-page/custom-bus/custom-bus';
 
 
 
@@ -61,6 +62,7 @@ import { MatDrawerContainer } from '@angular/material/sidenav';
     PaymentPage,
     ProfilePage,
     MyTrip,
+    CustomBus,
   ],
   imports: [
     BrowserModule,

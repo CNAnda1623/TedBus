@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./selectbus-page.css']
 })
 export class SelectbusPage {
+  showCustomBus = false;
 
+  handleCustomBusClick() {
+    this.showCustomBus = true;
+  }
 }

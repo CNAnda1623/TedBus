@@ -1,7 +1,8 @@
 <div class="selectbus">
-    <app-header></app-header>
+    <app-header (customBusClicked) = "handleCustomBusClick()"></app-header>
     <div class="SelectBus_MAINCONTENT">
-        <app-left></app-left>
-        <app-right></app-right>
+        <app-left *ngIf="!showCustomBus"></app-left>
+        <app-right *ngIf="!showCustomBus"></app-right>
+        <app-custom-bus *ngIf="showCustomBus"></app-custom-bus>
     </div>
 </div>
