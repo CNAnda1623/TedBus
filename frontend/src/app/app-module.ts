@@ -39,8 +39,8 @@ import { ProfilePage } from './component/profile-page/profile-page';
 import { MyTrip } from './component/profile-page/my-trip/my-trip';
 import { MatDrawerContainer } from '@angular/material/sidenav';
 import { CustomBus } from './component/selectbus-page/custom-bus/custom-bus';
-
-
+import { CabBook } from './component/navbar/cab-book/cab-book';
+import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab-booking-form';
 
 @NgModule({
   declarations: [
@@ -63,6 +63,8 @@ import { CustomBus } from './component/selectbus-page/custom-bus/custom-bus';
     ProfilePage,
     MyTrip,
     CustomBus,
+    CabBook,
+    CabBookingForm,
   ],
   imports: [
     BrowserModule,

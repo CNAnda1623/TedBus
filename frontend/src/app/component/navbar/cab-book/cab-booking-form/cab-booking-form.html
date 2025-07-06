@@ -1,0 +1,98 @@
+<!-- cab-booking-form.component.html -->
+<div class="cab-modal">
+  <div class="cab-form-container">
+    <!-- Passenger Title -->
+    <h4 class="passenger-main-title">Enter Passenger Details</h4>
+
+    <!-- Passenger Details Section -->
+    <div class="content-block scrollable">
+      <div class="passanger-info-title">
+        <i class="material-icons" style="font-size: 25px; color: teal;">account_circle</i>
+        <span style="margin-left: 10px; margin-top: 2px;">Passenger Information</span>
+      </div>
+
+      <div class="form-label">Name</div>
+      <input class="form-input" placeholder="Name" type="text" [(ngModel)]="cabDetails.name" />
+
+      <div class="form-label">Gender</div>
+      <div class="gender-options">
+        <label><input type="radio" name="gender" value="Male" [(ngModel)]="cabDetails.gender" /> Male</label>
+        <label><input type="radio" name="gender" value="Female" [(ngModel)]="cabDetails.gender" /> Female</label>
+      </div>
+
+      <div class="form-label">Age</div>
+      <input class="form-input" placeholder="Age" type="number" [(ngModel)]="cabDetails.age" />
+    </div>
+
+    <!-- Contact Details Section -->
+    <div class="content-block">
+      <div class="passanger-info-title">
+        <i class="material-icons" style="font-size: 25px; color: #f1af43;">email</i>
+        <span style="margin-left: 10px;">Contact Details</span>
+      </div>
+
+      <div class="passenger-contact-msg">Your ticket will be sent to these details</div>
+
+      <div class="form-label">Email</div>
+      <input class="form-input" placeholder="Email" type="email" [(ngModel)]="cabDetails.email" />
+
+      <div class="form-label">Phone</div>
+      <div style="display: flex; gap: 10px;">
+        <input class="form-input" placeholder="+91" type="text" style="width: 60px; color: #4f91d9;" disabled />
+        <input class="form-input" placeholder="Phone" type="text" [(ngModel)]="cabDetails.phone" />
+      </div>
+
+      <div style="margin-top: 20px;">
+        <input type="checkbox" [(ngModel)]="cabDetails.business" />
+        <span style="margin-left: 10px;">I am booking tickets for business travel.</span>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <input type="checkbox" [(ngModel)]="cabDetails.whatsappUpdates" />
+        <span style="margin-left: 10px;">Send updates and booking details on my WhatsApp number.</span>
+      </div>
+    </div>
+
+    <!-- Insurance Section -->
+    <div class="content-block">
+      <div class="insure_title">
+        Insure your travel by adding Rs 15 per passenger. Powered by 𝙄𝘾𝙄𝘾𝙄 𝙇𝙤𝙢𝙗𝙖𝙧𝙙 𝙂𝙄𝘾 𝙇𝙩𝙙
+      </div>
+
+      <div style="display: flex; gap: 40px; margin-top: 20px;">
+        <div style="text-align: center;">
+          <img src="https://s1.rdbuz.com/apps/images/india-acko-insurance/luggage.png" width="30" height="30" />
+          <div>Loss of baggage</div>
+          <div>Upto Rs. 3000 insurance cover</div>
+        </div>
+
+        <div style="text-align: center;">
+          <img src="https://s1.rdbuz.com/apps/images/india-acko-insurance/accident.png" width="30" height="30" />
+          <div>Personal Accident</div>
+          <div>Rs. 6,00,000 insurance cover</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <input type="checkbox" [(ngModel)]="cabDetails.insurance" />
+        <span style="margin-left: 10px;">Yes, secure my trip with insurance. I have read and understood the Terms and Conditions.</span>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <input type="checkbox" />
+        <span style="margin-left: 10px;">COVID Donation</span>
+      </div>
+    </div>
+
+    <!-- Final Confirmation & Action -->
+    <div class="content-block">
+      <div>
+        By clicking on proceed, I agree that I have read and understood the TnCs and the Privacy Policy
+      </div>
+      <div class="form-actions">
+        <button class="submit-btn" type="button" (click)="submitForm()">Proceed to Pay</button>
+        <button class="cancel-btn" type="button" (click)="closeForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
