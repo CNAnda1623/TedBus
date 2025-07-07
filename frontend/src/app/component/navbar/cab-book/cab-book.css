@@ -18,6 +18,14 @@
     position: relative;
 }
 
+.tick-icon {
+  margin-left: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
 /* Enhanced Search Field Styles */
 .search-field {
     display: flex;
@@ -534,6 +542,15 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
+.option-item.selected {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 
 .white-box .option-item {
   border-bottom: 1px solid #e9ecef;

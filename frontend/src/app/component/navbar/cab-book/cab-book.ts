@@ -1,12 +1,37 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { CabBookingService } from '../../../service/cab-booking.service';
 
 @Component({
   selector: 'app-cab-book',
   standalone: false,
   templateUrl: './cab-book.html',
-  styleUrl: './cab-book.css'
+  styleUrls: ['./cab-book.css']
 })
 export class CabBook implements OnInit {
+
+  constructor(private cabBookingService: CabBookingService) {}
+
+  handleCabBookingSubmit() {
+  const cabBooking = {
+    departure: this.departure,
+    arrival: this.arrival,
+    date: this.date,
+    cabSize: this.selectedCabType,
+    tripType: this.selectedTripType,
+    timePreference: this.selectedTime,
+    facilities: this.selectedFacilities
+  };
+
+  console.log('Payload:', cabBooking);
+
+  this.cabBookingService.createBooking(cabBooking).subscribe({
+    next: () => alert('Booking saved!'),
+    error: err => console.error('Save failed', err)
+  });
+}
+
+  
+
   // Original properties
   departure: string = 'Delhi';
   arrival: string = 'Jaipur';
@@ -91,7 +116,8 @@ export class CabBook implements OnInit {
     this.updateCalendar();
   }
 
-  selectFromCity(city: string) {
+  selectFromCity(city: string, event: MouseEvent) {
+    event.stopPropagation(); // Prevent click from propagating to document
     this.selectedFrom = city;
     this.departure = city;
     this.showFromDropdown = false;
@@ -99,7 +125,8 @@ export class CabBook implements OnInit {
     this.filteredFromCities = [...this.cities];
   }
 
-  selectToCity(city: string) {
+  selectToCity(city: string, event: MouseEvent) {
+    event.stopPropagation(); // Prevent click from propagating to document
     this.selectedTo = city;
     this.arrival = city;
     this.showToDropdown = false;
@@ -276,4 +303,24 @@ export class CabBook implements OnInit {
       this.showCalendar = false;
     }
   }
-}
+
+  selectedCabType: string = '';
+  selectedTripType: string = '';
+  selectedTime: string = '';
+
+  selectCabType(type: string) {
+    this.selectedCabType = type;
+  }
+
+  selectTripType(type: string) {
+    this.selectedTripType = type;
+  }
+
+  selectTime(type: string) {
+    this.selectedTime = type;
+  }
+
+  
+
+
+  }

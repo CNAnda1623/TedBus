@@ -2,13 +2,19 @@ const express=require('express')
 const bodyparser=require('body-parser')
 const cors =require('cors')
 const mongoose=require('mongoose')
-
+const cabBookingRoutes = require('./routes/cabBooking');
 const app=express();
 
 const allowedOrigins = [
   "https://get-bus.netlify.app",
   "http://localhost:4200"
 ];
+
+app.use('/api', cabBookingRoutes);
+
+app.use(express.json());
+
+app.use('/api/booking', require('./routes/booking'));
 
 app.use(cors({
   origin: function (origin, callback) {

@@ -1,5 +1,17 @@
 const Booking=require("../models/booking");
 
+exports.createCabBooking = async (req, res) => {
+  console.log('Received booking:', req.body); 
+try {
+    const newBooking = new CabBooking(req.body);
+    await newBooking.save();
+    res.status(201).json({ message: 'Cab booking saved successfully' });
+  } catch (err) {
+    console.error('Error saving booking:', err);
+    res.status(500).json({ error: 'Failed to save booking' });
+  }
+};
+
 exports.addbooking=async(req,res)=>{
     const booking =await Booking.create(req.body);
     console.log(booking);
