@@ -2,7 +2,9 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cabBookingRoutes = require('./routes/cabBooking');
 const app = express();
+
 
 // ✅ Define allowed origins before using cors
 const allowedOrigins = [
@@ -26,15 +28,10 @@ app.use(express.json());         // ✅ JSON parser
 app.use(bodyparser.json());      // Optional: if you still use body-parser
 
 // ✅ Now use your routes
-const cabBookingRoutes = require('./routes/cabBooking');
-const bookingroute = require('./routes/booking');
-const customerroutes = require('./routes/customer');
-const routesroute = require('./routes/route');
-
-app.use('/api/cab-booking', cabBookingRoutes);  // Your POST endpoint
-app.use('/api/booking', bookingroute);          // Existing bus booking API
-app.use(routesroute);
-app.use(customerroutes);
+app.use('/api/cab-booking', cabBookingRoutes);
+app.use('/api/booking', require('./routes/booking'));
+app.use(require('./routes/customer'));
+app.use(require('./routes/route'));
 
 // ✅ DB connection
 const DBURL = 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';
