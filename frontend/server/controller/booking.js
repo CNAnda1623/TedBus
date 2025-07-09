@@ -1,3 +1,4 @@
+const Booking = require("../models/booking");
 const CabBooking=require("../models/cabBooking");
 
 exports.createCabBooking = async (req, res) => {
