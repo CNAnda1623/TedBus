@@ -1,4 +1,4 @@
-const Booking=require("../models/booking");
+const CabBooking=require("../models/Cabbooking");
 
 exports.createCabBooking = async (req, res) => {
   console.log('Received booking:', req.body); 

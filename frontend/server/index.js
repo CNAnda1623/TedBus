@@ -1,50 +1,53 @@
-const express=require('express')
-const bodyparser=require('body-parser')
-const cors =require('cors')
-const mongoose=require('mongoose')
-const cabBookingRoutes = require('./routes/cabBooking');
-const app=express();
+const express = require('express');
+const bodyparser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const app = express();
 
-const allowedOrigins = [
-  "https://get-bus.netlify.app",
-  "http://localhost:4200"
-];
+// ✅ Define allowed origins before using cors
+// const allowedOrigins = [
+//   'https://get-bus.netlify.app',
+//   'http://localhost:4200'
+// ];
 
-app.use('/api', cabBookingRoutes);
-
-app.use(express.json());
-
-app.use('/api/booking', require('./routes/booking'));
-
+// ✅ Apply middleware FIRST
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+  'https://get-bus.netlify.app',
+  'http://localhost:4200'
+],
+
   credentials: true
 }));
 
-app.use(bodyparser.json())
-const customerroutes=require("./routes/customer");
-const routesroute=require("./routes/route");
-const bookingroute=require("./routes/booking")
-app.use(bookingroute)
-app.use(routesroute)
-app.use(customerroutes)
+app.use(express.json());         // ✅ JSON parser
+app.use(bodyparser.json());      // Optional: if you still use body-parser
 
-const DBURL="mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus"
+// ✅ Now use your routes
+const cabBookingRoutes = require('./routes/cabBooking.js');
+const bookingroute = require('./routes/booking');
+const customerroutes = require('./routes/customer');
+const routesroute = require('./routes/route');
+
+app.use('/api/cab-booking', cabBookingRoutes);  // Your POST endpoint
+app.use('/api/booking', bookingroute);          // Existing bus booking API
+app.use(routesroute);
+app.use(customerroutes);
+
+// ✅ DB connection
+const DBURL = 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';
+
 mongoose.connect(DBURL)
-.then(()=> console.log("Mongodb connected"))
-.catch(err=> console.error('Mongodb connection error:' ,err))
+  .then(() => console.log('Mongodb connected'))
+  .catch(err => console.error('Mongodb connection error:', err));
 
-app.get('/',(req,res)=>{
-    res.send('Hello , Ted bus is working')
-})
+// ✅ Root endpoint
+app.get('/', (req, res) => {
+  res.send('Hello, Ted bus is working');
+});
 
-const PORT= 5000
-app.listen(PORT,()=>{
-    console.log(`server is running on port ${PORT}`)
-})
+// ✅ Start server
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

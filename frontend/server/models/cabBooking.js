@@ -8,7 +8,9 @@ const cabBookingSchema = new mongoose.Schema({
   tripType: String,
   timePreference: String,
   facilities: [String]
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('CabBooking', cabBookingSchema);
+module.exports = mongoose.models.CabBooking || mongoose.model('CabBooking', cabBookingSchema);
 
