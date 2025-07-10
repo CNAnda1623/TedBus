@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CabBookingService {
+  private apiUrl = 'https://tedbus-sxrx.onrender.com/api/cab-booking';
   constructor(private http: HttpClient) {}
 
-  createBooking(data: any) : Observable<any> {
-    console.log('Payload:', data);
-    return this.http.post(`${url}api/cab-booking`, data);
+  createBooking(payload: any) : Observable<any> {
+    console.log('Payload:', payload);
+    return this.http.post(this.apiUrl, payload);
   }
 }
