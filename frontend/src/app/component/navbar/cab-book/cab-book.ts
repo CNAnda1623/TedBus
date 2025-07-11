@@ -25,8 +25,14 @@ export class CabBook implements OnInit {
   console.log('Payload:', cabBooking);
 
   this.cabBookingService.createBooking(cabBooking).subscribe({
-    next: () => alert('Booking saved!'),
-    error: err => console.error('Save failed', err)
+    next: () => {
+      alert('Booking saved!');
+      this.showCabBookingForm = true; // ✅ Show the form AFTER save
+    },
+    error: err => {
+      console.error('Save failed', err);
+      alert('Something went wrong while saving your booking.');
+    }
   });
 }
 

@@ -12,6 +12,8 @@ const routes: Routes = [
   {path: 'payment', component: PaymentPage},
   {path: 'profile', component: ProfilePage},
   { path: 'cab-book', component: CabBook },
+  { path: 'cab-payment', component: PaymentPage }
+
 ];
 
 @NgModule({

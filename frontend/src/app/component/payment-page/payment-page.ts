@@ -32,6 +32,16 @@ export class PaymentPage implements OnInit {
   bookingdate: string = new Date().toISOString().split('T')[0];
 constructor(private route: ActivatedRoute, private dataservice : DataService, private http: HttpClient, private busservice: Bus) {}
 ngOnInit(): void {
+  const customerJson = sessionStorage.getItem('cabCustomer');
+  if (customerJson) {
+    this.customerId = JSON.parse(customerJson);
+  } else {
+    alert('Cab customer details not found!');
+  }
+
+  // Set sample values if needed
+  this.bookingdate = new Date().toISOString().split('T')[0];
+  
   this.route.params.subscribe(params => {
     const passSeatsArray = params['selectedseat'];
     const email = params['passemail'];
