@@ -1,42 +1,3 @@
-// const Route=require("../models/route");
-// const Bus=require("../models/bus");
-// const Booking=require("../models/booking");
-
-// exports.getoneroute = async(req,res) => {
-//     let departure = req.params.departure;
-//     let arrival= req.params.arrival;
-//     let date= req.params.date;
-
-//     let routes=await Route.find().lean().exec();
-//     let route=routes.find((route)=>{
-//         return(
-//             route.departureLocation.name.toLowerCase() ==departure.toLowerCase() &&
-//             route.arrivalLocation.name.toLowerCase() == arrival.toLowerCase()
-//         );
-//     });
-//     let buses=await Bus.find();
-//     let matchedbuses=buses.filter((bus)=>{
-//         return bus.routes.toString()=== route._id.toString();
-//     })
-
-//     const booking =await Booking.find().lean().exec();
-//     const busidwithseatobj={}
-//     for (let i=0;i<matchedbuses.length;i++){
-//         let currentbusseats=[]
-//         const busbooking=booking.filter((booking)=>{
-//             return(
-//                 booking.departureDetails.date===date &&
-//                 booking.busId.toString() === matchedbuses[i]._id.toString()
-//             );
-//         });
-//     busbooking.forEach((booking)=>{
-//         currentbusseats=[...currentbusseats,...booking.seats];
-//     });
-//     busidwithseatobj[matchedbuses[i]._id.toString()]=currentbusseats;
-//     }
-//     res.send({route:route,matchedBuses:matchedbuses,busidwithseatobj})
-
-// };
 const Route = require("../models/route");
 const Bus = require("../models/bus");
 const Booking = require("../models/booking");
@@ -44,8 +5,11 @@ const Booking = require("../models/booking");
 exports.getoneroute = async (req, res) => {
   const { departure, arrival, date } = req.params;
 
+  console.log("📥 Incoming Params:", { departure, arrival, date }); // ✅ Log input params
+
   try {
     const routes = await Route.find().lean().exec();
+    console.log("📦 Total Routes Found:", routes.length); // ✅ Log total routes
 
     const route = routes.find((r) => {
       return (
@@ -54,15 +18,21 @@ exports.getoneroute = async (req, res) => {
       );
     });
 
+    console.log("🔍 Matched Route:", route); // ✅ Log matched route (may be null)
+
     if (!route) {
+      console.warn("⚠️ No matching route found for input!");
       return res.status(404).json({ message: "Route not found." });
     }
 
     const buses = await Bus.find();
+    console.log("🚌 Total Buses Found:", buses.length); // ✅ Optional
 
     const matchedBuses = buses.filter((bus) => {
       return bus.routes.toString() === route._id.toString();
     });
+
+    console.log("✅ Matched Buses:", matchedBuses.length); // ✅ Optional
 
     const bookings = await Booking.find().lean().exec();
 
@@ -85,13 +55,15 @@ exports.getoneroute = async (req, res) => {
       busidwithseatobj[matchedBuses[i]._id.toString()] = currentbusseats;
     }
 
+    console.log("🪑 Bus Seat Map:", busidwithseatobj); // ✅ Optional
+
     res.status(200).json({
       route,
       matchedBuses,
       busidwithseatobj,
     });
   } catch (err) {
-    console.error("Error in getoneroute:", err);
+    console.error("❌ Error in getoneroute:", err);
     res.status(500).json({ message: "Server error", error: err });
   }
 };
