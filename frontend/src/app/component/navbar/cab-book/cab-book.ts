@@ -35,9 +35,6 @@ export class CabBook implements OnInit {
     }
   });
 }
-
-  
-
   // Original properties
   departure: string = 'Delhi';
   arrival: string = 'Jaipur';

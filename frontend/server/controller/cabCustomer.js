@@ -5,7 +5,9 @@ exports.createCustomer = async (req, res) => {
   try {
     const newCustomer = new CabCustomer(req.body);
     await newCustomer.save();
-    res.status(201).json({ message: 'Cab customer saved successfully' });
+    res.status(201).json({ message: 'Cab customer saved successfully',
+      savedCustomer: savedCustomer,
+      success: true });
   } catch (error) {
     console.error('Error saving customer:', error);
     res.status(500).json({ error: 'Failed to save cab customer' });

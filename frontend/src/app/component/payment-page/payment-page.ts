@@ -26,6 +26,7 @@ export class PaymentPage implements OnInit {
   departuredetails: any = [];
   arrivaldetails: any = [];
   duration: string = '';
+  CabCustomer: any = null;
   isbusinesstravel: boolean = false;
   iscoviddonated: boolean = false;
   isinsurance: boolean = false;

@@ -4,6 +4,15 @@ const cabCustomerSchema = new mongoose.Schema({
   name: String,
   gender: String,
   age: Number,
+  time: {
+    type: String,
+    required: false
+  },
+  timeFormat: {
+    type: String,  // Store AM/PM
+    enum: ['AM', 'PM'],
+    required: false
+  },
   email: String,
   phone: String,
   insurance: Boolean,

@@ -5,6 +5,7 @@
     <h4 class="passenger-main-title">Enter Passenger Details</h4>
 
     <!-- Passenger Details Section -->
+    <!-- Passenger Details Section -->
     <div class="content-block scrollable">
       <div class="passanger-info-title">
         <i class="material-icons" style="font-size: 25px; color: teal;">account_circle</i>
@@ -22,6 +23,15 @@
 
       <div class="form-label">Age</div>
       <input class="form-input" placeholder="Age" type="number" [(ngModel)]="cabDetails.age" />
+
+      <div class="form-label">Time</div>
+      <div style="display: flex; gap: 10px;">
+        <input class="form-input" placeholder="Enter time (e.g., 09:30)" type="text" [(ngModel)]="cabDetails.time" style="flex: 1;" />
+        <select class="form-input" [(ngModel)]="cabDetails.timeFormat" style="width: 80px;">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
     </div>
 
     <!-- Contact Details Section -->

@@ -20,6 +20,8 @@ export class CabBookingForm {
     name: '',
     gender: '',
     age: null,
+    time: '',
+    timeFormat: 'AM',
     email: '',
     phone: '',
     insurance: false,
@@ -33,11 +35,14 @@ export class CabBookingForm {
 
   submitForm() {
     console.log('Form Submitted:', this.cabDetails);
+    console.log('Time Field:', this.cabDetails.time);
+    console.log('TimeFormat Field:', this.cabDetails.timeFormat);
 
     // Save to MongoDB
     this.cabCustomerService.addCabCustomer(this.cabDetails).subscribe({
       next: (res: any) => {
         console.log('Cab Customer Saved:', res);
+        console.log('Saved Customer data:', res.savedCustomer);
 
         // Save customer data to sessionStorage
         sessionStorage.setItem('cabCustomer', JSON.stringify(res.savedCustomer));
@@ -47,6 +52,7 @@ export class CabBookingForm {
       },
       error: err => {
         console.error('Failed to save cab customer:', err);
+        console.error('Error details:', err.error);
         alert('Failed to submit form. Try again.');
       }
     });
