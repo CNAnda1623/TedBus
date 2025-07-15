@@ -15,8 +15,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfilePage},
   { path: 'cab-book', component: CabBook },
   { path: 'cab-payment', component: PaymentPage },
-  { path: 'navbar/cab-booking-form', component: CabBookingForm }
-
+  { path: 'navbar/cab-booking-form', component: CabBookingForm },
+  { path: 'landing-page', component: LandingPage },
 ];
 
 @NgModule({
