@@ -32,6 +32,7 @@ app.use('/api/cab-booking', cabBookingRoutes); // ✅ this line remains
 app.use('/api/booking', require('./routes/booking'));
 app.use('/api', require('./routes/customer'));
 app.use('/api/routes', require('./routes/route'));
+app.use('/api', require('./routes/busRoutes'));
 
 // ✅ MongoDB connection
 const DBURL = 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';

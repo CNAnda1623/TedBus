@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-custom-bus',
@@ -8,19 +9,26 @@ import { Component } from '@angular/core';
 })
 export class CustomBus {
 
+  constructor(private router: Router) {}
+
   selectedBusSize: string = '';
   selectedRouteType: string = '';
   selectedBusType: string = '';
   selectedStops: string = '';
   selectedAmenities: string[] = [];
 
-  proceedWithSelection(): void {
-  console.log('Bus customization submitted!');
-  console.log('Selected Bus Size:', this.selectedBusSize);
-  console.log('Selected Bus Type:', this.selectedBusType);
-  console.log('Selected Route Type:', this.selectedRouteType);
-  console.log('Selected Stops:', this.selectedStops);
-  console.log('Selected Amenities:', this.selectedAmenities);
+  proceedWithSelection(){
+  const selection = {
+    busSize: this.selectedBusSize,
+    routeType: this.selectedRouteType,
+    stops: this.selectedStops || null,
+    busType: this.selectedBusType,
+    amenities: this.selectedAmenities,
+    source: 'bus-custom'  // use this to detect source
+  };
+
+  sessionStorage.setItem('busBookingSelection', JSON.stringify(selection));
+  this.router.navigate(['/navbar/cab-booking-form']);
 }
 
 
