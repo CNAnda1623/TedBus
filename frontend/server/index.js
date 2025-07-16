@@ -31,7 +31,7 @@ const cabBookingRoutes = require('./routes/cabBooking');
 app.use('/api/cab-booking', cabBookingRoutes); // ✅ this line remains
 app.use('/api/booking', require('./routes/booking'));
 app.use('/api', require('./routes/customer'));
-app.use('/api/routes', require('./routes/route'));
+app.use('/api', require('./routes/route'));
 app.use('/api', require('./routes/busRoutes'));
 
 // ✅ MongoDB connection
