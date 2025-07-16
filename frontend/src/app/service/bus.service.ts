@@ -10,7 +10,7 @@ import { BookingModel } from '../model/booking.model';
 })
 export class Bus {
   private busbookapi: string = url + 'booking/'
-  private apiurl: string = url + 'routes/'
+  private apiurl: string = url + 'api/routes/'
   constructor(private http: HttpClient) { }
   GETBUSDETAILS(depart: string, arrival: string, date: string): Observable<Bus[]> {
     const formattedDate = date.replaceAll('/', '-');
