@@ -231,3 +231,94 @@ body {
     width:auto;
     height:auto
   }
+
+  /* Make the layout responsive */
+@media (max-width: 1024px) {
+  .payment__fullContainer {
+    flex-direction: column;
+    margin: 3% 2%;
+  }
+
+  .payment__fullContainer_leftContainer,
+  .payment__fullContainer_rightContainer {
+    width: 100%;
+  }
+
+  .payment__fullContainer_rightContainer {
+    margin-top: 20px;
+    padding: 0;
+  }
+}
+
+/* Tablet View */
+@media (max-width: 768px) {
+  .payment__fullContainer_rightContainer_trip_container,
+  .payment__fullContainer_rightContainer_fair_container {
+    padding: 15px;
+  }
+
+  .payment__fullContainer_rightContainer_inputOfferCOde {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .Payment__stripe__button {
+    font-size: 18px;
+    height: 45px;
+  }
+
+  .radioButtonText {
+    font-size: 16px;
+  }
+
+  .payment__fullContainer_leftContainer_eachPaymentInstruments {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .paymentIconList {
+    margin-top: 10px;
+  }
+}
+
+/* Mobile View */
+@media (max-width: 480px) {
+  .payment__header {
+    flex-direction: column;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .travel_title {
+    font-size: 14px;
+  }
+
+  .payment_banner_icon_img {
+    margin: 10px 5px;
+    height: 20px;
+  }
+
+  .Payment__stripe__button {
+    font-size: 16px;
+    height: 40px;
+  }
+
+  .payment_icon_img {
+    margin-left: 10px;
+    height: 18px;
+  }
+
+  .radioButton {
+    width: 16px;
+    height: 16px;
+  }
+
+  .payment__fullContainer_rightContainer_trip_container,
+  .payment__fullContainer_rightContainer_fair_container {
+    padding: 10px;
+  }
+
+  .payment__fullContainer_rightContainer {
+    padding: 10px;
+  }
+}

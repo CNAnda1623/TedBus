@@ -13,8 +13,14 @@ import { Route } from '@angular/router';
 })
 
 export class Navbar implements OnInit {
-  constructor(private router: Router, private customerservice: CustomerService){}
   isloggedIn: boolean = false;
+  showMobileMenu: boolean = false;
+  constructor(private router: Router, private customerservice: CustomerService){}
+
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+  }
+
   ngOnInit(): void {
      if(sessionStorage.getItem("Loggedinuser")){
     this.isloggedIn=true
@@ -59,7 +65,8 @@ export class Navbar implements OnInit {
     }
   })
 }
-handlelogout(){
+handlelogout(): void {
+  this.showMobileMenu = false;
   google.accounts.id.disableAutoSelect();
   sessionStorage.removeItem('Loggedinuser');
   window.location.reload()
