@@ -41,6 +41,8 @@ import { MatDrawerContainer } from '@angular/material/sidenav';
 import { CustomBus } from './component/selectbus-page/custom-bus/custom-bus';
 import { CabBook } from './component/navbar/cab-book/cab-book';
 import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab-booking-form';
+import { Chatbot } from './component/chatbot/chatbot';
+
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab
     CustomBus,
     CabBook,
     CabBookingForm,
+    Chatbot,
   ],
   imports: [
     BrowserModule,

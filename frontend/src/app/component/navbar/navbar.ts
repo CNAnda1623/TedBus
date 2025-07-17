@@ -1,9 +1,13 @@
-import { Component ,OnInit} from '@angular/core';
+import { Component ,OnInit, AfterViewInit} from '@angular/core';
+import { NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-declare var google:any;
 import { CustomerService } from '../../service/customer.service';
 import { CustomerModel } from '../../model/customer.model';
 import { Route } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+import { ChatbotService } from '../../service/chatbot.service';
+
+declare var google:any;
 
 @Component({
   selector: 'app-navbar',
@@ -15,10 +19,17 @@ import { Route } from '@angular/router';
 export class Navbar implements OnInit {
   isloggedIn: boolean = false;
   showMobileMenu: boolean = false;
-  constructor(private router: Router, private customerservice: CustomerService){}
+  constructor(
+     private router: Router,
+     private customerservice: CustomerService,
+     private cdRef: ChangeDetectorRef,
+     private ngZone: NgZone,
+     private chatbotService: ChatbotService
+    ){}
 
-  toggleMobileMenu(): void {
-    this.showMobileMenu = !this.showMobileMenu;
+  openHelpChatbot() {
+    console.log('help clicked');
+    this.chatbotService.openChatbot();
   }
 
   ngOnInit(): void {
@@ -30,10 +41,12 @@ export class Navbar implements OnInit {
     google.accounts.id.initialize({
       client_id: "381733711473-1jv1mbdngoh41cgci17ukr37fg1j7us4.apps.googleusercontent.com",
       callback:(response:any)=>{
+      this.ngZone.run(() => {
         this.handlelogin(response);
-      }
-    })
-  }
+      });
+      },    
+  });
+}  
 
   ngAfterViewInit(): void {
     this.rendergooglebutton();
@@ -52,26 +65,37 @@ export class Navbar implements OnInit {
   private decodetoken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }
- handlelogin(response:any){
+ handlelogin(response:any): void {
   const payload=this.decodetoken(response.credential)
   // console.log(payload)
   this.customerservice.addcustomermongo(payload).subscribe({
-    next:(response)=>{
-      console.log('POST success',response);
-      sessionStorage.setItem("Loggedinuser",JSON.stringify(response))
+    next:(res)=>{
+      // console.log('POST success',res);
+      sessionStorage.setItem("Loggedinuser",JSON.stringify(res))
+      this.isloggedIn=true;
+      // console.log('User logged in successfully, isloggedIn:', this.isloggedIn);
+      this.cdRef.detectChanges(); // Trigger change detection to update the view
     },
     error:(error)=>{
-      console.error('Posr request failed',error)
+      console.error('Post request failed',error)
     }
-  })
+  });
 }
+
 handlelogout(): void {
   this.showMobileMenu = false;
   google.accounts.id.disableAutoSelect();
   sessionStorage.removeItem('Loggedinuser');
+  this.isloggedIn = false;
+  this.cdRef.detectChanges(); // Trigger change detection to update the view
   window.location.reload()
 }
-navigate(route:string){
+
+toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+  }
+
+navigate(route:string): void {
   this.router.navigate([route])
 }
 }

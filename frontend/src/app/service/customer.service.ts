@@ -7,7 +7,7 @@ import { url } from '../config';
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiurl:string=url + 'customer/'
+  private apiurl:string=url + 'api/customer/'
   constructor(private http:HttpClient) { }
   
   addcustomermongo(user:any):Observable<CustomerModel>{
