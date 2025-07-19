@@ -1,5 +1,5 @@
-import { Component ,OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Bus } from '../../service/bus.service';
@@ -16,111 +16,170 @@ export class PaymentPage implements OnInit {
   routedetails: any = [];
   busdeparturetime: number = 0;
   busarrivaltime: number = 0;
-  customerId: any={}
+  customerId: any = {};
   operatorname: string = '';
-  passengerdetails: any = []
+  passengerdetails: any = [];
   email: string = '';
-  fare:number = 0;
+  fare: number = 0;
   busid: string = '';
   phonenumber: string = '';
   departuredetails: any = [];
   arrivaldetails: any = [];
   duration: string = '';
-  CabCustomer: any = null;
+  cabBooking: any = null;
+  cabCustomer: any = null;
+  isCabBooking: boolean = false;
   isbusinesstravel: boolean = false;
   iscoviddonated: boolean = false;
   isinsurance: boolean = false;
   bookingdate: string = new Date().toISOString().split('T')[0];
-constructor(private route: ActivatedRoute, private dataservice : DataService, private http: HttpClient, private busservice: Bus) {}
-ngOnInit(): void {
-  const customerJson = sessionStorage.getItem('cabCustomer');
-  if (customerJson) {
-    this.customerId = JSON.parse(customerJson);
-  } else {
-    alert('Cab customer details not found!');
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private dataservice: DataService,
+    private http: HttpClient,
+    private busservice: Bus
+  ) {}
+
+  ngOnInit(): void {
+    const currentRoute = this.router.url;
+
+    this.bookingdate = new Date().toISOString().split('T')[0];
+
+    if (currentRoute.includes('cab-booking-form')) {
+      this.isCabBooking = true;
+      this.fetchLatestCabData();
+    } else {
+      this.fetchBusBookingData();
+    }
+
+    this.route.params.subscribe(params => {
+      this.passseatarray = params['selectedseat'];
+      this.email = params['passemail'];
+      this.phonenumber = params['passphn'];
+      this.isbusinesstravel = params['passisbuisness'];
+      this.isinsurance = params['passinsurance'];
+      this.passfare = params['seatprice'];
+      this.busid = params['busid'];
+      this.busarrivaltime = params['busarrivaltime'];
+      this.busdeparturetime = params['busdeparturetime'];
+      this.iscoviddonated = params['passiscoviddonate'];
+      this.operatorname = params['operatorname'];
+      this.getloggedinuser();
+    });
+
+    this.dataservice.currentdata.subscribe((data: any) => {
+      this.routedetails = data;
+    });
+
+    this.dataservice.passdata.subscribe((data: any) => {
+      this.passengerdetails = data;
+    });
   }
 
-  // Set sample values if needed
-  this.bookingdate = new Date().toISOString().split('T')[0];
-  
-  this.route.params.subscribe(params => {
-    const passSeatsArray = params['selectedseat'];
-    const email = params['passemail'];
-    const phoneNumber = params['passphn'];
-    const isBusinessTravel = params['passisbuisness'];
-    const isInsurance = params['passinsurance'];
-    const passFare=params['seatprice'];
-    const busId=params['busid'];
-    const busArrivalTime=params['busarrivaltime'];
-    const busDepartureTime=params['busdeparturetime'];
-    const iscoviddonated=params['passiscoviddonate'];
-    const operatorname=params['operatorname']
-    this.operatorname=operatorname
-    this.passseatarray=passSeatsArray
-    this.email=email
-    this.phonenumber=phoneNumber
-    this.isbusinesstravel=isBusinessTravel
-    this.isinsurance=isInsurance
-    this.passfare=passFare
-    this.busid=busId
-    this.busarrivaltime=busArrivalTime
-    this.busdeparturetime=busDepartureTime
-    this.iscoviddonated=iscoviddonated
-    this.getloggedinuser()
-})
-
-this.dataservice.currentdata.subscribe((data: any)=>{
-    this.routedetails=data;
-    console.log(data)
-  })
-  this.dataservice.passdata.subscribe((data: any)=>{
-    this.passengerdetails=data;
-    console.log(data)
-  })
-}
-getloggedinuser():any{
-    const loggedinuserjson=sessionStorage.getItem("Loggedinuser");
-    if(loggedinuserjson){
-      this.customerId=JSON.parse(loggedinuserjson)
-    }
-    else{
-      alert("please login to continue")
+  getloggedinuser(): any {
+    const loggedinuserjson = sessionStorage.getItem("Loggedinuser");
+    if (loggedinuserjson) {
+      this.customerId = JSON.parse(loggedinuserjson);
+    } else {
+      alert("Please login to continue");
     }
     return null;
-}
+  }
 
-makepayment():void{
-  let myBooking: any = {};
-    myBooking.customerId = this.customerId._id;
-    myBooking.passengerDetails = this.passengerdetails;
-    myBooking.email = this.customerId.email;
-    myBooking.phoneNumber = this.phonenumber;
-    myBooking.fare = this.passfare;
-    myBooking.status = "upcoming";
-    myBooking.busId = this.busid;
-    let date=new Date();
-    myBooking.bookingDate=`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-    myBooking.seats = this.passseatarray;
-    myBooking.departureDetails = {city:this.routedetails.departureLocation.name,
-      time:this.busdeparturetime,
-      date:this.bookingdate
-    }
-    myBooking.arrivalDetails = {city:this.routedetails.arrivalLocation.name,
-      time:this.busarrivaltime,
-      date:this.bookingdate
-    }
-    myBooking.duration = this.routedetails.duration;
-    myBooking.isBusinessTravel = this.isbusinesstravel;
-    myBooking.isInsurance = this.isinsurance;
-    myBooking.isCovidDonated = this.iscoviddonated;
-    // console.log(myBooking)
-    this.busservice.addbusmongo(myBooking).subscribe({
-      next:(response: any)=>{
-        console.log('Bus post request success',response);
+  fetchLatestCabData(): void {
+    this.http.get<any>('http://localhost:3000/cabcustomers/latest').subscribe({
+      next: (customer) => {
+        this.cabCustomer = customer;
       },
-      error:(error: any)=>{
-        console.error('Post request failed',error)
+      error: (err) => {
+        console.error('Error fetching latest cab customer:', err);
       }
-    })
-}
+    });
+
+    this.http.get<any>('http://localhost:3000/cabbookings/latest').subscribe({
+      next: (booking) => {
+        this.cabBooking = booking;
+      },
+      error: (err) => {
+        console.error('Error fetching latest cab booking:', err);
+      }
+    });
+  }
+
+  fetchBusBookingData(): void {
+    // Placeholder: If you need to fetch extra bus-related info
+  }
+
+  makepayment(): void {
+    if (this.isCabBooking) {
+      this.makeCabPayment();
+    } else {
+      this.makeBusPayment();
+    }
+  }
+
+  makeBusPayment(): void {
+    const myBooking: any = {
+      customerId: this.customerId._id,
+      passengerDetails: this.passengerdetails,
+      email: this.customerId.email,
+      phoneNumber: this.phonenumber,
+      fare: this.passfare,
+      status: "upcoming",
+      busId: this.busid,
+      seats: this.passseatarray,
+      bookingDate: this.bookingdate,
+      departureDetails: {
+        city: this.routedetails.departureLocation.name,
+        time: this.busdeparturetime,
+        date: this.bookingdate
+      },
+      arrivalDetails: {
+        city: this.routedetails.arrivalLocation.name,
+        time: this.busarrivaltime,
+        date: this.bookingdate
+      },
+      duration: this.routedetails.duration,
+      isBusinessTravel: this.isbusinesstravel,
+      isInsurance: this.isinsurance,
+      isCovidDonated: this.iscoviddonated
+    };
+
+    this.busservice.addbusmongo(myBooking).subscribe({
+      next: (response: any) => {
+        console.log('Bus booking success', response);
+      },
+      error: (error: any) => {
+        console.error('Bus booking failed', error);
+      }
+    });
+  }
+
+  makeCabPayment(): void {
+    if (!this.cabCustomer || !this.cabBooking) {
+      console.error("Missing cab data.");
+      return;
+    }
+
+    const cabPaymentData = {
+      cabCustomerId: this.cabCustomer._id,
+      cabBookingId: this.cabBooking._id,
+      email: this.cabCustomer.email,
+      phoneNumber: this.cabCustomer.phoneNumber,
+      fare: this.cabBooking.totalFare,
+      status: "upcoming",
+      bookingDate: this.bookingdate
+    };
+
+    this.http.post<any>('http://localhost:3000/cabpayment', cabPaymentData).subscribe({
+      next: (res) => {
+        console.log('Cab payment success', res);
+      },
+      error: (err) => {
+        console.error('Cab payment failed', err);
+      }
+    });
+  }
 }

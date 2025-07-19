@@ -42,7 +42,9 @@ import { CustomBus } from './component/selectbus-page/custom-bus/custom-bus';
 import { CabBook } from './component/navbar/cab-book/cab-book';
 import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab-booking-form';
 import { Chatbot } from './component/chatbot/chatbot';
-
+import { CommunityHub } from './component/community-hub/community-hub';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { Chatbot } from './component/chatbot/chatbot';
     CabBook,
     CabBookingForm,
     Chatbot,
+    CommunityHub,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,13 @@ import { Chatbot } from './component/chatbot/chatbot';
     MatButtonModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatButtonModule,
     MatDialogModule,
+    BrowserAnimationsModule,
     MatDrawerContainer,
     HttpClientModule,
     MatTableModule,

@@ -1,0 +1,785 @@
+/* Community Hub Main Container */
+.community-hub-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Header Section */
+.community-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.main-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.community-icon {
+  font-size: 2.5rem !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Create Post Section */
+.create-post-section {
+  margin-bottom: 40px;
+}
+
+.post-form-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.post-form-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.post-icon {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  flex: 1;
+}
+
+/* Photo Upload Section */
+.photo-upload-section {
+  padding: 20px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.photo-upload-section:hover {
+  border-color: #667eea;
+  background-color: #f8faff;
+}
+
+.photo-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #4a5568;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.photo-input {
+  display: none;
+}
+
+.selected-photos {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.photo-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.photo-name {
+  color: #4a5568;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.reset-btn {
+  border: 2px solid #e2e8f0;
+  color: #4a5568;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+/* Posts Feed Section */
+.posts-feed-section {
+  margin-top: 60px;
+}
+
+.feed-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.feed-header h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.feed-header p {
+  color: #718096;
+  font-size: 1.1rem;
+  margin: 8px 0 0 0;
+}
+
+/* Posts Grid */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+.post-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+}
+
+/* Post Header */
+.post-header {
+  padding: 20px 20px 0 20px;
+}
+
+.avatar {
+  background: linear-gradient(45deg, #4299e1, #667eea);
+  color: white;
+}
+
+.timestamp {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #667eea;
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+.small-icon {
+  font-size: 1rem !important;
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+/* Post Content */
+.post-content {
+  padding: 16px 20px 0 20px;
+}
+
+.post-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+/* Photos Grid */
+.photos-grid {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.photos-grid.single-photo {
+  grid-template-columns: 1fr;
+}
+
+.photos-grid.two-photos {
+  grid-template-columns: 1fr 1fr;
+}
+
+.photos-grid.multiple-photos {
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.photo-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.photo-item.multiple-photos:first-child {
+  grid-row: span 2;
+}
+
+.post-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  min-height: 200px;
+}
+
+.photo-item.single-photo .post-photo {
+  max-height: 300px;
+}
+
+.photo-item.multiple-photos .post-photo {
+  height: 150px;
+}
+
+.photo-item.multiple-photos:first-child .post-photo {
+  height: 308px;
+}
+
+.post-photo:hover {
+  transform: scale(1.05);
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Post Story */
+.post-story p {
+  line-height: 1.6;
+  color: #4a5568;
+  margin: 0 0 20px 0;
+  font-size: 1rem;
+}
+
+/* Travel Tips */
+.travel-tips {
+  background: linear-gradient(135deg, #fff5e6, #ffeaa7);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-left: 4px solid #fdcb6e;
+}
+
+.travel-tips h4 {
+  color: #d63031;
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.tips-icon {
+  color: #fdcb6e;
+}
+
+.tips-content {
+  font-family: inherit;
+  line-height: 1.6;
+  color: #6c5ce7;
+  margin: 0;
+  white-space: pre-line;
+  font-size: 0.95rem;
+}
+
+/* City Tags */
+.city-tags {
+  margin: 20px 0;
+}
+
+.city-chip {
+  background: linear-gradient(45deg, #74b9ff, #0984e3);
+  color: white;
+  border-radius: 20px;
+  margin: 4px;
+}
+
+/* Post Actions */
+.post-actions {
+  padding: 16px 20px 20px 20px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.action-btn {
+  color: #718096;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  color: #667eea;
+  background-color: #f7faff;
+}
+
+/* Image Modal */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.image-modal {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.close-modal {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.prev-btn {
+  left: -60px;
+}
+
+.next-btn {
+  right: -60px;
+}
+
+.image-counter {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design for Community Hub */
+
+/* Tablet Styles */
+@media (max-width: 768px) {
+  .community-hub-container {
+    padding: 15px;
+  }
+
+  .main-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .community-icon {
+    font-size: 2rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .submit-btn, .reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .feed-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .nav-btn {
+    display: none;
+  }
+
+  .close-modal {
+    top: -40px;
+    right: 10px;
+  }
+
+  .image-counter {
+    bottom: -30px;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+  .community-hub-container {
+    padding: 10px;
+  }
+
+  .community-header {
+    padding: 30px 15px;
+    margin-bottom: 25px;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .post-form-card, .post-card {
+    margin: 0 -5px;
+    border-radius: 12px;
+  }
+
+  .posts-grid {
+    gap: 15px;
+  }
+
+  .post-title {
+    font-size: 1.2rem;
+  }
+
+  .post-content {
+    padding: 12px 16px 0 16px;
+  }
+
+  .post-header {
+    padding: 16px 16px 0 16px;
+  }
+
+  .post-actions {
+    padding: 12px 16px 16px 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .action-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .travel-tips {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .photos-grid.multiple-photos {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .photo-item.multiple-photos:first-child {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .photo-item.multiple-photos .post-photo {
+    height: 120px;
+  }
+
+  .photo-item.multiple-photos:first-child .post-photo {
+    height: 180px;
+  }
+
+  .selected-photos {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .photo-preview {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .image-modal {
+    max-width: 95vw;
+    max-height: 85vh;
+  }
+
+  .close-modal {
+    top: -35px;
+    right: 5px;
+  }
+
+  .image-counter {
+    bottom: -25px;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1200px) {
+  .community-hub-container {
+    max-width: 1400px;
+  }
+
+  .posts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 35px;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .community-icon {
+    font-size: 3rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .feed-header h2 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .community-hub-container {
+    background-color: white;
+  }
+
+  .create-post-section,
+  .post-actions,
+  .image-modal-overlay {
+    display: none;
+  }
+
+  .post-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+  }
+
+  .community-header {
+    background: white;
+    color: black;
+    border: 1px solid #e2e8f0;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .community-hub-container {
+    background-color: #1a202c;
+    color: #e2e8f0;
+  }
+
+  .post-card, .post-form-card {
+    background-color: #2d3748;
+    color: #e2e8f0;
+  }
+
+  .post-title, .feed-header h2 {
+    color: #e2e8f0;
+  }
+
+  .post-story p {
+    color: #cbd5e0;
+  }
+
+  .travel-tips {
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    border-left-color: #ed8936;
+  }
+
+  .tips-content {
+    color: #90cdf4;
+  }
+
+  .post-actions {
+    border-top-color: #4a5568;
+  }
+
+  .action-btn {
+    color: #a0aec0;
+  }
+
+  .action-btn:hover {
+    color: #90cdf4;
+    background-color: #2d3748;
+  }
+
+  .photo-upload-section {
+    border-color: #4a5568;
+    background-color: #2d3748;
+  }
+
+  .photo-upload-section:hover {
+    border-color: #667eea;
+    background-color: #374151;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .community-hub-container {
+    background-color: white;
+    color: black;
+  }
+
+  .post-card, .post-form-card {
+    border: 2px solid black;
+    background-color: white;
+  }
+
+  .community-header {
+    background: black;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .submit-btn {
+    background: black;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .action-btn:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .post-card:hover, .post-form-card:hover {
+    transform: none;
+  }
+
+  .post-photo:hover {
+    transform: none;
+  }
+}

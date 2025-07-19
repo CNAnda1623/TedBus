@@ -1,0 +1,244 @@
+<div class="community-hub-container">
+  <!-- Header -->
+  <div class="community-header">
+    <h1 class="main-title">
+      <mat-icon class="community-icon">groups</mat-icon>
+      Travel Community
+    </h1>
+    <p class="subtitle">Share your travel stories, tips, and inspire fellow travelers</p>
+  </div>
+
+  <!-- Create Post Section -->
+  <div class="create-post-section">
+    <mat-card class="post-form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="post-icon">create</mat-icon>
+        <mat-card-title>Share Your Travel Story</mat-card-title>
+        <mat-card-subtitle>Tell the community about your amazing journey</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="post-form" (ngSubmit)="submitPost()">
+          <!-- Title -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Journey Title</mat-label>
+            <input matInput 
+                   [(ngModel)]="newPost.title" 
+                   name="title"
+                   placeholder="e.g., Amazing weekend in Goa"
+                   required>
+            <mat-icon matSuffix>title</mat-icon>
+          </mat-form-field>
+
+          <!-- Route and City -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Route</mat-label>
+              <input matInput 
+                     [(ngModel)]="newPost.route" 
+                     name="route"
+                     placeholder="e.g., Mumbai to Goa">
+              <mat-icon matSuffix>route</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>City/Destination</mat-label>
+              <input matInput 
+                     [(ngModel)]="newPost.city" 
+                     name="city"
+                     placeholder="e.g., Goa, Kerala">
+              <mat-icon matSuffix>location_on</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Travel Story -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your Travel Story</mat-label>
+            <textarea matInput 
+                      [(ngModel)]="newPost.story"
+                      name="story"
+                      rows="4"
+                      placeholder="Share your travel experience, what made it special..."
+                      required></textarea>
+            <mat-icon matSuffix>auto_stories</mat-icon>
+          </mat-form-field>
+
+          <!-- Travel Tips -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Travel Tips & Advice</mat-label>
+            <textarea matInput 
+                      [(ngModel)]="newPost.tips"
+                      name="tips"
+                      rows="3"
+                      placeholder="Share helpful tips for other travelers (e.g., best time to visit, must-try food...)"></textarea>
+            <mat-icon matSuffix>tips_and_updates</mat-icon>
+          </mat-form-field>
+
+          <!-- Photo Upload -->
+          <div class="photo-upload-section">
+            <label class="photo-upload-label">
+              <mat-icon>add_photo_alternate</mat-icon>
+              Add Photos
+            </label>
+            <input type="file" 
+                   multiple 
+                   accept="image/*"
+                   (change)="onFileSelect($event)"
+                   class="photo-input">
+            
+            <!-- Selected Photos Preview -->
+            <div class="selected-photos" *ngIf="newPost.photos.length > 0">
+              <div class="photo-preview" *ngFor="let photo of newPost.photos; let i = index">
+                <span class="photo-name">{{ photo.name }}</span>
+                <button type="button" 
+                        mat-icon-button 
+                        color="warn" 
+                        (click)="removePhoto(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button mat-raised-button 
+                    color="primary" 
+                    type="submit"
+                    [disabled]="!newPost.title || !newPost.story"
+                    class="submit-btn">
+              <mat-icon>share</mat-icon>
+              Share My Story
+            </button>
+            <button mat-stroked-button 
+                    type="button" 
+                    (click)="resetForm()"
+                    class="reset-btn">
+              <mat-icon>refresh</mat-icon>
+              Reset
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Posts Feed Section -->
+  <div class="posts-feed-section">
+    <div class="feed-header">
+      <h2>
+        <mat-icon>explore</mat-icon>
+        Travel Stories from Our Community
+      </h2>
+      <p>Discover amazing travel experiences from fellow travelers</p>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="posts-grid">
+      <mat-card class="post-card" *ngFor="let post of travelPosts">
+        <!-- Post Header -->
+        <mat-card-header class="post-header">
+          <mat-icon mat-card-avatar class="avatar">account_circle</mat-icon>
+          <mat-card-title>{{ post.posterName }}</mat-card-title>
+          <mat-card-subtitle>
+            <span class="timestamp">{{ formatTimestamp(post.timestamp) }}</span>
+            <span class="route" *ngIf="post.route">
+              <mat-icon class="small-icon">route</mat-icon>
+              {{ post.route }}
+            </span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <!-- Post Content -->
+        <mat-card-content class="post-content">
+          <h3 class="post-title">{{ post.title }}</h3>
+          
+          <!-- Photos Grid -->
+          <div class="photos-grid" *ngIf="post.photos.length > 0">
+            <div class="photo-item" 
+                 *ngFor="let photo of post.photos; let i = index"
+                 [class.single-photo]="post.photos.length === 1"
+                 [class.two-photos]="post.photos.length === 2"
+                 [class.multiple-photos]="post.photos.length > 2">
+              <img [src]="photo" 
+                   [alt]="post.title"
+                   (click)="openImageModal(post.photos, i)"
+                   class="post-photo">
+              <div class="photo-overlay" *ngIf="i === 2 && post.photos.length > 3">
+                <span class="more-photos">+{{ post.photos.length - 3 }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-story">
+            <p>{{ post.story }}</p>
+          </div>
+
+          <!-- Travel Tips -->
+          <div class="travel-tips" *ngIf="post.tips">
+            <h4>
+              <mat-icon class="tips-icon">lightbulb</mat-icon>
+              Travel Tips
+            </h4>
+            <pre class="tips-content">{{ post.tips }}</pre>
+          </div>
+
+          <!-- City Tags -->
+          <div class="city-tags" *ngIf="post.city">
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let city of post.city.split(',')" class="city-chip">
+                <mat-icon matChipAvatar>location_on</mat-icon>
+                {{ city.trim() }}
+              </mat-chip>
+            </mat-chip-listbox>
+          </div>
+        </mat-card-content>
+
+        <!-- Post Actions -->
+        <mat-card-actions class="post-actions">
+          <button mat-button (click)="likePost(post.id)" class="action-btn">
+            <mat-icon>favorite_border</mat-icon>
+            Like ({{ post.likes }})
+          </button>
+          <button mat-button class="action-btn">
+            <mat-icon>comment</mat-icon>
+            Comment
+          </button>
+          <button mat-button class="action-btn">
+            <mat-icon>share</mat-icon>
+            Share
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="image-modal-overlay" *ngIf="showImageModal" (click)="closeImageModal()">
+    <div class="image-modal" (click)="$event.stopPropagation()">
+      <button mat-icon-button class="close-modal" (click)="closeImageModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+      
+      <button mat-icon-button 
+              class="nav-btn prev-btn" 
+              (click)="prevImage()"
+              *ngIf="currentImageIndex > 0">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <img [src]="selectedPhotos[currentImageIndex]" class="modal-image">
+      
+      <button mat-icon-button 
+              class="nav-btn next-btn" 
+              (click)="nextImage()"
+              *ngIf="currentImageIndex < selectedPhotos.length - 1">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+      
+      <div class="image-counter">
+        {{ currentImageIndex + 1 }} / {{ selectedPhotos.length }}
+      </div>
+    </div>
+  </div>
+</div>

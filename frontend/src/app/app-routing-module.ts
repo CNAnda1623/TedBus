@@ -6,7 +6,8 @@ import { PaymentPage } from './component/payment-page/payment-page';
 import { ProfilePage } from './component/profile-page/profile-page';
 import { CabBook } from './component/navbar/cab-book/cab-book';
 import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab-booking-form';
-
+import { Chatbot } from './component/chatbot/chatbot';
+import { CommunityHub } from './component/community-hub/community-hub';
 
 const routes: Routes = [
   { path: '',component: LandingPage},
@@ -17,6 +18,10 @@ const routes: Routes = [
   { path: 'cab-payment', component: PaymentPage },
   { path: 'navbar/cab-booking-form', component: CabBookingForm },
   { path: 'landing-page', component: LandingPage },
+  { path: 'chatbot', component: Chatbot },
+  { path: 'community', component: CommunityHub }
+
+
 ];
 
 @NgModule({

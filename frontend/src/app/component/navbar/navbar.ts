@@ -28,8 +28,7 @@ export class Navbar implements OnInit {
     ){}
 
   openHelpChatbot() {
-    console.log('help clicked');
-    this.chatbotService.openChatbot();
+    this.router.navigate(['/chatbot']);
   }
 
   ngOnInit(): void {
@@ -54,12 +53,22 @@ export class Navbar implements OnInit {
 
   private rendergooglebutton():void {
     const googlebtn = document.getElementById('google-btn');
+      const mobileBtn = document.getElementById('google-btn-mobile');
+
+
     if (googlebtn) {
       google.accounts.id.renderButton(
         googlebtn,
         { theme: 'outline', size: 'meduim', shape: 'pill', width:150, } // customization attributes
       );
     }
+
+    if (mobileBtn) {
+    google.accounts.id.renderButton(
+      mobileBtn,
+      { theme: 'outline', size: 'medium', shape: 'pill', width: 250 }
+    );
+  }
   }
 
   private decodetoken(token: string) {

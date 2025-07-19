@@ -1,5 +1,7 @@
 import { Component , OnInit} from '@angular/core';
 import { ChatbotService } from './service/chatbot.service';
+import { Router, NavigationEnd } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -8,16 +10,15 @@ import { ChatbotService } from './service/chatbot.service';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  chatbotOpen = false;
+  isChatbotRoute = false;
 
-  constructor(private chatbotService: ChatbotService) {}
-
-  ngOnInit(){
-    this.chatbotService.chatbotState$.subscribe(state => {
-      this.chatbotOpen = state;
-      console.log('chatbot visibility:', state);
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isChatbotRoute = event.urlAfterRedirects.includes('/chatbot');
+      }
     });
   }
-  protected title = 'frontend';
-}
 
+  ngOnInit() {}
+}

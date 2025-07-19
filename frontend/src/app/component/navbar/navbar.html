@@ -53,6 +53,11 @@
     <div class="flex items-center gap-3">
         <!-- Google Login Button -->
         <div id="google-btn" *ngIf="!isloggedIn"></div>
+
+        <a *ngIf="isloggedIn" href="/community" class="flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-blue-500">
+            <span class="material-icons text-base">travel_explore</span>
+            Community Hub
+        </a>
         
         <!-- Desktop Account Menu -->
         <div class="hidden md:flex items-center gap-3" *ngIf="isloggedIn">

@@ -144,3 +144,20 @@ export class Chatbot implements OnInit {
     // You might want to emit an event to parent component
   }
 }
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-chatbot',
+//   template: `
+//     <div style="background: #f87171; padding: 1rem; color: white; border-radius: 8px;">
+//       <p>✅ Chatbot loaded successfully!</p>
+//     </div>
+//   `,
+//   styles: [],
+//   standalone: false
+// })
+// export class Chatbot implements OnInit {
+//   ngOnInit(): void {
+//     console.log('✅ Chatbot component initialized');
+//   }
+// }
