@@ -117,134 +117,158 @@
     
   <div class="payment__fullContainer_rightContainer">
 
-      <!-- CAB BOOKING UI -->
-      <div *ngIf="cabCustomer && cabBooking" class="payment__fullContainer_rightContainer_trip_container">
-        <div class="travel_operator_info">
-          <div class="travel_title">{{ cabBooking.operatorName || 'Cab Operator' }}</div>
-          <div class="travel_specification">{{ cabBooking.cabType }} / {{ cabBooking.tripType }}</div>
-        </div>
+  <!-- CAB BOOKING UI -->
+  <div *ngIf="cabCustomer && cabBooking" class="payment__fullContainer_rightContainer_trip_container">
+    <div class="travel_operator_info">
+      <div class="travel_title">{{ cabBooking.operatorName || 'Cab Operator' }}</div>
+      <div class="travel_specification">{{ cabBooking.cabType }} / {{ cabBooking.tripType }}</div>
+    </div>
 
-        <div class="line"></div>
+    <div class="line"></div>
 
-        <div style="display: flex; justify-content: space-between;">
-          <div style="display: flex; justify-content: space-between; width: 200px;">
-            <mat-icon class="icons">date_range</mat-icon>
-            <div style="display: flex; flex-direction: column;">
-              <div class="travel_specification">Booking Date</div>
-              <div style="display: flex; width: 150px;">
-                <div>{{ cabBooking.bookingDate | date: 'yyyy-MM-dd' }}</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-direction: column; margin-right: 10px;">
-            <div>Cab Size</div>
-            <div>{{ cabBooking.cabSize }}</div>
-          </div>
-        </div>
-
-        <div class="line"></div>
-
-        <div style="display: flex; justify-content: space-between;">
-          <div style="display: flex; justify-content: space-between; width: 150px;">
-            <mat-icon class="icons">location_on</mat-icon>
-            <div style="display: flex; flex-direction: column;">
-              <div class="travel_specification">From</div>
-              <div>{{ cabBooking.source }}</div>
-              <div>{{ cabBooking.startDateTime | date: 'yyyy-MM-dd' }}</div>
-              <div>{{ cabBooking.startDateTime | date: 'HH:mm' }}</div>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-direction: column;">
-            <div class="travel_specification">To</div>
-            <div>{{ cabBooking.destination }}</div>
-            <div>{{ cabBooking.endDateTime | date: 'yyyy-MM-dd' }}</div>
-            <div>{{ cabBooking.endDateTime | date: 'HH:mm' }}</div>
-          </div>
-        </div>
-
-        <div class="passangerInfo">
-          <mat-icon class="icons">account_box</mat-icon>
-          <div class="passangerName">{{ cabCustomer.name }}</div>
-        </div>
-      </div>
-
-      <!-- BUS BOOKING UI -->
-      <div *ngIf="!cabCustomer && !cabBooking" class="payment__fullContainer_rightContainer_trip_container">
-        <div class="travel_operator_info">
-          <div class="travel_title">{{ operatorname }}</div>
-          <div class="travel_specification">Seater / A/C / Sleeper</div>
-        </div>
-
-        <div class="line"></div>
-
-          <div style="display: flex; justify-content: space-between;">
-            <div style="display: flex; justify-content: space-between; width: 200px;">
-              <mat-icon class="icons">date_range</mat-icon>
-              <div style="display: flex; flex-direction: column;">
-                <div class="travel_specification">Booking Date</div>
-                <div style="display: flex; width: 150px;">
-                  <div>{{ bookingdate | date: 'yyyy-MM-dd' }}</div>
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; margin-right: 10px;">
-              <div>Seats Booked</div>
-              <div>{{ passseatarray }}</div>
-            </div>
-          </div>
-
-          <div class="line"></div>
-
-          <div style="display: flex; justify-content: space-between;">
-            <div style="display: flex; justify-content: space-between; width: 150px;">
-              <mat-icon class="icons">location_on</mat-icon>
-              <div style="display: flex; flex-direction: column;">
-                <div class="travel_specification">Boarding Point</div>
-                <div>{{ routedetails.departureLocation.name }}</div>                
-                <div>{{ bookingdate }}</div>
-                <div>{{ busdeparturetime }}:00</div> 
-              </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column;">
-              <div class="travel_specification">Dropping Point</div>
-              <div>{{ routedetails.arrivalLocation.name }}</div> 
-              <div>{{ bookingdate }}</div>
-              <div>{{ busarrivaltime }}:00</div>
-            </div>
-          </div>
-
-          <div class="passangerInfo">
-            <mat-icon class="icons">account_box</mat-icon>
-            <div class="passangerName">{{ customerId.name }}</div>
-          </div>
-        </div>
-
-      <!-- COMMON PAYMENT UI -->
-      <div class="payment__fullContainer_rightContainer_fair_container">
-        <div style="display: flex; justify-content: space-between;">
-          <div class="travel_title">FARE BREAKUP</div>
-          <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/down.svg" width="14" height="14" alt="">
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 10px;"></div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-          <div class="travel_specification" style="font-weight: bold;">Total Payable</div>
-          <div class="travel_specification" style="font-weight: bold;">
-            Rs. {{ cabBooking?.fare || passfare }}
+    <div style="display: flex; justify-content: space-between;">
+      <div style="display: flex; justify-content: space-between; width: 200px;">
+        <!-- Removed mat-icon -->
+        <div style="display: flex; flex-direction: column;">
+          <div class="travel_specification">Booking Date</div>
+          <div style="display: flex; width: 150px;">
+            <div>{{ cabBooking.bookingDate | date: 'yyyy-MM-dd' }}</div>
           </div>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-around; margin-top: 10px; width: 95%;">
-        <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/master-card-secure-code.png" alt="">
-        <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verified-by-visa.svg" alt="">
-        <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verisign-secured.png" alt="">
+      <div style="display: flex; flex-direction: column; margin-right: 10px;">
+        <div>Cab Size</div>
+        <div>{{ cabBooking.cabSize }}</div>
+        <!-- ✅ ADDED "Full" below seats -->
+        <div>Full</div>
       </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div style="display: flex; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column;">
+        <div class="travel_specification">From</div>
+        <div>{{ cabBooking.source }}</div>
+        <div>{{ cabBooking.startDateTime | date: 'yyyy-MM-dd' }}</div>
+        <div>{{ formatTime(cabCustomer.pickupTime) }}</div>
+        <div>{{ cabCustomer.pickupCity }}</div> <!-- ✅ Custom pickupTime -->
+      </div>
+
+      <div style="display: flex; flex-direction: column;">
+        <div class="travel_specification">To</div>
+        <div>{{ cabBooking.destination }}</div>
+        <div>{{ cabBooking.endDateTime | date: 'yyyy-MM-dd' }}</div>
+        <!-- ✅ Show dropTime as pickupTime + 5 hours -->
+        <div>{{ calculateDropTime(cabCustomer.pickupTime) }}</div>
+        <div>{{ cabCustomer.dropCity }}</div>
+      </div>
+    </div>
+
+    <div class="passangerInfo">
+      <!-- Removed mat-icon -->
+      <!-- ✅ Displaying name entered in cab booking form -->
+      <div class="passangerName">{{ cabCustomer.name }}</div>
+    </div>
+
+    <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; font-size: 12px;">
+                <strong>Debug Info:</strong><br>
+                Route: {{ router.url }}<br>
+                Is Cab Booking: {{ isCabBooking }}<br>
+                Cab Customer Loaded: {{ !!cabCustomer }}<br>
+                Cab Booking Loaded: {{ !!cabBooking }}<br>
+                Cab Type: {{ cabBooking?.cabType }}<br>
+                Pickup Time: {{ cabCustomer?.pickupTime }} ({{ typeof cabCustomer?.pickupTime }})<br>
+                Calculated Fare: {{ getFareBasedOnCabType(cabBooking?.cabType) }}<br>
+                <button (click)="testApiEndpoints()" style="margin-top: 10px; padding: 5px 10px;">Test API Endpoints</button><br>
+                <button (click)="fetchLatestCabData()" style="margin-top: 5px; padding: 5px 10px;">Refresh Cab Data</button>
+                <br><br>
+                <details>
+                    <summary>Raw Customer Data</summary>
+                    <pre>{{ cabCustomer | json }}</pre>
+                </details>
+                <details>
+                    <summary>Raw Booking Data</summary>
+                    <pre>{{ cabBooking | json }}</pre>
+                </details>
+    </div>
+  </div>
+
+  <!-- BUS BOOKING UI -->
+  <div *ngIf="!cabCustomer && !cabBooking" class="payment__fullContainer_rightContainer_trip_container">
+    <div class="travel_operator_info">
+      <div class="travel_title">{{ operatorname }}</div>
+      <div class="travel_specification">Seater / A/C / Sleeper</div>
+    </div>
+
+    <div class="line"></div>
+
+    <div style="display: flex; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column;">
+        <div class="travel_specification">Booking Date</div>
+        <div style="display: flex; width: 150px;">
+          <div>{{ bookingdate | date: 'yyyy-MM-dd' }}</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; margin-right: 10px;">
+        <div>Seats Booked</div>
+        <div>{{ passseatarray }}</div>
+      </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div style="display: flex; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column;">
+        <div class="travel_specification">Boarding Point</div>
+        <div>{{ routedetails?.departureLocation?.name }}</div>                
+        <div>{{ bookingdate }}</div>
+        <div>{{ busdeparturetime }}:00</div> 
+      </div>
+
+      <div style="display: flex; flex-direction: column;">
+        <div class="travel_specification">Dropping Point</div>
+        <div>{{ routedetails?.arrivalLocation?.name }}</div> 
+        <div>{{ bookingdate }}</div>
+        <div>{{ busarrivaltime }}:00</div>
+      </div>
+    </div>
+
+    <div class="passangerInfo">
+      <!-- Removed mat-icon -->
+      <div class="passangerName">{{ customerId?.name }}</div>
+    </div>
+  </div>
+
+  <!-- COMMON PAYMENT UI -->
+  <div class="payment__fullContainer_rightContainer_fair_container">
+    <div style="display: flex; justify-content: space-between;">
+      <div class="travel_title">FARE BREAKUP</div>
+      <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/down.svg" width="14" height="14" alt="">
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 10px;"></div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+      <div class="travel_specification" style="font-weight: bold;">Total Payable</div>
+      <div class="travel_specification" style="font-weight: bold;">
+        <!-- ✅ Fare conditionally based on cab type -->
+        Rs. {{
+          (cabCustomer && cabBooking) ? 
+          getFareBasedOnCabType(cabBooking.cabType) : 
+          passfare
+        }}
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-around; margin-top: 10px; width: 95%;">
+    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/master-card-secure-code.png" alt="">
+    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verified-by-visa.svg" alt="">
+    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verisign-secured.png" alt="">
+  </div>
 </div>
 
 </div>

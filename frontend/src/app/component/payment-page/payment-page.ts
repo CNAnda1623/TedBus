@@ -26,8 +26,13 @@ export class PaymentPage implements OnInit {
   departuredetails: any = [];
   arrivaldetails: any = [];
   duration: string = '';
-  cabBooking: any = null;
-  cabCustomer: any = null;
+  cabBooking: any;
+  cabCustomer: any;
+  latestCabBooking: any;
+  latestCabCustomer: any;
+  cabStartTime: string = '';
+  cabEndTime: string = '';
+  cabFare: number = 0;
   isCabBooking: boolean = false;
   isbusinesstravel: boolean = false;
   iscoviddonated: boolean = false;
@@ -42,8 +47,37 @@ export class PaymentPage implements OnInit {
     private busservice: Bus
   ) {}
 
+  getFareBasedOnCabType(type: string): number {
+  switch (type) {
+    case 'Micro': return 5000;
+    case 'Sedan': return 6000;
+    case 'SUV': return 8000;
+    case 'Tempo Traveller': return 12000;
+    default: return 0;
+  }
+}
+
+getDroppingTime(time: string, format: string): string {
+  if (!time || !format) return 'N/A';
+
+  let hour = parseInt(time, 10);
+  if (isNaN(hour)) return 'N/A';
+
+  hour += 5;
+
+  if (format === 'PM' && hour < 12) hour += 12;
+  if (hour >= 24) hour -= 24;
+
+  const displayHour = hour > 12 ? hour - 12 : hour;
+  const displayFormat = hour >= 12 ? 'PM' : 'AM';
+
+  return `${displayHour} ${displayFormat}`;
+}
+
+
   ngOnInit(): void {
     const currentRoute = this.router.url;
+    console.log('Current Route:', currentRoute);
 
     this.bookingdate = new Date().toISOString().split('T')[0];
 
@@ -89,8 +123,10 @@ export class PaymentPage implements OnInit {
   }
 
   fetchLatestCabData(): void {
+    console.log('Fetching latest cab data...'); // Debug log
     this.http.get<any>('http://localhost:3000/cabcustomers/latest').subscribe({
       next: (customer) => {
+        console.log('Fetched cab customer:', customer); // Debug log
         this.cabCustomer = customer;
       },
       error: (err) => {
@@ -100,6 +136,7 @@ export class PaymentPage implements OnInit {
 
     this.http.get<any>('http://localhost:3000/cabbookings/latest').subscribe({
       next: (booking) => {
+        console.log('Fetched cab booking:', booking); // Debug log
         this.cabBooking = booking;
       },
       error: (err) => {
