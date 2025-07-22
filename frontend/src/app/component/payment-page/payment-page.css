@@ -1,324 +1,633 @@
+/* ===========================================
+   RESPONSIVE PAYMENT PAGE CSS
+   =========================================== */
+
+/* Base styles - Mobile First Approach */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    color: #4a4a4a;
-    word-break: break-word;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  line-height: 1.4;
+}
 
-    font-size: 14px;
-    font-weight: 400;
-  }
-  /* Stripe payment start */
-  .Payment__stripe {
-    /* border: 1px solid red; */
-    margin-top: 50px;
-  }
-  .Payment__stripe button {
-    width: 100%;
-    border: none;
-    outline: none;
-  }
-  .Payment__stripe__button {
-    background-color: #d84f57;
-    color: white;
-    height: 50px;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-  /* Stripe payment end */
-  .payment__main_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2px 20px !important;
-    min-width: 1200px;
-    box-sizing: border-box;
-  }
-  .payment__header {
-    background-color: #d84e55;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 64px;
-    padding: 0 5%;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-weight: 400;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #ffef96;
-  }
-  .payment__fullContainer {
-    margin: 3% 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .icons {
-    font-size: 30px;
-  }
-  .payment__fullContainer_leftContainer {
-    width: 55%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .payment__fullContainer_rightContainer {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    padding: 1.12em;
-  }
-  .payment__fullContainer_rightContainer_inputOfferCOde {
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 11px 0px;
-    padding: 20px 20px;
-    border: none;
-  }
-  .payment__fullContainer_rightContainer_infobar {
-    margin-top: 20px;
-    display: flex;
-    -moz-box-pack: justify;
-    justify-content: space-between;
-    -moz-box-align: center;
-    align-items: center;
-    width: auto;
-    height: 60px;
-    border: 1px dashed rgb(221, 221, 221);
-    padding: 0px 20px;
-    background-color: rgb(255, 255, 255);
-  }
-  .payment__fullContainer_leftContainer_paymentInstruments {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
-  .payment__fullContainer_leftContainer_paymentInstrument {
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 11px 0px;
-    padding: 20px 20px;
-    border: none;
-  }
-  .payment__fullContainer_leftContainer_eachPaymentInstruments {
-    border-radius: 2px;
-    background-color: rgb(255, 255, 255);
-    padding: 1.3em;
-    display: flex;
-  
-    -moz-box-pack: center;
-    justify-content: flex-start;
-    border-bottom: 1px solid rgb(221, 221, 221);
-  }
-  .payment_icon_img {
-    height: 20px;
-    margin-left: 20px;
-  }
-  .radioButton {
-    z-index: 1;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  .radioButtonText {
-    cursor: pointer;
-    font-size: 20px;
-    line-height: 1.25;
-    color: rgb(70, 70, 87);
-  }
-  .choose_payment_heading {
-    margin-top: 30px;
-    margin: 2em 0 1em;
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.26;
-    color: #3e3e52;
-  }
-  .banner_chip {
-    display: flex;
-    align-items: center;
-  }
-  .banner_text {
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    font-weight: 500;
-    color: rgb(126, 126, 140);
-  }
-  .UpiPaymentText {
-    margin-top: 50px;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.43;
-    color: #747f8d;
-    margin: 1em 0;
-  }
-  .payment__fullContainer_leftContainer_eachPaymentInstruments_new {
-    margin-left: 10px;
-    border-radius: 2px;
-    background-color: rgb(56, 184, 124);
-    font-size: 10px;
-    color: rgb(255, 255, 255);
-    text-transform: uppercase;
-    text-align: center;
-    padding: 5px 5px;
-  }
-  .payment__fullContainer_rightContainer_trip_container {
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 11px 0px;
-    padding: 20px 20px;
-    border: none;
-  }
-  .payment__fullContainer_rightContainer_fair_container {
-    margin: 30px 0px;
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 11px 0px;
-    padding: 20px 30px;
-    border: none;
-  }
-  .travel_operator_info {
-    display: flex;
-    -moz-box-align: center;
-    align-items: center;
-    -moz-box-pack: start;
-    justify-content: flex-start;
-    flex: 1 1 0%;
-  }
-  .travel_title {
-    color: rgb(216, 78, 85);
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.38;
-    padding-right: 3%;
-  }
-  .travel_specification {
-    color: rgb(116, 127, 141);
-    font-size: 14px;
-    line-height: 1.33;
-  }
-  .line {
-    height: 1em;
-    border-bottom: 0.5px solid rgb(222, 222, 222);
-    margin-bottom: 1em;
-  }
-  .passangerInfo {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 20px;
-    background-color: rgb(250, 229, 229);
-    padding: 1.12em;
-    min-height: 1.76em;
-    -moz-box-pack: center;
-  }
-  .passangerName {
-    color: rgb(116, 127, 141);
-    font-size: 14px;
-    line-height: 1.33;
-    font-weight: 400;
-    margin-left: 10px;
-  }
-  .payment_banner_icon_img {
-    height: 25px;
-    margin-left: 20px;
-  }
-  .paymentIconList{
-    display: flex;
-  }
-  .icons{
-    width:auto;
-    height:auto
-  }
+/* ===========================================
+   MAIN CONTAINER STYLES
+   =========================================== */
 
-  /* Make the layout responsive */
-@media (max-width: 1024px) {
+.payment__fullContainer {
+  /* RESPONSIVE CHANGE: Flex direction changes based on screen size */
+  display: flex;
+  flex-direction: column; /* Mobile: Stack vertically */
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px; /* RESPONSIVE CHANGE: Reduced padding on mobile */
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ===========================================
+   LEFT CONTAINER - PAYMENT METHODS
+   =========================================== */
+
+.payment__fullContainer_leftContainer {
+  /* RESPONSIVE CHANGE: Full width on mobile, fixed width on desktop */
+  width: 100%;
+  padding: 15px; /* RESPONSIVE CHANGE: Reduced padding on mobile */
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+}
+
+/* Offer Code Input */
+.payment__fullContainer_rightContainer_inputOfferCOde {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  /* RESPONSIVE CHANGE: Better touch target for mobile */
+  min-height: 44px;
+}
+
+.payment__fullContainer_rightContainer_inputOfferCOde:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Info Banner */
+.payment__fullContainer_rightContainer_infobar {
+  /* RESPONSIVE CHANGE: Stack vertically on small screens */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.banner_chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  /* RESPONSIVE CHANGE: Better spacing for touch devices */
+  min-height: 50px;
+}
+
+.banner_chip img {
+  /* RESPONSIVE CHANGE: Responsive image sizing */
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.banner_text {
+  flex: 1;
+}
+
+.banner_text div {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.3;
+}
+
+.banner_text div:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Payment Instruments */
+.payment__fullContainer_leftContainer_paymentInstruments {
+  margin-bottom: 25px;
+}
+
+.Payment__stripe {
+  margin-bottom: 20px;
+}
+
+.Payment__stripe__button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #635bff 0%, #4f46e5 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* RESPONSIVE CHANGE: Better touch target */
+  min-height: 50px;
+}
+
+.Payment__stripe__button:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.4);
+}
+
+.choose_payment_heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 20px 0 15px 0;
+  text-align: center;
+  position: relative;
+}
+
+.choose_payment_heading::before,
+.choose_payment_heading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.choose_payment_heading::before {
+  left: 0;
+}
+
+.choose_payment_heading::after {
+  right: 0;
+}
+
+/* Payment Method Items */
+.payment__fullContainer_leftContainer_paymentInstrument {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.payment__fullContainer_leftContainer_eachPaymentInstruments {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  /* RESPONSIVE CHANGE: Better touch targets and flexible layout */
+  min-height: 60px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.payment__fullContainer_leftContainer_eachPaymentInstruments:hover {
+  background-color: #f8f9fa;
+}
+
+.payment__fullContainer_leftContainer_eachPaymentInstruments:last-child {
+  border-bottom: none;
+}
+
+.radioButton {
+  margin-right: 12px;
+  /* RESPONSIVE CHANGE: Larger radio buttons for better touch interaction */
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.radioButtonText {
+  /* RESPONSIVE CHANGE: Flexible text sizing */
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+  min-width: 100px;
+}
+
+.payment__fullContainer_leftContainer_eachPaymentInstruments_new {
+  background-color: #28a745;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.paymentIconList {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  /* RESPONSIVE CHANGE: Allow wrapping on small screens */
+  flex-wrap: wrap;
+}
+
+.payment_icon_img {
+  /* RESPONSIVE CHANGE: Responsive icon sizing */
+  width: 30px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* UPI Payment Section */
+.UpiPaymentText {
+  background-color: #e7f3ff;
+  color: #0066cc;
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  margin: 20px 0;
+  /* RESPONSIVE CHANGE: Better text wrapping */
+  word-break: break-word;
+}
+
+/* ===========================================
+   RIGHT CONTAINER - BOOKING DETAILS
+   =========================================== */
+
+.payment__fullContainer_rightContainer {
+  /* RESPONSIVE CHANGE: Full width on mobile */
+  width: 100%;
+  padding: 15px;
+}
+
+.payment__fullContainer_rightContainer_trip_container {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.travel_operator_info {
+  margin-bottom: 15px;
+}
+
+.travel_title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.travel_specification {
+  font-size: 12px;
+  color: #666;
+}
+
+.line {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 15px 0;
+}
+
+/* Booking Details Sections */
+.payment__fullContainer_rightContainer_trip_container > div[style*="display: flex"] {
+  /* RESPONSIVE CHANGE: Stack on mobile, side by side on larger screens */
+  display: flex !important;
+  flex-direction: column;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.payment__fullContainer_rightContainer_trip_container > div[style*="display: flex"] > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.payment__fullContainer_rightContainer_trip_container > div[style*="display: flex"] > div > div {
+  font-size: 14px;
+  color: #333;
+}
+
+.payment__fullContainer_rightContainer_trip_container > div[style*="display: flex"] > div > div:first-child {
+  font-weight: 600;
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Passenger Info */
+.passangerInfo {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.passangerName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Fare Container */
+.payment__fullContainer_rightContainer_fair_container {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment__fullContainer_rightContainer_fair_container > div[style*="display: flex"] {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  /* RESPONSIVE CHANGE: Allow wrapping on very small screens */
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Payment Banner Icons */
+.payment__fullContainer_rightContainer > div[style*="display: flex"]:last-child {
+  display: flex !important;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
+  padding: 0 10px;
+  /* RESPONSIVE CHANGE: Allow wrapping and better spacing */
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.payment_banner_icon_img {
+  /* RESPONSIVE CHANGE: Responsive sizing for payment icons */
+  max-width: 80px;
+  height: auto;
+}
+
+/* Debug Info */
+div[style*="background: #f0f0f0"] {
+  /* RESPONSIVE CHANGE: Better mobile formatting for debug info */
+  font-size: 11px !important;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+div[style*="background: #f0f0f0"] button {
+  /* RESPONSIVE CHANGE: Better button styling for mobile */
+  width: 100%;
+  margin: 5px 0 !important;
+  padding: 8px 12px !important;
+  font-size: 12px;
+}
+
+/* ===========================================
+   TABLET RESPONSIVE STYLES (768px and up)
+   =========================================== */
+
+@media (min-width: 768px) {
+  /* RESPONSIVE CHANGE: Tablet layout adjustments */
+  
   .payment__fullContainer {
-    flex-direction: column;
-    margin: 3% 2%;
+    padding: 20px;
+    gap: 30px;
   }
 
   .payment__fullContainer_leftContainer,
   .payment__fullContainer_rightContainer {
-    width: 100%;
+    padding: 25px;
   }
 
-  .payment__fullContainer_rightContainer {
-    margin-top: 20px;
-    padding: 0;
+  .payment__fullContainer_rightContainer_infobar {
+    /* RESPONSIVE CHANGE: Horizontal layout for info chips on tablets */
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .banner_chip {
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .payment__fullContainer_rightContainer_trip_container > div[style*="display: flex"] {
+    /* RESPONSIVE CHANGE: Side by side layout for booking details */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .travel_title {
+    font-size: 20px;
+  }
+
+  .payment_banner_icon_img {
+    max-width: 100px;
   }
 }
 
-/* Tablet View */
-@media (max-width: 768px) {
-  .payment__fullContainer_rightContainer_trip_container,
-  .payment__fullContainer_rightContainer_fair_container {
-    padding: 15px;
+/* ===========================================
+   DESKTOP RESPONSIVE STYLES (1024px and up)
+   =========================================== */
+
+@media (min-width: 1024px) {
+  /* RESPONSIVE CHANGE: Desktop layout - side by side containers */
+  
+  .payment__fullContainer {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 30px;
+    gap: 40px;
+  }
+
+  .payment__fullContainer_leftContainer {
+    width: 60%;
+    padding: 30px;
+  }
+
+  .payment__fullContainer_rightContainer {
+    width: 40%;
+    padding: 20px;
   }
 
   .payment__fullContainer_rightContainer_inputOfferCOde {
-    width: 100%;
+    font-size: 16px;
     padding: 15px;
   }
 
   .Payment__stripe__button {
     font-size: 18px;
-    height: 45px;
+    padding: 18px;
   }
 
   .radioButtonText {
     font-size: 16px;
   }
 
-  .payment__fullContainer_leftContainer_eachPaymentInstruments {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .paymentIconList {
-    margin-top: 10px;
-  }
-}
-
-/* Mobile View */
-@media (max-width: 480px) {
-  .payment__header {
-    flex-direction: column;
-    padding: 10px;
-    font-size: 12px;
+  .payment_icon_img {
+    width: 35px;
   }
 
   .travel_title {
-    font-size: 14px;
+    font-size: 22px;
   }
 
   .payment_banner_icon_img {
-    margin: 10px 5px;
-    height: 20px;
+    max-width: 120px;
+  }
+}
+
+/* ===========================================
+   LARGE DESKTOP STYLES (1440px and up)
+   =========================================== */
+
+@media (min-width: 1440px) {
+  /* RESPONSIVE CHANGE: Large desktop optimizations */
+  
+  .payment__fullContainer {
+    max-width: 1400px;
+    padding: 40px;
+    gap: 50px;
   }
 
-  .Payment__stripe__button {
-    font-size: 16px;
-    height: 40px;
+  .payment__fullContainer_leftContainer {
+    padding: 40px;
   }
 
-  .payment_icon_img {
-    margin-left: 10px;
-    height: 18px;
+  .payment__fullContainer_rightContainer {
+    padding: 30px;
   }
 
-  .radioButton {
-    width: 16px;
-    height: 16px;
+  .banner_chip {
+    padding: 15px;
+  }
+
+  .payment__fullContainer_leftContainer_eachPaymentInstruments {
+    padding: 20px;
+    min-height: 70px;
+  }
+
+  .travel_title {
+    font-size: 24px;
+  }
+}
+
+/* ===========================================
+   MOBILE SPECIFIC OVERRIDES (480px and down)
+   =========================================== */
+
+@media (max-width: 480px) {
+  /* RESPONSIVE CHANGE: Small mobile specific adjustments */
+  
+  .payment__fullContainer {
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .payment__fullContainer_leftContainer,
+  .payment__fullContainer_rightContainer {
+    padding: 15px;
   }
 
   .payment__fullContainer_rightContainer_trip_container,
   .payment__fullContainer_rightContainer_fair_container {
+    padding: 15px;
+  }
+
+  .banner_chip {
+    padding: 10px;
+    min-height: 45px;
+  }
+
+  .banner_text div {
+    font-size: 11px;
+  }
+
+  .Payment__stripe__button {
+    font-size: 14px;
+    padding: 12px;
+    min-height: 45px;
+  }
+
+  .choose_payment_heading {
+    font-size: 14px;
+  }
+
+  .payment__fullContainer_leftContainer_eachPaymentInstruments {
+    padding: 12px;
+    min-height: 55px;
+  }
+
+  .radioButtonText {
+    font-size: 13px;
+  }
+
+  .payment_icon_img {
+    width: 25px;
+  }
+
+  .travel_title {
+    font-size: 16px;
+  }
+
+  .UpiPaymentText {
+    font-size: 11px;
     padding: 10px;
   }
 
-  .payment__fullContainer_rightContainer {
-    padding: 10px;
+  .payment_banner_icon_img {
+    max-width: 60px;
+  }
+
+  /* RESPONSIVE CHANGE: Better spacing for small screens */
+  .paymentIconList {
+    gap: 5px;
+  }
+
+  .payment__fullContainer_rightContainer > div[style*="display: flex"]:last-child {
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+/* ===========================================
+   ACCESSIBILITY AND INTERACTION IMPROVEMENTS
+   =========================================== */
+
+/* RESPONSIVE CHANGE: Focus states for better accessibility */
+.radioButton:focus,
+.payment__fullContainer_leftContainer_eachPaymentInstruments:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* RESPONSIVE CHANGE: Active states for better mobile interaction */
+.payment__fullContainer_leftContainer_eachPaymentInstruments:active {
+  background-color: #e9ecef;
+  transform: scale(0.98);
+}
+
+/* RESPONSIVE CHANGE: Smooth transitions for all interactive elements */
+.payment__fullContainer_leftContainer_eachPaymentInstruments,
+.banner_chip,
+.Payment__stripe__button {
+  transition: all 0.2s ease;
+}
+
+/* RESPONSIVE CHANGE: Better text selection for mobile */
+.radioButtonText,
+.travel_title,
+.travel_specification {
+  user-select: none;
+}
+
+/* RESPONSIVE CHANGE: Improved scrolling on mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .payment__fullContainer {
+    overflow-x: hidden;
   }
 }

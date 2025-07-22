@@ -41,7 +41,7 @@ export class PaymentPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     private dataservice: DataService,
     private http: HttpClient,
     private busservice: Bus
@@ -56,6 +56,23 @@ export class PaymentPage implements OnInit {
     default: return 0;
   }
 }
+
+formatTime(time: string): string {
+  const hour = parseInt(time, 10);
+  const formatted = hour > 12 ? `${hour - 12} PM` : `${hour} AM`;
+  return formatted;
+}
+
+calculateDropTime(time: string): string {
+  const pickupHour = parseInt(time, 10);
+  const dropHour = (pickupHour + 5) % 24;
+  return dropHour > 12 ? `${dropHour - 12} PM` : `${dropHour} AM`;
+}
+
+testApiEndpoints() {
+  console.log("API test button clicked");
+}
+
 
 getDroppingTime(time: string, format: string): string {
   if (!time || !format) return 'N/A';
