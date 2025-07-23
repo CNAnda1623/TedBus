@@ -23,6 +23,7 @@
         <mat-icon mat-card-avatar class="post-icon">create</mat-icon>
         <mat-card-title>Share Your Travel Story</mat-card-title>
         <mat-card-subtitle>Tell the community about your amazing journey</mat-card-subtitle>
+
       </mat-card-header>
 
       <mat-card-content>
@@ -170,20 +171,32 @@
               {{ post.route }}
             </span>
           </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="timestamp">{{ post.createdAt | date: 'medium' }}</span>
+          </mat-card-subtitle>
+
         </mat-card-header>
 
         <!-- Post Content -->
         <mat-card-content class="post-content">
           <h3 class="post-title">{{ post.title }}</h3>
+          <div class="route-info" *ngIf="post.route">
+            <strong>Route:</strong> {{ post.route }}
+          </div>
+
+<div class="city-info" *ngIf="post.city">
+  <strong>Destination:</strong> {{ post.city }}
+</div>
+
           
           <!-- Photos Grid -->
-          <div class="photos-grid" *ngIf="post.photos.length > 0">
+          <div class="photos-grid" *ngIf="post.photos?.length > 0">
             <div class="photo-item" 
                  *ngFor="let photo of post.photos; let i = index"
                  [class.single-photo]="post.photos.length === 1"
                  [class.two-photos]="post.photos.length === 2"
                  [class.multiple-photos]="post.photos.length > 2">
-              <img [src]="photo" 
+              <img [src]="'http://localhost:5000/uploads/' + photo" 
                    [alt]="post.title"
                    (click)="openImageModal(post.photos, i)"
                    class="post-photo">

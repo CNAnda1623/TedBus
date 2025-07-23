@@ -35,7 +35,7 @@ app.use('/api/booking', require('./routes/booking'));
 app.use('/api', require('./routes/customer'));
 app.use('/api', require('./routes/route'));
 app.use('/api', require('./routes/busRoutes'));
-app.use('/api/community', communityRoutes);
+app.use('/api/community', require('./routes/communityRoutes'));
 
 
 

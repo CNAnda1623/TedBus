@@ -7,6 +7,10 @@ const communityPostSchema = new mongoose.Schema({
   city: String,
   story: String,
   tips: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   imageFilenames: [String],
   likes: { type: Number, default: 0 },
   comments: [

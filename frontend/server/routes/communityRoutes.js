@@ -21,17 +21,13 @@ const storage = multer.diskStorage({
     cb(null, uniqueSuffix + '-' + file.originalname);  }
 });
 
-const upload = multer({ storage: storage });
-router.post('/posts', communityController.createPost);
+const upload = multer({ dest: 'uploads/' });
+router.post('/posts', createPost);
 
 // Routes
-router.post('/upload', upload.array('images', 10), (req, res) => {
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ message: 'No files uploaded' });
-  }
-
+router.post('/upload', upload.array('images'), (req, res) => {
   const filenames = req.files.map(file => file.filename);
-  res.status(200).json(filenames);
+  res.json(filenames);
 });
 router.get('/all', getAllPosts);
 
