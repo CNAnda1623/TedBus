@@ -29,6 +29,6 @@ router.post('/upload', upload.array('images'), (req, res) => {
   const filenames = req.files.map(file => file.filename);
   res.json(filenames);
 });
-router.get('/all', getAllPosts);
+router.get('/posts', getAllPosts);
 
 module.exports = router;

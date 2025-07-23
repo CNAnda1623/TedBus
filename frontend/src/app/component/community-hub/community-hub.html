@@ -197,7 +197,7 @@
                  [class.two-photos]="post.photos.length === 2"
                  [class.multiple-photos]="post.photos.length > 2">
               <img [src]="'http://localhost:5000/uploads/' + photo"
-                   [alt]="Travel Photo"
+                   alt="Travel Photo"
                    (click)="openImageModal(post.photos, i)"
                    class="post-photo">
               <div class="photo-overlay" *ngIf="i === 2 && post.photos.length > 3">
