@@ -10,7 +10,15 @@
 
   <!-- Create Post Section -->
   <div class="create-post-section">
-    <mat-card class="post-form-card">
+    <button mat-raised-button 
+        color="primary" 
+        (click)="showCreateForm = true"
+        *ngIf="!showCreateForm"
+        class="create-post-btn">
+      <mat-icon>create</mat-icon>
+      Create Post
+    </button>
+    <mat-card class="post-form-card" *ngIf="showCreateForm">
       <mat-card-header>
         <mat-icon mat-card-avatar class="post-icon">create</mat-icon>
         <mat-card-title>Share Your Travel Story</mat-card-title>
@@ -19,72 +27,87 @@
 
       <mat-card-content>
         <form class="post-form" (ngSubmit)="submitPost()">
-          <!-- Title -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Journey Title</mat-label>
-            <input matInput 
-                   [(ngModel)]="newPost.title" 
-                   name="title"
-                   placeholder="e.g., Amazing weekend in Goa"
-                   required>
-            <mat-icon matSuffix>title</mat-icon>
-          </mat-form-field>
-
-          <!-- Route and City -->
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Route</mat-label>
+          <!-- Title with custom label above -->
+          <div class="custom-field">
+            <label class="custom-label">Journey Title</label>
+            <mat-form-field appearance="outline" class="full-width">
               <input matInput 
-                     [(ngModel)]="newPost.route" 
-                     name="route"
-                     placeholder="e.g., Mumbai to Goa">
-              <mat-icon matSuffix>route</mat-icon>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>City/Destination</mat-label>
-              <input matInput 
-                     [(ngModel)]="newPost.city" 
-                     name="city"
-                     placeholder="e.g., Goa, Kerala">
-              <mat-icon matSuffix>location_on</mat-icon>
+                    [(ngModel)]="newPost.title" 
+                    name="title"
+                    placeholder="e.g., Amazing weekend in Goa"
+                    required>
+              <mat-icon matSuffix>title</mat-icon>
             </mat-form-field>
           </div>
 
-          <!-- Travel Story -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Your Travel Story</mat-label>
-            <textarea matInput 
-                      [(ngModel)]="newPost.story"
-                      name="story"
-                      rows="4"
-                      placeholder="Share your travel experience, what made it special..."
-                      required></textarea>
-            <mat-icon matSuffix>auto_stories</mat-icon>
-          </mat-form-field>
+          <!-- Route and City with custom labels -->
+          <div class="form-row">
+            <div class="custom-field half-width">
+              <label class="custom-label">Route</label>
+              <mat-form-field appearance="outline">
+                <input matInput 
+                      [(ngModel)]="newPost.route" 
+                      name="route"
+                      placeholder="e.g., Mumbai to Goa">
+                <mat-icon matSuffix>route</mat-icon>
+              </mat-form-field>
+            </div>
 
-          <!-- Travel Tips -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Travel Tips & Advice</mat-label>
-            <textarea matInput 
-                      [(ngModel)]="newPost.tips"
-                      name="tips"
-                      rows="3"
-                      placeholder="Share helpful tips for other travelers (e.g., best time to visit, must-try food...)"></textarea>
-            <mat-icon matSuffix>tips_and_updates</mat-icon>
-          </mat-form-field>
+            <div class="custom-field half-width">
+              <label class="custom-label">Destination</label>
+              <mat-form-field appearance="outline">
+                <input matInput 
+                      [(ngModel)]="newPost.city" 
+                      name="city"
+                      placeholder="e.g., Goa, Kerala">
+                <mat-icon matSuffix>location_on</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Travel Story with custom label -->
+          <div class="custom-field">
+            <label class="custom-label">Your Travel Story</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <textarea matInput 
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="3"
+                        cdkAutosizeMaxRows="8"
+                        [(ngModel)]="newPost.story"
+                        name="story"
+                        placeholder="Share your travel experience, what made it special..."
+                        required></textarea>
+              <mat-icon matSuffix>auto_stories</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Travel Tips with custom label -->
+          <div class="custom-field">
+            <label class="custom-label">Travel Tips & Advice</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <textarea matInput 
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="2"
+                        cdkAutosizeMaxRows="6"
+                        [(ngModel)]="newPost.tips"
+                        name="tips"
+                        placeholder="Share helpful tips for other travelers..."></textarea>
+              <mat-icon matSuffix>tips_and_updates</mat-icon>
+            </mat-form-field>
+          </div>
 
           <!-- Photo Upload -->
-          <div class="photo-upload-section">
+          <div class="photo-upload-section" (click)="fileInput.click()">
             <label class="photo-upload-label">
               <mat-icon>add_photo_alternate</mat-icon>
               Add Photos
             </label>
-            <input type="file" 
-                   multiple 
-                   accept="image/*"
-                   (change)="onFileSelect($event)"
-                   class="photo-input">
+            <input #fileInput
+                  type="file" 
+                  multiple 
+                  accept="image/*"
+                  (change)="onFileSelect($event)"
+                  class="photo-input">
             
             <!-- Selected Photos Preview -->
             <div class="selected-photos" *ngIf="newPost.photos.length > 0">
@@ -93,7 +116,7 @@
                 <button type="button" 
                         mat-icon-button 
                         color="warn" 
-                        (click)="removePhoto(i)">
+                        (click)="removePhoto(i); $event.stopPropagation();">
                   <mat-icon>close</mat-icon>
                 </button>
               </div>
@@ -139,7 +162,7 @@
         <!-- Post Header -->
         <mat-card-header class="post-header">
           <mat-icon mat-card-avatar class="avatar">account_circle</mat-icon>
-          <mat-card-title>{{ post.posterName }}</mat-card-title>
+          <mat-card-title>{{ post.author }}</mat-card-title>
           <mat-card-subtitle>
             <span class="timestamp">{{ formatTimestamp(post.timestamp) }}</span>
             <span class="route" *ngIf="post.route">

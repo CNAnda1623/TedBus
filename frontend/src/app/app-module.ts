@@ -45,6 +45,8 @@ import { Chatbot } from './component/chatbot/chatbot';
 import { CommunityHub } from './component/community-hub/community-hub';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { TextFieldModule } from '@angular/cdk/text-field';
+
 
 @NgModule({
   declarations: [
@@ -88,6 +90,7 @@ import { MatChipsModule } from '@angular/material/chips';
     BrowserAnimationsModule,
     MatDrawerContainer,
     HttpClientModule,
+    
     MatTableModule,
     LeftComponent,
     FormsModule,

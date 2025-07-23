@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { TravelPost, Comment } from './../component/community-hub/community-hub';
+import { TravelPost, Comment } from './../model/community-post.model';
+
+// const baseurl = 'http://localhost:5000/api/community'; // Adjust the base URL as needed
 
 @Injectable({
   providedIn: 'root'
