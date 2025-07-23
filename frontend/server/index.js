@@ -3,14 +3,14 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
+const path = require('path');
 const communityRoutes = require('./routes/communityRoutes');
-app.use('/uploads/community', express.static(path.join(___dirname, 'uploads/community')));
+app.use('/uploads/community', express.static(path.join(__dirname, 'uploads/community')));
 
 // ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyparser.json());
-
 // ✅ CORS setup
 const allowedOrigins = [
   'https://get-bus.netlify.app',
