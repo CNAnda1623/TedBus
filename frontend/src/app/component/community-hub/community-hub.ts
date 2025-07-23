@@ -1,28 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommunityHubService } from '../../service/community-hub.service';
 import { TravelPost, Comment } from './../../model/community-post.model';
-
-// export interface TravelPost {
-//   id: string;
-//   title: string;
-//   story: string;
-//   tips: string;
-//   photos: string[];
-//   posterName: string;
-//   route: string;
-//   city: string;
-//   timestamp: Date;
-//   likes: number;
-//   comments: Comment[];
-// }
-
-// export interface Comment {
-//   id: string;
-//   author: string;
-//   content: string;
-//   timestamp: Date;
-// }
 
 @Component({
   selector: 'app-community-hub',
@@ -30,7 +8,6 @@ import { TravelPost, Comment } from './../../model/community-post.model';
   styleUrls: ['./community-hub.css'],
   standalone: false,
 })
-
 export class CommunityHub implements OnInit {
   showCreateForm: boolean = false;
   travelPosts: TravelPost[] = [];
@@ -45,8 +22,6 @@ export class CommunityHub implements OnInit {
     photos: [] as File[]
   };
 
-  // Mock data for demonstration
-  
   selectedPhotos: string[] = [];
   showImageModal = false;
   currentImageIndex = 0;
@@ -54,7 +29,6 @@ export class CommunityHub implements OnInit {
   constructor(private communityService: CommunityHubService) { }
 
   ngOnInit(): void {
-    // Initialize component
     this.communityService.getAllPosts().subscribe({
       next: (posts) => {
         this.travelPosts = posts;
@@ -65,25 +39,24 @@ export class CommunityHub implements OnInit {
   }
 
   onFileSelect(event: any): void {
-  const files = event.target.files;
-  for (let file of files) {
+    const files = event.target.files;
+    for (let file of files) {
       this.newPost.photos.push(file);
+    }
   }
-}
 
   removePhoto(index: number): void {
     this.newPost.photos.splice(index, 1);
   }
 
   submitPost(): void {
-    // this.showCreateForm = false;
     if (this.newPost.photos.length > 0) {
       const fileList = new DataTransfer();
       this.newPost.photos.forEach(file => fileList.items.add(file));
 
       this.communityService.uploadImages(fileList.files).subscribe({
-        next: (imageUrls) => {
-          this.createPostWithImages(imageUrls);
+        next: (imageFilenames) => {
+          this.createPostWithImages(imageFilenames);
         },
         error: (err) => console.error('Image upload failed', err)
       });
@@ -92,23 +65,23 @@ export class CommunityHub implements OnInit {
     }
   }
 
-  createPostWithImages(imageUrls: string[]) {
+  createPostWithImages(imageFilenames: string[]) {
     const postData: TravelPost = {
       title: this.newPost.title,
       route: this.newPost.route,
       city: this.newPost.city,
       story: this.newPost.story,
       tips: this.newPost.tips,
-      photos: imageUrls,
+      photos: imageFilenames,
       likes: 0,
-      author: 'Anonymous', // Replace with logged-in user
-      timestamp: new Date().toISOString(),
+      posterName: 'Anonymous', // Or replace with logged-in user name
+      createdAt: new Date().toISOString(),
       comments: []
     };
 
     this.communityService.createPost(postData).subscribe({
       next: (createdPost) => {
-        this.travelPosts.unshift(createdPost); // Add new post on top
+        this.travelPosts.unshift(createdPost);
         this.communityService.updatePosts(this.travelPosts);
         this.resetForm();
       },
@@ -125,10 +98,6 @@ export class CommunityHub implements OnInit {
       city: '',
       photos: []
     };
-    // const fileInput = document.querySelector('.photo-input') as HTMLInputElement;
-    //   if (fileInput) {
-    //     fileInput.value = '';
-    //   }
     this.showCreateForm = false;
   }
 
@@ -136,14 +105,16 @@ export class CommunityHub implements OnInit {
     const date = new Date(dateString);
     return date.toLocaleString('en-IN');
   }
-  
-  likePost(postId?: string) {
-    if(!postId) return;
+
+  likePost(postId?: string): void {
+    if (!postId) return;
     this.communityService.likePost(postId).subscribe({
-      next: () => {
+      next: (response) => {
         const post = this.travelPosts.find(p => p.id === postId);
-        if (post) post.likes += 1;
-        this.communityService.updatePosts(this.travelPosts);
+        if (post) {
+          post.likes = (post.likes || 0) + 1;
+          this.communityService.updatePosts(this.travelPosts);
+        }
       },
       error: (err) => console.error('Like failed', err)
     });

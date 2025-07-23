@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const communityRoutes = require('./routes/communityRoutes');
-app.use('/uploads/community', express.static('uploads/community'));
+app.use('/uploads', express.static('uploads'));
 
 // ✅ Middleware
 app.use(express.json());

@@ -163,9 +163,9 @@
         <!-- Post Header -->
         <mat-card-header class="post-header">
           <mat-icon mat-card-avatar class="avatar">account_circle</mat-icon>
-          <mat-card-title>{{ post.author }}</mat-card-title>
+          <mat-card-title>{{ post.posterName }}</mat-card-title>
           <mat-card-subtitle>
-            <span class="timestamp">{{ formatTimestamp(post.timestamp) }}</span>
+            <span class="timestamp">{{ formatTimestamp(post.createdAt) }}</span>
             <span class="route" *ngIf="post.route">
               <mat-icon class="small-icon">route</mat-icon>
               {{ post.route }}
@@ -190,14 +190,14 @@
 
           
           <!-- Photos Grid -->
-          <div class="photos-grid" *ngIf="post.photos?.length > 0">
+          <div class="photos-grid" *ngIf="post.photos && post.photos.length > 0">
             <div class="photo-item" 
                  *ngFor="let photo of post.photos; let i = index"
                  [class.single-photo]="post.photos.length === 1"
                  [class.two-photos]="post.photos.length === 2"
                  [class.multiple-photos]="post.photos.length > 2">
-              <img [src]="'http://localhost:5000/uploads/' + photo" 
-                   [alt]="post.title"
+              <img [src]="'http://localhost:5000/uploads/' + photo"
+                   [alt]="Travel Photo"
                    (click)="openImageModal(post.photos, i)"
                    class="post-photo">
               <div class="photo-overlay" *ngIf="i === 2 && post.photos.length > 3">
