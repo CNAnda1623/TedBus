@@ -9,7 +9,7 @@ import { TravelPost, Comment } from './../model/community-post.model';
   providedIn: 'root'
 })
 export class CommunityHubService {
-  private apiUrl = 'http://localhost:5000/api/community';// Replace with your actual API endpoint
+  private apiUrl = 'http://localhost:5000/api/community/upload';// Replace with your actual API endpoint
   private postsSubject = new BehaviorSubject<TravelPost[]>([]);
   public posts$ = this.postsSubject.asObservable();
 
@@ -26,9 +26,10 @@ export class CommunityHubService {
   for (let i = 0; i < files.length; i++) {
     formData.append('photos', files[i]);
   }
-  console.log('Uploading files:', files);
-  return this.http.post(`${this.apiUrl}upload`, formData);
+  console.log('Uploading files to:', `${this.apiUrl}/upload`);
+  return this.http.post<string[]>(`${this.apiUrl}/upload`, formData);
 }
+
 
 createPost(postData: TravelPost): Observable<TravelPost> {
   console.log('Sending post to backend:', postData);

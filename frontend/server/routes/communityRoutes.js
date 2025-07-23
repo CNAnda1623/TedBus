@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
     cb(null, uniqueSuffix + '-' + file.originalname);  }
 });
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage });
 router.post('/posts', createPost);
 
 // Routes
