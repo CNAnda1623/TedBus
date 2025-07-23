@@ -6,11 +6,26 @@ const fs = require('fs');
 
 exports.createPost = async (req, res) => {
   try {
-    const newPost = new CommunityPost(req.body);
-    const saved = await newPost.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(500).json({ message: 'Error creating post', error: err.message });
+    console.log('Creating post with data:', req.body);
+
+    const newPost = new CommunityPost({
+      title: req.body.title,
+      route: req.body.route,
+      city: req.body.city,
+      story: req.body.story,
+      tips: req.body.tips,
+      photos: req.body.photos, // should be an array of image URLs
+      author: req.body.author || 'Anonymous',
+      timestamp: new Date(),
+      comments: []
+    });
+
+    const savedPost = await newPost.save();
+    console.log('Saved post:', savedPost);
+    res.status(201).json(savedPost);
+  } catch (error) {
+    console.error('Error saving post:', error);
+    res.status(500).json({ message: 'Failed to create post' });
   }
 };
 

@@ -55,8 +55,9 @@ export class CommunityHub implements OnInit {
       this.newPost.photos.forEach(file => fileList.items.add(file));
 
       this.communityService.uploadImages(fileList.files).subscribe({
-        next: (imageFilenames) => {
-          this.createPostWithImages(imageFilenames);
+        next: (res) => {
+          console.log('Images uploaded successfully', res);
+          this.createPostWithImages(res.imageFilenames);
         },
         error: (err) => console.error('Image upload failed', err)
       });
@@ -78,9 +79,11 @@ export class CommunityHub implements OnInit {
       createdAt: new Date().toISOString(),
       comments: []
     };
+    console.log('Creating post with data:', postData);
 
     this.communityService.createPost(postData).subscribe({
       next: (createdPost) => {
+        console.log('Post created successfully', createdPost);
         this.travelPosts.unshift(createdPost);
         this.communityService.updatePosts(this.travelPosts);
         this.resetForm();

@@ -26,8 +26,18 @@ router.post('/posts', createPost);
 
 // Routes
 router.post('/upload', upload.array('images'), (req, res) => {
-  const filenames = req.files.map(file => file.filename);
-  res.json(filenames);
+  console.log('Received upload request');
+  console.log('Files', req.files);
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ error: 'No files uploaded' });
+  }
+
+  const filUrls = req.files.map(file =>{
+    const path = '/uploads/community/${file.filename}';
+    console.log('File URL:', path);
+    return path;
+  } );
+  res.status(200).json({ imageUrls: filUrls });
 });
 router.get('/posts', getAllPosts);
 

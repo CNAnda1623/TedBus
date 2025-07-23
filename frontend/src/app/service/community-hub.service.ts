@@ -21,18 +21,20 @@ export class CommunityHubService {
   }
 
   // Create a new travel post
-  createPost(postData: any): Observable<TravelPost> {
-    return this.http.post<TravelPost>(`${this.apiUrl}/posts`, postData);
+  uploadImages(files: FileList): Observable<any> {
+  const formData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    formData.append('photos', files[i]);
   }
+  console.log('Uploading files:', files);
+  return this.http.post(`${this.apiUrl}upload`, formData);
+}
 
-  // Upload images for a post
-  uploadImages(files: FileList): Observable<string[]> {
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
-    }
-    return this.http.post<string[]>(`${this.apiUrl}/upload`, formData);
-  }
+createPost(postData: TravelPost): Observable<TravelPost> {
+  console.log('Sending post to backend:', postData);
+  return this.http.post<TravelPost>(`${this.apiUrl}posts`, postData);
+}
+
 
   // Like a post
   likePost(postId: string): Observable<any> {
