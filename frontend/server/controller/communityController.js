@@ -6,21 +6,11 @@ const fs = require('fs');
 
 exports.createPost = async (req, res) => {
   try {
-    const { content, author, postType } = req.body;
-    const imageUrls = req.files ? req.files.map(file => file.filename) : [];
-
-    const newPost = new CommunityPost({
-      content,
-      author,
-      postType,
-      imageUrls
-    });
-
-    await newPost.save();
-    res.status(201).json({ message: 'Post created successfully', post: newPost });
+    const newPost = new CommunityPost(req.body);
+    const saved = await newPost.save();
+    res.status(201).json(saved);
   } catch (err) {
-    console.error('Create Post Error:', err);
-    res.status(500).json({ error: 'Server error creating post' });
+    res.status(500).json({ message: 'Error creating post', error: err.message });
   }
 };
 

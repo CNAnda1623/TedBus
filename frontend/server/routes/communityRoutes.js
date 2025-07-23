@@ -22,6 +22,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+router.post('/posts', communityController.createPost);
 
 // Routes
 router.post('/upload', upload.array('images', 10), (req, res) => {
