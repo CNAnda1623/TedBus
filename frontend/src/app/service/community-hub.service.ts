@@ -9,7 +9,7 @@ import { TravelPost, Comment } from './../model/community-post.model';
   providedIn: 'root'
 })
 export class CommunityHubService {
-  private apiUrl = 'api/community'; // Replace with your actual API endpoint
+  private apiUrl = 'http://localhost:5000/api/community';// Replace with your actual API endpoint
   private postsSubject = new BehaviorSubject<TravelPost[]>([]);
   public posts$ = this.postsSubject.asObservable();
 
