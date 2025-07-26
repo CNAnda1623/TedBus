@@ -10,7 +10,7 @@ require('dotenv').config();
 // ✅ Supabase Setup
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SECRET
+  process.env.SUPABASE_KEY
 );
 
 // Multer Setup for memory storage (we'll upload to Supabase directly)
