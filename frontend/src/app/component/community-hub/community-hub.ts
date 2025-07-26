@@ -49,22 +49,6 @@ export class CommunityHub implements OnInit {
     this.newPost.photos.splice(index, 1);
   }
 
-  submitPost(): void {
-    if (this.newPost.photos.length > 0) {
-      const fileList = new DataTransfer();
-      this.newPost.photos.forEach(file => fileList.items.add(file));
-
-      this.communityService.uploadImages(fileList.files).subscribe({
-        next: (res) => {
-          console.log('Images uploaded successfully', res);
-          this.createPostWithImages(res.imageFilenames);
-        },
-        error: (err) => console.error('Image upload failed', err)
-      });
-    } else {
-      this.createPostWithImages([]);
-    }
-  }
 
   createPostWithImages(imageFilenames: string[]) {
     const postData: TravelPost = {
@@ -91,6 +75,25 @@ export class CommunityHub implements OnInit {
       error: (err) => console.error('Post creation failed', err)
     });
   }
+
+  submitPost(): void {
+    if (this.newPost.photos.length > 0) {
+      const fileList = new DataTransfer();
+      this.newPost.photos.forEach(file => fileList.items.add(file));
+
+      this.communityService.uploadImages(fileList.files).subscribe({
+        next: (res) => {
+          console.log('Images uploaded successfully', res);
+          this.createPostWithImages(res.imageFilenames);
+        },
+        error: (err) => console.error('Image upload failed', err)
+      });
+    } else {
+      this.createPostWithImages([]);
+    }
+  }
+
+  
 
   resetForm(): void {
     this.newPost = {

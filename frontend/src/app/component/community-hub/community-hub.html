@@ -196,7 +196,7 @@
                  [class.single-photo]="post.photos.length === 1"
                  [class.two-photos]="post.photos.length === 2"
                  [class.multiple-photos]="post.photos.length > 2">
-              <img [src]="'http://localhost:5000/uploads/' + photo"
+              <img *ngFor="let photoUrl of post.photos" [src]="'https://thblatubtblmsqxhwoxp.supabase.co/storage/v1/object/public/community-uploads/' + photo"
                    alt="Travel Photo"
                    (click)="openImageModal(post.photos, i)"
                    class="post-photo">
