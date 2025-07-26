@@ -31,6 +31,7 @@ export class CommunityHub implements OnInit {
   ngOnInit(): void {
     this.communityService.getAllPosts().subscribe({
       next: (posts) => {
+        console.log('Posts loaded:', posts);
         this.travelPosts = posts;
         this.communityService.updatePosts(posts); // update local state
       },
@@ -84,7 +85,7 @@ export class CommunityHub implements OnInit {
       this.communityService.uploadImages(fileList.files).subscribe({
         next: (res) => {
           console.log('Images uploaded successfully', res);
-          this.createPostWithImages(res.imageFilenames);
+          this.createPostWithImages(res.imageUrls);
         },
         error: (err) => console.error('Image upload failed', err)
       });
@@ -107,9 +108,10 @@ export class CommunityHub implements OnInit {
     this.showCreateForm = false;
   }
 
-  formatTimestamp(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-IN');
+  formatTimestamp(timestamp: any): string {
+  if (!timestamp) return 'Unknown';
+  const date = new Date(timestamp);
+  return isNaN(date.getTime()) ? 'Unknown' : date.toLocaleString();
   }
 
   likePost(postId?: string): void {

@@ -8,8 +8,9 @@ export interface TravelPost {
   route: string;
   city: string;
   createdAt: string;
-  likes?: number;
+  likes: number;
   comments: Comment[];
+  timestamp?: string;
 }
 
 export interface Comment {
