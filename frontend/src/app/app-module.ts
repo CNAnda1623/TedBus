@@ -15,7 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogComponent } from './component/landing-page/dialog/dialog';
 import { Router } from '@angular/router';
 import { SelectbusPage } from './component/selectbus-page/selectbus-page';
@@ -46,6 +46,7 @@ import { CommunityHub } from './component/community-hub/community-hub';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { Forum } from './component/forum/forum';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     CabBookingForm,
     Chatbot,
     CommunityHub,
+    Forum,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     BrowserAnimationsModule,
     MatDrawerContainer,
     HttpClientModule,
-    
+    ReactiveFormsModule,
     MatTableModule,
     LeftComponent,
     FormsModule,

@@ -36,16 +36,16 @@ export class CommunityHubService {
   }
 
   // ✅ Like a post
-  likePost(postId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/posts/${postId}/like`, {});
-  }
+  likePost(postId: string): Observable<TravelPost> {
+  return this.http.patch<TravelPost>(`${this.apiUrl}/posts/${postId}/like`, {});
+}
 
-  // ✅ Add comment to a post
-  addComment(postId: string, comment: string): Observable<Comment> {
-    return this.http.post<Comment>(`${this.apiUrl}/posts/${postId}/comments`, { content: comment });
+  // In community-hub.service.ts
+  addComment(postId: string, comment: any): Observable<TravelPost> {
+    return this.http.post<TravelPost>(`${this.apiUrl}/posts/${postId}/comments`, comment);
   }
-
   // ✅ Get comments for a post
+  
   getComments(postId: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.apiUrl}/posts/${postId}/comments`);
   }

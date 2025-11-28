@@ -8,6 +8,7 @@ import { CabBook } from './component/navbar/cab-book/cab-book';
 import { CabBookingForm } from './component/navbar/cab-book/cab-booking-form/cab-booking-form';
 import { Chatbot } from './component/chatbot/chatbot';
 import { CommunityHub } from './component/community-hub/community-hub';
+import { Forum } from './component/forum/forum';
 
 const routes: Routes = [
   { path: '',component: LandingPage},
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'navbar/cab-booking-form', component: CabBookingForm },
   { path: 'landing-page', component: LandingPage },
   { path: 'chatbot', component: Chatbot },
-  { path: 'community', component: CommunityHub }
+  { path: 'community', component: CommunityHub },
+  { path: 'forum', component: Forum },
 
 
 ];

@@ -72,6 +72,53 @@
   margin-bottom: 0;
 }
 
+/* Avatar styles */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Comments section */
+.comments-section {
+  padding: 16px;
+  border-top: 1px solid #eee;
+}
+
+.comment {
+  margin-bottom: 16px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.comment-author {
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.comment-date {
+  color: #666;
+  font-size: 0.8em;
+}
+
+.comment-input {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
 /* Form row for side-by-side fields */
 .form-row {
   display: flex;
@@ -493,14 +540,21 @@
   box-shadow: 0 16px 48px rgba(0,0,0,0.15);
 }
 
-/* Post Header */
-.post-header {
-  padding: 20px 20px 0 20px;
+/* In community-hub.css */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.avatar {
-  background: linear-gradient(45deg, #4299e1, #667eea);
-  color: white;
+.post-header {
+  display: flex;
+  align-items: center;
+}
+
+.post-header mat-card-title {
+  margin-left: 10px;
 }
 
 .timestamp {

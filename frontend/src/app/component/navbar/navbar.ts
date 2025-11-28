@@ -42,6 +42,7 @@ export class Navbar implements OnInit {
       callback:(response:any)=>{
       this.ngZone.run(() => {
         this.handlelogin(response);
+        scope: 'profile email'
       });
       },    
   });
@@ -80,7 +81,11 @@ export class Navbar implements OnInit {
   this.customerservice.addcustomermongo(payload).subscribe({
     next:(res)=>{
       // console.log('POST success',res);
-      sessionStorage.setItem("Loggedinuser",JSON.stringify(res))
+      sessionStorage.setItem("Loggedinuser",JSON.stringify({
+        ...res,
+        name: payload.name,
+        picture:payload.picture,
+    }));
       this.isloggedIn=true;
       // console.log('User logged in successfully, isloggedIn:', this.isloggedIn);
       this.cdRef.detectChanges(); // Trigger change detection to update the view

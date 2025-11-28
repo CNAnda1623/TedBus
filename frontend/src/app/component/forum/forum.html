@@ -1,0 +1,238 @@
+<div class="forum-container">
+  <div class="header">
+    <h1 class="page-title">
+      <mat-icon>forum</mat-icon>
+      Travel Discussion Forum
+    </h1>
+    <p class="page-subtitle">Share your travel experiences and get advice from fellow travelers</p>
+  </div>
+
+  <div class="content-layout">
+    <!-- Left Section: Create Forum Form -->
+    <div class="form-section">
+      <mat-card class="create-forum-card">
+        <mat-card-header>
+          <div mat-card-avatar class="user-avatar">
+            <img [src]="currentUser.photoUrl" [alt]="currentUser.name" />
+          </div>
+          <mat-card-title>Create New Discussion</mat-card-title>
+          <mat-card-subtitle>{{ currentUser.name }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="forumForm" (ngSubmit)="onSubmitForum()" class="forum-form">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Discussion Title</mat-label>
+              <input 
+                matInput 
+                formControlName="title" 
+                placeholder="e.g., Best Routes for Ladakh Bike Trip?"
+                maxlength="200">
+              <mat-icon matSuffix>title</mat-icon>
+              <mat-hint>{{ forumForm.get('title')?.value?.length || 0 }}/200</mat-hint>
+              <mat-error *ngIf="forumForm.get('title')?.hasError('required')">
+                Title is required
+              </mat-error>
+              <mat-error *ngIf="forumForm.get('title')?.hasError('minlength')">
+                Title must be at least 10 characters long
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea 
+                matInput 
+                formControlName="description"
+                placeholder="Share details about your travel question or experience..."
+                rows="6"
+                maxlength="1000">
+              </textarea>
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-hint>{{ forumForm.get('description')?.value?.length || 0 }}/1000</mat-hint>
+              <mat-error *ngIf="forumForm.get('description')?.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-error *ngIf="forumForm.get('description')?.hasError('minlength')">
+                Description must be at least 20 characters long
+              </mat-error>
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button 
+            mat-button 
+            type="button" 
+            (click)="onClearForm()"
+            class="clear-btn">
+            <mat-icon>clear</mat-icon>
+            Clear
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary"
+            (click)="onSubmitForum()"
+            [disabled]="!forumForm.valid || !isLoggedIn"
+            class="submit-btn">
+            <mat-icon>send</mat-icon>
+            Post Discussion
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Right Section: Forum Threads -->
+    <div class="threads-section">
+      <div class="threads-header">
+        <h2>
+          <mat-icon>question_answer</mat-icon>
+          Recent Discussions
+        </h2>
+        <span class="thread-count">{{ threads.length }} discussions</span>
+      </div>
+
+      <div class="threads-list">
+        <mat-card 
+          *ngFor="let thread of threads; trackBy: trackByThreadId" 
+          class="thread-card"
+          [id]="'thread-' + thread.id">
+          
+          <mat-card-header>
+            <div mat-card-avatar class="user-avatar">
+              <img [src]="thread.author.photoUrl" [alt]="thread.author.name" />
+            </div>
+            <mat-card-title>{{ thread.title }}</mat-card-title>
+            <mat-card-subtitle>
+              <span class="author-name">{{ thread.author.name }}</span>
+              <span class="timestamp">
+                <mat-icon>access_time</mat-icon>
+                {{ getTimeAgo(thread.timestamp) }}
+              </span>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="thread-description">
+              {{ getTruncatedDescription(thread.description) }}
+            </p>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button 
+              mat-button 
+              (click)="toggleThread(thread.id)" 
+              class="view-discussion-btn">
+              <mat-icon>{{ thread.expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+              {{ thread.expanded ? 'Hide' : 'View' }} Discussion
+              <span class="comment-count" *ngIf="thread.comments.length > 0">
+                ({{ thread.comments.length }})
+              </span>
+            </button>
+          </mat-card-actions>
+
+          <!-- Expandable Comments Section -->
+          <div class="comments-section" *ngIf="thread.expanded">
+            <mat-divider></mat-divider>
+            
+            <!-- Full Description -->
+            <div class="full-description" *ngIf="thread.description.length > 150">
+              <h4>Full Description:</h4>
+              <p>{{ thread.description }}</p>
+              <mat-divider></mat-divider>
+            </div>
+
+            <!-- Comments List -->
+            <div class="comments-list" *ngIf="thread.comments.length > 0">
+              <h4>
+                <mat-icon>comment</mat-icon>
+                Comments ({{ thread.comments.length }})
+              </h4>
+              
+              <div 
+                *ngFor="let comment of thread.comments" 
+                class="comment-item">
+                <div class="comment-header">
+                  <img 
+                    [src]="comment.author.photoUrl" 
+                    [alt]="comment.author.name" 
+                    class="comment-avatar" />
+                  <div class="comment-meta">
+                    <span class="comment-author">{{ comment.author.name }}</span>
+                    <span class="comment-time">
+                      <mat-icon>schedule</mat-icon>
+                      {{ getTimeAgo(comment.timestamp) }}
+                    </span>
+                  </div>
+                </div>
+                <div class="comment-text">{{ comment.text }}</div>
+              </div>
+            </div>
+
+            <div class="no-comments" *ngIf="thread.comments.length === 0">
+              <mat-icon>chat_bubble_outline</mat-icon>
+              <p>No comments yet. Be the first to share your thoughts!</p>
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="add-comment-section" *ngIf="isLoggedIn">
+              <mat-divider></mat-divider>
+              <form [formGroup]="commentForms[thread.id]" class="comment-form">
+                <div class="comment-input-header">
+                  <img 
+                    [src]="currentUser.photoUrl" 
+                    [alt]="currentUser.name" 
+                    class="comment-avatar" />
+                  <span class="current-user-name">{{ currentUser.name }}</span>
+                </div>
+                
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Add a comment</mat-label>
+                  <textarea 
+                    matInput 
+                    formControlName="text"
+                    placeholder="Share your thoughts, experiences, or advice..."
+                    rows="3"
+                    maxlength="500">
+                  </textarea>
+                  <mat-hint>{{ commentForms[thread.id].get('text')?.value?.length || 0 }}/500</mat-hint>
+                  <mat-error *ngIf="commentForms[thread.id].get('text')?.hasError('required')">
+                    Comment cannot be empty
+                  </mat-error>
+                  <mat-error *ngIf="commentForms[thread.id].get('text')?.hasError('minlength')">
+                    Comment must be at least 5 characters long
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="comment-actions">
+                  <button 
+                    mat-raised-button 
+                    color="primary"
+                    (click)="onSubmitComment(thread.id)"
+                    [disabled]="!commentForms[thread.id].valid"
+                    class="comment-submit-btn">
+                    <mat-icon>send</mat-icon>
+                    Post Comment
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="login-prompt" *ngIf="!isLoggedIn">
+              <mat-divider></mat-divider>
+              <p>
+                <mat-icon>account_circle</mat-icon>
+                Please log in to add comments
+              </p>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+
+      <div class="no-threads" *ngIf="threads.length === 0">
+        <mat-icon>forum</mat-icon>
+        <h3>No discussions yet</h3>
+        <p>Be the first to start a travel discussion!</p>
+      </div>
+    </div>
+  </div>
+</div>

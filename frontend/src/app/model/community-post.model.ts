@@ -9,13 +9,15 @@ export interface TravelPost {
   city: string;
   createdAt: string;
   likes: number;
+  posterPhoto: string;
   comments: Comment[];
   timestamp?: string;
 }
 
 export interface Comment {
-  id?: string;
+  _id?: string;
   author: string;
   content: string;
+  authorPhoto: string;
   createdAt: string;
 }

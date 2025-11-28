@@ -9,6 +9,10 @@ import { TravelPost, Comment } from './../../model/community-post.model';
   standalone: false,
 })
 export class CommunityHub implements OnInit {
+  loggedInUser: any = null;
+  newComment = '';
+  currentPostId: string | null = null;
+  isloggedIn: boolean = false;
   showCreateForm: boolean = false;
   travelPosts: TravelPost[] = [];
 
@@ -29,14 +33,52 @@ export class CommunityHub implements OnInit {
   constructor(private communityService: CommunityHubService) { }
 
   ngOnInit(): void {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.loggedInUser = JSON.parse(user);
+    }
+    this.isloggedIn = !!sessionStorage.getItem('Loggedinuser');
+    this.loadPosts();
+  }
+
+  loadPosts(): void {
     this.communityService.getAllPosts().subscribe({
       next: (posts) => {
-        console.log('Posts loaded:', posts);
-        this.travelPosts = posts;
-        this.communityService.updatePosts(posts); // update local state
+        this.travelPosts = posts.map(post => ({
+          ...post,
+          createdAt: post.createdAt || (post as any).timestamp
+        }));
+        this.communityService.updatePosts(this.travelPosts);
       },
       error: (err) => console.error('Error loading posts', err)
     });
+  }
+
+  addComment(postId: string): void {
+    if (!this.newComment.trim() || !postId) return;
+    
+    const userData = JSON.parse(sessionStorage.getItem('Loggedinuser') || '{}');
+    const comment: Comment = {
+      content: this.newComment,
+      author: userData.name || 'Anonymous',
+      authorPhoto: userData.picture || '',
+      createdAt: new Date().toISOString()
+    };
+
+    this.communityService.addComment(postId, comment).subscribe({
+      next: (updatedPost) => {
+        const index = this.travelPosts.findIndex(p => p.id === postId);
+        if (index !== -1) {
+          this.travelPosts[index] = updatedPost;
+        }
+        this.newComment = '';
+      },
+      error: (err) => console.error('Error adding comment', err)
+    });
+  }
+
+  toggleComments(postId: string): void {
+    this.currentPostId = this.currentPostId === postId ? null : postId;
   }
 
   onFileSelect(event: any): void {
@@ -50,8 +92,9 @@ export class CommunityHub implements OnInit {
     this.newPost.photos.splice(index, 1);
   }
 
-
-  createPostWithImages(imageFilenames: string[]) {
+  createPostWithImages(imageFilenames: string[]): void {
+    const userData = JSON.parse(sessionStorage.getItem('Loggedinuser') || '{}');
+    console.log('User Data:', userData)
     const postData: TravelPost = {
       title: this.newPost.title,
       route: this.newPost.route,
@@ -60,15 +103,14 @@ export class CommunityHub implements OnInit {
       tips: this.newPost.tips,
       photos: imageFilenames,
       likes: 0,
-      posterName: 'Anonymous', // Or replace with logged-in user name
+      posterName: userData.name || 'Anonymous',
+      posterPhoto: userData.picture || '',
       createdAt: new Date().toISOString(),
       comments: []
     };
-    console.log('Creating post with data:', postData);
 
     this.communityService.createPost(postData).subscribe({
       next: (createdPost) => {
-        console.log('Post created successfully', createdPost);
         this.travelPosts.unshift(createdPost);
         this.communityService.updatePosts(this.travelPosts);
         this.resetForm();
@@ -84,7 +126,6 @@ export class CommunityHub implements OnInit {
 
       this.communityService.uploadImages(fileList.files).subscribe({
         next: (res) => {
-          console.log('Images uploaded successfully', res);
           this.createPostWithImages(res.imageUrls);
         },
         error: (err) => console.error('Image upload failed', err)
@@ -93,8 +134,6 @@ export class CommunityHub implements OnInit {
       this.createPostWithImages([]);
     }
   }
-
-  
 
   resetForm(): void {
     this.newPost = {
@@ -108,10 +147,11 @@ export class CommunityHub implements OnInit {
     this.showCreateForm = false;
   }
 
-  formatTimestamp(timestamp: any): string {
-  if (!timestamp) return 'Unknown';
-  const date = new Date(timestamp);
-  return isNaN(date.getTime()) ? 'Unknown' : date.toLocaleString();
+  formatTimestamp(post: TravelPost): string {
+    const dateStr = post.createdAt || (post as any).timestamp;
+    if (!dateStr) return 'Unknown';
+    const date = new Date(dateStr);
+    return isNaN(date.getTime()) ? 'Unknown' : date.toLocaleString();
   }
 
   likePost(postId?: string): void {
