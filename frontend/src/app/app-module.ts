@@ -52,7 +52,6 @@ import { Forum } from './component/forum/forum';
 @NgModule({
   declarations: [
     App,
-    Navbar,
     Footer,
     LandingPage,
     DialogComponent,
@@ -89,6 +88,7 @@ import { Forum } from './component/forum/forum';
     MatChipsModule,
     MatButtonModule,
     MatDialogModule,
+    Navbar,
     BrowserAnimationsModule,
     MatDrawerContainer,
     HttpClientModule,
