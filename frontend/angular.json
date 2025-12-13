@@ -98,8 +98,7 @@
                 "input": "public",
                 "output": "/"
               },
-              "src/assets",
-              "src/_redirects"
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
