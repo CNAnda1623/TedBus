@@ -337,6 +337,17 @@ export class CabBook implements OnInit {
   selectedTripType: string = '';
   selectedTime: string = '';
 
+  getEstimatedFare(): number {
+    let base = 2450;
+    if (this.selectedCabType.includes('Micro')) base = 1850;
+    else if (this.selectedCabType.includes('Sedan')) base = 2450;
+    else if (this.selectedCabType.includes('SUV')) base = 3600;
+    else if (this.selectedCabType.includes('Tempo')) base = 6200;
+
+    if (this.selectedTripType === 'Round Trip') base = Math.round(base * 1.85);
+    return base;
+  }
+
   selectCabType(type: string) {
     this.selectedCabType = this.selectedCabType === type ? '' : type;
   }

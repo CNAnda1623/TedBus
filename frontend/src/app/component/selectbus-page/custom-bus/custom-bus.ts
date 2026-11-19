@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class CustomBus {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   selectedBusSize: string = '';
   selectedRouteType: string = '';
@@ -17,19 +17,19 @@ export class CustomBus {
   selectedStops: string = '';
   selectedAmenities: string[] = [];
 
-  proceedWithSelection(){
-  const selection = {
-    busSize: this.selectedBusSize,
-    routeType: this.selectedRouteType,
-    stops: this.selectedStops || null,
-    busType: this.selectedBusType,
-    amenities: this.selectedAmenities,
-    source: 'bus-custom'  // use this to detect source
-  };
+  proceedWithSelection() {
+    const selection = {
+      busSize: this.selectedBusSize,
+      routeType: this.selectedRouteType,
+      stops: this.selectedStops || null,
+      busType: this.selectedBusType,
+      amenities: this.selectedAmenities,
+      source: 'bus-custom'  // use this to detect source
+    };
 
-  sessionStorage.setItem('busBookingSelection', JSON.stringify(selection));
-  this.router.navigate(['/navbar/cab-booking-form']);
-}
+    sessionStorage.setItem('busBookingSelection', JSON.stringify(selection));
+    this.router.navigate(['/navbar/cab-booking-form']);
+  }
 
 
   selectBusSize(size: string) {
@@ -45,7 +45,7 @@ export class CustomBus {
   }
 
   selectStops(stops: string) {
-    this.selectedStops = this.selectedStops === stops ? '' : stops;
+    this.selectedStops = stops;
   }
 
   toggleAmenity(amenity: string) {

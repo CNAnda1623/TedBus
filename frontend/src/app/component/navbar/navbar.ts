@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { ThemeService } from '../../service/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +29,8 @@ export class Navbar implements OnInit, AfterViewInit {
   constructor(
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) { }
 
   // ------------------------

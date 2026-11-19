@@ -1,254 +1,341 @@
-
-<div class="payment__fullContainer">
-    <!-- left Container -->
-    <div class="payment__fullContainer_leftContainer">
-        <input class="payment__fullContainer_rightContainer_inputOfferCOde" placeholder="ENTER OFFER CODE" />
-        <div class="payment__fullContainer_rightContainer_infobar">
-            <div class="banner_chip">
-                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/safe-payments.svg" alt="CC" />
-                <div class="banner_text">
-                  
-                    <div>Safe and Secure</div>
-                    <div>Online Payments</div>
-                </div>
-            </div>
-            <div class="banner_chip">
-                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/transactions.svg"
-                    alt="Million Transactions" />
-                <div class="banner_text">
-                    <div>60+ million</div>
-                    <div>transactions</div>
-                </div>
-            </div>
-            <div class="banner_chip">
-                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/trust.svg" alt="Reliable" />
-                <div class="banner_text">
-                    <div>10+ years of</div>
-                    <div>Trust</div>
-                </div>
-            </div>
-        </div>
-        <div class="payment__fullContainer_leftContainer_paymentInstruments">
-            <!-- Payment methods -->
-            <div class="Payment__stripe">
-                <button class="Payment__stripe__button" (click)="makepayment()">Pay With Stripe</button>
-            </div>
-            <!-- Other Payment Methods -->
-            <div class="choose_payment_heading">Choose Other Payment Method</div>
-            <div class="payment__fullContainer_leftContainer_paymentInstrument">
-                <!-- Credit Card -->
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                    <input class="radioButton" type="radio" />
-                    <div class="radioButtonText">Credit Card</div>
-                    <div class="paymentIconList">
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/mobile/v2/visa.png"
-                            alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/mobile/v2/mastercard.png"
-                            alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/maestro.png"
-                            alt="" />
-                    </div>
-                </div>
-                <!-- Debit Card -->
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                    <input class="radioButton" type="radio" />
-                    <div class="radioButtonText">Debit Card</div>
-                    <div class="paymentIconList">
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/mobile/v2/visa.png"
-                            alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/mobile/v2/mastercard.png"
-                            alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/maestro.png"
-                            alt="" />
-                    </div>
-                </div>
-                <!-- Wallets -->
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                    <input class="radioButton" type="radio" />
-                    <div class="radioButtonText">Wallets</div>
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/amazonpay.png" alt="" />
-                </div>
-                <!-- Net Banking -->
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                    <input class="radioButton" type="radio" />
-                    <div class="radioButtonText">Net Banking</div>
-                    <div class="paymentIconList">
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/axis.png" alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/sbi.png" alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/hdfc.png" alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/icici.png" alt="" />
-                        <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/kotak.png" alt="" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="UpiPaymentText">
-            UPI PAYMENT USING PHONEPAY / GPAY / AMAZONPAY ETC...
-        </div>
-        <div class="payment__fullContainer_leftContainer_paymentInstrument">
-            <!-- UPI payment methods -->
-            <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                <input class="radioButton" type="radio" />
-                <div class="radioButtonText">Pay through QR Code</div>
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments_new">New</div>
-                <div class="paymentIconList">
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/gpay.svg" alt="" />
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/phonepe.svg"
-                        alt="" />
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/amazonpay.svg"
-                        alt="" />
-                </div>
-            </div>
-            <!-- Pay through UPI ID -->
-            <div class="payment__fullContainer_leftContainer_eachPaymentInstruments">
-                <input class="radioButton" type="radio" />
-                <div class="radioButtonText">Pay through UPI ID</div>
-                <div class="payment__fullContainer_leftContainer_eachPaymentInstruments_new">New</div>
-                <div class="paymentIconList">
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/gpay.svg" alt="" />
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/phonepe.svg"
-                        alt="" />
-                    <img class="payment_icon_img" src="https://st.redbus.in/paas/images/web/v2/upi/amazonpay.svg"
-                        alt="" />
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="checkout-page-container">
+  <!-- Main Grid: 60% Left Checkout + 40% Right Summary -->
+  <div class="checkout-grid">
     
-  <div class="payment__fullContainer_rightContainer">
+    <!-- LEFT: Payment Options Column (60%) -->
+    <div class="payment-methods-column">
+      <div class="checkout-header">
+        <h1 class="checkout-title">
+          <i class="fa-solid fa-shield-halved text-[var(--brand-primary)] mr-2"></i>
+          Secure Checkout
+        </h1>
+        <p class="checkout-subtitle">Select your preferred payment method to confirm booking</p>
+      </div>
 
-  <!-- CAB BOOKING UI -->
-  <div *ngIf="cabCustomer && cabBooking" class="payment__fullContainer_rightContainer_trip_container">
-    <div class="travel_operator_info">
-      <div class="travel_title">{{ cabBooking.operatorName || 'Cab Operator' }}</div>
-      <div class="travel_specification">{{ cabBooking.cabType }} / {{ cabBooking.tripType }}</div>
-    </div>
+      <!-- Payment Accordion List -->
+      <div class="payment-accordion">
+        
+        <!-- 1. UPI Payment Section -->
+        <div class="payment-method-card" [class.active]="selectedPaymentMethod === 'upi'">
+          <div class="method-header" (click)="selectedPaymentMethod = 'upi'">
+            <div class="method-title-left">
+              <input type="radio" name="payment_method" [checked]="selectedPaymentMethod === 'upi'" />
+              <div class="method-icon-badge upi-badge">
+                <i class="fa-solid fa-bolt text-amber-500"></i>
+              </div>
+              <div>
+                <div class="method-name">UPI (Instant Payment)</div>
+                <div class="method-desc">Google Pay, PhonePe, Paytm, UPI ID & QR Code</div>
+              </div>
+            </div>
+            <div class="method-logos">
+              <span class="upi-tag">Zero Charges</span>
+            </div>
+          </div>
 
-    <div class="line"></div>
+          <div class="method-body" *ngIf="selectedPaymentMethod === 'upi'">
+            <!-- UPI Sub-tabs -->
+            <div class="upi-subtabs">
+              <button type="button" class="upi-tab-btn" [class.active]="upiMethod === 'apps'" (click)="upiMethod = 'apps'">
+                <i class="fa-solid fa-mobile-screen mr-1"></i> UPI Apps
+              </button>
+              <button type="button" class="upi-tab-btn" [class.active]="upiMethod === 'qr'" (click)="upiMethod = 'qr'">
+                <i class="fa-solid fa-qrcode mr-1"></i> QR Code
+              </button>
+              <button type="button" class="upi-tab-btn" [class.active]="upiMethod === 'id'" (click)="upiMethod = 'id'">
+                <i class="fa-solid fa-at mr-1"></i> UPI ID
+              </button>
+            </div>
 
-    <div style="display: flex; justify-content: space-between;">
-      <div style="display: flex; justify-content: space-between; width: 200px;">
-        <!-- Removed mat-icon -->
-        <div style="display: flex; flex-direction: column;">
-          <div class="travel_specification">Booking Date</div>
-          <div style="display: flex; width: 150px;">
-            <div>{{ cabBooking.bookingDate | date: 'yyyy-MM-dd' }}</div>
+            <!-- UPI Apps Grid -->
+            <div *ngIf="upiMethod === 'apps'" class="upi-apps-grid">
+              <div class="upi-app-item" [class.selected]="selectedUpiApp === 'gpay'" (click)="selectedUpiApp = 'gpay'">
+                <div class="app-icon gpay-icon"><i class="fa-brands fa-google"></i></div>
+                <span>Google Pay</span>
+              </div>
+              <div class="upi-app-item" [class.selected]="selectedUpiApp === 'phonepe'" (click)="selectedUpiApp = 'phonepe'">
+                <div class="app-icon phonepe-icon"><i class="fa-solid fa-p"></i></div>
+                <span>PhonePe</span>
+              </div>
+              <div class="upi-app-item" [class.selected]="selectedUpiApp === 'paytm'" (click)="selectedUpiApp = 'paytm'">
+                <div class="app-icon paytm-icon"><i class="fa-solid fa-wallet"></i></div>
+                <span>Paytm UPI</span>
+              </div>
+              <div class="upi-app-item" [class.selected]="selectedUpiApp === 'amazon'" (click)="selectedUpiApp = 'amazon'">
+                <div class="app-icon amazon-icon"><i class="fa-brands fa-amazon"></i></div>
+                <span>Amazon Pay</span>
+              </div>
+            </div>
+
+            <!-- Dynamic QR View -->
+            <div *ngIf="upiMethod === 'qr'" class="upi-qr-box">
+              <div class="qr-placeholder">
+                <i class="fa-solid fa-qrcode text-6xl text-[var(--text-primary)] opacity-80"></i>
+              </div>
+              <p class="qr-instruction">Scan with any UPI App (GPay, PhonePe, Paytm, BHIM) to pay instantly</p>
+              <div class="qr-timer">
+                <i class="fa-regular fa-clock mr-1"></i> QR active for 07:45 mins
+              </div>
+            </div>
+
+            <!-- UPI ID Input -->
+            <div *ngIf="upiMethod === 'id'" class="upi-id-box">
+              <label class="input-label">Enter Virtual Payment Address (VPA / UPI ID)</label>
+              <div class="upi-input-row">
+                <input type="text" [(ngModel)]="upiId" placeholder="e.g. yourname@okhdfcbank" class="form-control" />
+                <button type="button" class="btn-verify" (click)="offerMessage = 'UPI ID Verified'; offerMessageType = 'success'">
+                  Verify
+                </button>
+              </div>
+              <span class="input-hint">A payment request will be sent to your UPI app</span>
+            </div>
           </div>
         </div>
+
+        <!-- 2. Credit & Debit Cards -->
+        <div class="payment-method-card" [class.active]="selectedPaymentMethod === 'card'">
+          <div class="method-header" (click)="selectedPaymentMethod = 'card'">
+            <div class="method-title-left">
+              <input type="radio" name="payment_method" [checked]="selectedPaymentMethod === 'card'" />
+              <div class="method-icon-badge card-badge">
+                <i class="fa-regular fa-credit-card text-blue-500"></i>
+              </div>
+              <div>
+                <div class="method-name">Credit & Debit Cards</div>
+                <div class="method-desc">Visa, MasterCard, RuPay, Maestro</div>
+              </div>
+            </div>
+            <div class="method-logos">
+              <i class="fa-brands fa-cc-visa text-blue-600 text-xl mr-1"></i>
+              <i class="fa-brands fa-cc-mastercard text-red-500 text-xl mr-1"></i>
+              <span class="rupay-text font-bold text-xs text-green-600">RuPay</span>
+            </div>
+          </div>
+
+          <div class="method-body" *ngIf="selectedPaymentMethod === 'card'">
+            <div class="card-form">
+              <div class="form-group">
+                <label class="input-label">Card Number</label>
+                <div class="input-with-icon">
+                  <input type="text" maxlength="19" [value]="cardNumber" (input)="onCardNumberInput($event)" placeholder="4532 •••• •••• 8892" class="form-control" />
+                  <span class="card-brand-indicator">
+                    <i class="fa-brands fa-cc-visa text-blue-600" *ngIf="cardBrand === 'visa'"></i>
+                    <i class="fa-brands fa-cc-mastercard text-red-500" *ngIf="cardBrand === 'mastercard'"></i>
+                    <span class="font-bold text-xs text-green-600" *ngIf="cardBrand === 'rupay'">RuPay</span>
+                    <i class="fa-regular fa-credit-card opacity-40" *ngIf="cardBrand === 'unknown'"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">Cardholder Name</label>
+                <input type="text" [(ngModel)]="cardName" placeholder="Name as printed on card" class="form-control" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group half">
+                  <label class="input-label">Valid Thru</label>
+                  <input type="text" maxlength="5" [(ngModel)]="cardExpiry" placeholder="MM/YY" class="form-control" />
+                </div>
+                <div class="form-group half">
+                  <label class="input-label">CVV / CVC</label>
+                  <input type="password" maxlength="4" [(ngModel)]="cardCvv" placeholder="•••" class="form-control" />
+                </div>
+              </div>
+
+              <div class="card-save-checkbox">
+                <label class="flex items-center gap-2 cursor-pointer text-xs text-[var(--text-secondary)]">
+                  <input type="checkbox" checked />
+                  <span>Securely save card for future journeys as per RBI guidelines</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Net Banking -->
+        <div class="payment-method-card" [class.active]="selectedPaymentMethod === 'netbanking'">
+          <div class="method-header" (click)="selectedPaymentMethod = 'netbanking'">
+            <div class="method-title-left">
+              <input type="radio" name="payment_method" [checked]="selectedPaymentMethod === 'netbanking'" />
+              <div class="method-icon-badge bank-badge">
+                <i class="fa-solid fa-building-columns text-emerald-600"></i>
+              </div>
+              <div>
+                <div class="method-name">Net Banking</div>
+                <div class="method-desc">All Major Indian Banks Supported</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-body" *ngIf="selectedPaymentMethod === 'netbanking'">
+            <label class="input-label mb-2 block">Popular Banks</label>
+            <div class="bank-pill-grid">
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'HDFC'" (click)="selectedBank = 'HDFC'">HDFC</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'SBI'" (click)="selectedBank = 'SBI'">SBI</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'ICICI'" (click)="selectedBank = 'ICICI'">ICICI</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'AXIS'" (click)="selectedBank = 'AXIS'">Axis</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'KOTAK'" (click)="selectedBank = 'KOTAK'">Kotak</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedBank === 'PNB'" (click)="selectedBank = 'PNB'">PNB</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Wallets -->
+        <div class="payment-method-card" [class.active]="selectedPaymentMethod === 'wallet'">
+          <div class="method-header" (click)="selectedPaymentMethod = 'wallet'">
+            <div class="method-title-left">
+              <input type="radio" name="payment_method" [checked]="selectedPaymentMethod === 'wallet'" />
+              <div class="method-icon-badge wallet-badge">
+                <i class="fa-solid fa-wallet text-purple-600"></i>
+              </div>
+              <div>
+                <div class="method-name">Wallets</div>
+                <div class="method-desc">Paytm, Amazon Pay, Mobikwik</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-body" *ngIf="selectedPaymentMethod === 'wallet'">
+            <div class="bank-pill-grid">
+              <button type="button" class="bank-pill" [class.selected]="selectedWallet === 'paytm'" (click)="selectedWallet = 'paytm'">Paytm</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedWallet === 'amazon'" (click)="selectedWallet = 'amazon'">Amazon Pay</button>
+              <button type="button" class="bank-pill" [class.selected]="selectedWallet === 'mobikwik'" (click)="selectedWallet = 'mobikwik'">Mobikwik</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div style="display: flex; flex-direction: column; margin-right: 10px;">
-        <div>Cab Size</div>
-        <div>{{ cabBooking.cabSize }}</div>
-        <!-- ✅ ADDED "Full" below seats -->
-        <div>Full</div>
-      </div>
-    </div>
+      <!-- Single Primary Pay Button in Brand Red -->
+      <div class="payment-action-container">
+        <button type="button" class="btn-pay-now" [disabled]="isProcessing" (click)="makepayment()">
+          <span *ngIf="!isProcessing" class="flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock"></i>
+            <span>Pay ₹{{ getTotalPayable() }} Securely</span>
+          </span>
+          <span *ngIf="isProcessing" class="flex items-center justify-center gap-2">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Processing Booking...</span>
+          </span>
+        </button>
 
-    <div class="line"></div>
-
-    <div style="display: flex; justify-content: space-between;">
-      <div style="display: flex; flex-direction: column;">
-        <div class="travel_specification">From</div>
-        <div>{{ cabBooking.source }}</div>
-        <div>{{ cabBooking.startDateTime | date: 'yyyy-MM-dd' }}</div>
-        <div>{{ formatTime(cabCustomer.pickupTime) }}</div>
-        <div>{{ cabCustomer.pickupCity }}</div> <!-- ✅ Custom pickupTime -->
-      </div>
-
-      <div style="display: flex; flex-direction: column;">
-        <div class="travel_specification">To</div>
-        <div>{{ cabBooking.destination }}</div>
-        <div>{{ cabBooking.endDateTime | date: 'yyyy-MM-dd' }}</div>
-        <!-- ✅ Show dropTime as pickupTime + 5 hours -->
-        <div>{{ calculateDropTime(cabCustomer.pickupTime) }}</div>
-        <div>{{ cabCustomer.dropCity }}</div>
-      </div>
-    </div>
-
-    <div class="passangerInfo">
-      <!-- Removed mat-icon -->
-      <!-- ✅ Displaying name entered in cab booking form -->
-      <div class="passangerName">{{ cabCustomer.name }}</div>
-    </div>
-
-
-  </div>
-
-  <!-- BUS BOOKING UI -->
-  <div *ngIf="!cabCustomer && !cabBooking" class="payment__fullContainer_rightContainer_trip_container">
-    <div class="travel_operator_info">
-      <div class="travel_title">{{ operatorname }}</div>
-      <div class="travel_specification">Seater / A/C / Sleeper</div>
-    </div>
-
-    <div class="line"></div>
-
-    <div style="display: flex; justify-content: space-between;">
-      <div style="display: flex; flex-direction: column;">
-        <div class="travel_specification">Booking Date</div>
-        <div style="display: flex; width: 150px;">
-          <div>{{ bookingdate | date: 'yyyy-MM-dd' }}</div>
+        <!-- Slim Trust Line -->
+        <div class="trust-indicator-line">
+          <i class="fa-solid fa-shield-check text-green-600 mr-1"></i>
+          <span>Secured by 256-bit encryption • PCI-DSS Certified • RBI Compliant</span>
         </div>
       </div>
 
-      <div style="display: flex; flex-direction: column; margin-right: 10px;">
-        <div>Seats Booked</div>
-        <div>{{ passseatarray }}</div>
+    </div>
+
+    <!-- RIGHT: Sticky Order Summary Column (40%) -->
+    <div class="order-summary-column">
+      <div class="summary-card">
+        <div class="summary-header">
+          <h2 class="summary-title">Booking Summary</h2>
+          <span class="trip-tag">{{ isCabBooking ? 'Cab Rental' : 'Bus Journey' }}</span>
+        </div>
+
+        <!-- Cab Details Preview -->
+        <div *ngIf="isCabBooking && cabBooking" class="trip-details-block">
+          <div class="operator-row">
+            <div class="operator-title">{{ cabBooking?.cabSize || cabBooking?.cabType || 'Sedan Cab' }}</div>
+            <div class="trip-type-pill">{{ cabBooking?.tripType || 'One-Way' }}</div>
+          </div>
+          <div class="route-line">
+            <div class="point-group">
+              <span class="point-label">Pickup</span>
+              <span class="point-city">{{ cabBooking?.departure || cabCustomer?.pickupCity || 'Delhi' }}</span>
+              <span class="point-time">{{ formatTime(cabCustomer?.pickupTime) }}</span>
+            </div>
+            <div class="route-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+            <div class="point-group">
+              <span class="point-label">Drop</span>
+              <span class="point-city">{{ cabBooking?.arrival || cabCustomer?.dropCity || 'Jaipur' }}</span>
+              <span class="point-time">{{ calculateDropTime(cabCustomer?.pickupTime) }}</span>
+            </div>
+          </div>
+          <div class="passenger-preview" *ngIf="cabCustomer?.name">
+            <i class="fa-regular fa-user mr-2 text-[var(--text-secondary)]"></i>
+            <span>{{ cabCustomer?.name }} ({{ cabCustomer?.phone || 'Primary Traveler' }})</span>
+          </div>
+        </div>
+
+        <!-- Bus Details Preview -->
+        <div *ngIf="!isCabBooking" class="trip-details-block">
+          <div class="operator-row">
+            <div class="operator-title">{{ operatorname || 'Zingbus Plus' }}</div>
+            <div class="trip-type-pill">A/C Sleeper (2+1)</div>
+          </div>
+          <div class="route-line">
+            <div class="point-group">
+              <span class="point-label">From</span>
+              <span class="point-city">{{ routedetails?.departureLocation?.name || 'Delhi' }}</span>
+              <span class="point-time">{{ busdeparturetime || '21' }}:00 hrs</span>
+            </div>
+            <div class="route-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+            <div class="point-group">
+              <span class="point-label">To</span>
+              <span class="point-city">{{ routedetails?.arrivalLocation?.name || 'Jaipur' }}</span>
+              <span class="point-time">{{ busarrivaltime || '03' }}:00 hrs</span>
+            </div>
+          </div>
+          <div class="passenger-preview">
+            <div class="seats-badges">
+              <span class="seat-badge" *ngFor="let s of passseatarray">Seat {{ s }}</span>
+            </div>
+            <div class="text-xs text-[var(--text-secondary)] mt-1" *ngIf="passengerdetails?.length">
+              {{ passengerdetails[0]?.name }} ({{ passengerdetails[0]?.age }}y, {{ passengerdetails[0]?.gender }})
+            </div>
+          </div>
+        </div>
+
+        <!-- Offer Code Row -->
+        <div class="offer-code-section">
+          <div class="offer-input-row">
+            <input type="text" [(ngModel)]="offerCode" placeholder="Enter Offer Code (TEDFEST)" class="offer-input" />
+            <button type="button" class="btn-apply-offer" (click)="applyOfferCode()">Apply</button>
+          </div>
+          <div *ngIf="offerMessage" class="offer-feedback" [class.success]="offerMessageType === 'success'" [class.error]="offerMessageType === 'error'">
+            {{ offerMessage }}
+          </div>
+        </div>
+
+        <!-- Itemized Transparent Fare Breakdown -->
+        <div class="fare-breakdown-section">
+          <h3 class="fare-heading">Fare Breakdown</h3>
+          <div class="fare-row">
+            <span>Base Fare</span>
+            <span class="font-medium">₹{{ getBaseFare() }}</span>
+          </div>
+          <div class="fare-row">
+            <span>Taxes & GST (5%)</span>
+            <span class="font-medium">₹{{ getTaxes() }}</span>
+          </div>
+          <div class="fare-row" *ngIf="getInsuranceCharge() > 0">
+            <span>Trip Insurance</span>
+            <span class="font-medium">₹{{ getInsuranceCharge() }}</span>
+          </div>
+          <div class="fare-row discount-row" *ngIf="discountAmount > 0">
+            <span>Offer Discount ({{ appliedOffer }})</span>
+            <span class="discount-text">- ₹{{ discountAmount }}</span>
+          </div>
+          <div class="fare-divider"></div>
+          <div class="fare-row total-row">
+            <span>Total Payable</span>
+            <span class="total-amount">₹{{ getTotalPayable() }}</span>
+          </div>
+        </div>
+
+        <!-- Policy Note -->
+        <div class="booking-policy-note">
+          <i class="fa-solid fa-circle-info mr-1 text-[var(--semantic-info)]"></i>
+          <span>Free cancellation available up to 4 hours before departure time.</span>
+        </div>
+
       </div>
     </div>
 
-    <div class="line"></div>
-
-    <div style="display: flex; justify-content: space-between;">
-      <div style="display: flex; flex-direction: column;">
-        <div class="travel_specification">Boarding Point</div>
-        <div>{{ routedetails?.departureLocation?.name }}</div>                
-        <div>{{ bookingdate }}</div>
-        <div>{{ busdeparturetime }}:00</div> 
-      </div>
-
-      <div style="display: flex; flex-direction: column;">
-        <div class="travel_specification">Dropping Point</div>
-        <div>{{ routedetails?.arrivalLocation?.name }}</div> 
-        <div>{{ bookingdate }}</div>
-        <div>{{ busarrivaltime }}:00</div>
-      </div>
-    </div>
-
-    <div class="passangerInfo">
-      <!-- Removed mat-icon -->
-      <div class="passangerName">{{ customerId?.name }}</div>
-    </div>
   </div>
-
-  <!-- COMMON PAYMENT UI -->
-  <div class="payment__fullContainer_rightContainer_fair_container">
-    <div style="display: flex; justify-content: space-between;">
-      <div class="travel_title">FARE BREAKUP</div>
-      <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/down.svg" width="14" height="14" alt="">
-    </div>
-
-    <div style="display: flex; justify-content: space-between; margin-top: 10px;"></div>
-
-    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-      <div class="travel_specification" style="font-weight: bold;">Total Payable</div>
-      <div class="travel_specification" style="font-weight: bold;">
-        <!-- ✅ Fare conditionally based on cab type -->
-        Rs. {{
-          (cabCustomer && cabBooking) ? 
-          getFareBasedOnCabType(cabBooking.cabType) : 
-          passfare
-        }}
-      </div>
-    </div>
-  </div>
-
-  <div style="display: flex; justify-content: space-around; margin-top: 10px; width: 95%;">
-    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/master-card-secure-code.png" alt="">
-    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verified-by-visa.svg" alt="">
-    <img class="payment_banner_icon_img" src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verisign-secured.png" alt="">
-  </div>
-</div>
-
 </div>

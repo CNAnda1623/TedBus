@@ -40,6 +40,93 @@ export class PaymentPage implements OnInit {
   isinsurance: boolean = false;
   bookingdate: string = new Date().toISOString().split('T')[0];
 
+  // Interactive Payment State
+  selectedPaymentMethod: 'upi' | 'card' | 'netbanking' | 'wallet' = 'upi';
+  upiMethod: 'qr' | 'apps' | 'id' = 'apps';
+  upiId: string = '';
+  selectedUpiApp: string = 'gpay';
+  
+  // Card Form
+  cardNumber: string = '';
+  cardName: string = '';
+  cardExpiry: string = '';
+  cardCvv: string = '';
+  cardBrand: 'visa' | 'mastercard' | 'rupay' | 'unknown' = 'unknown';
+
+  // Netbanking & Wallet
+  selectedBank: string = 'HDFC';
+  selectedWallet: string = 'paytm';
+
+  // Offer Code
+  offerCode: string = '';
+  discountAmount: number = 0;
+  appliedOffer: string = '';
+  offerMessage: string = '';
+  offerMessageType: 'success' | 'error' | '' = '';
+
+  // Processing state
+  isProcessing: boolean = false;
+
+  onCardNumberInput(event: any): void {
+    const val = event.target.value.replace(/\D/g, '');
+    this.cardNumber = val.replace(/(\d{4})/g, '$1 ').trim();
+    if (val.startsWith('4')) {
+      this.cardBrand = 'visa';
+    } else if (val.startsWith('5')) {
+      this.cardBrand = 'mastercard';
+    } else if (val.startsWith('6')) {
+      this.cardBrand = 'rupay';
+    } else {
+      this.cardBrand = 'unknown';
+    }
+  }
+
+  applyOfferCode(): void {
+    const code = (this.offerCode || '').trim().toUpperCase();
+    if (!code) {
+      this.offerMessageType = 'error';
+      this.offerMessage = 'Please enter a coupon code';
+      return;
+    }
+
+    if (code === 'TEDFEST' || code === 'SAVE100' || code === 'TED100') {
+      this.discountAmount = 100;
+      this.appliedOffer = code;
+      this.offerMessageType = 'success';
+      this.offerMessage = `🎉 Code ${code} applied successfully! ₹100 discount added.`;
+    } else if (code === 'FIRST50' || code === 'TED50') {
+      this.discountAmount = 50;
+      this.appliedOffer = code;
+      this.offerMessageType = 'success';
+      this.offerMessage = `🎉 Code ${code} applied successfully! ₹50 discount added.`;
+    } else {
+      this.discountAmount = 0;
+      this.appliedOffer = '';
+      this.offerMessageType = 'error';
+      this.offerMessage = `Invalid or expired code "${code}". Try TEDFEST or FIRST50.`;
+    }
+  }
+
+  getBaseFare(): number {
+    if (this.isCabBooking) {
+      return this.cabFare || this.getFareBasedOnCabType(this.cabBooking?.cabType || this.cabBooking?.cabSize);
+    }
+    return Number(this.passfare) || 750;
+  }
+
+  getTaxes(): number {
+    return Math.round(this.getBaseFare() * 0.05); // 5% GST
+  }
+
+  getInsuranceCharge(): number {
+    return this.isinsurance ? (this.passseatarray?.length || 1) * 15 : 0;
+  }
+
+  getTotalPayable(): number {
+    const total = this.getBaseFare() + this.getTaxes() + this.getInsuranceCharge() - this.discountAmount;
+    return Math.max(total, 0);
+  }
+
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -186,6 +273,7 @@ export class PaymentPage implements OnInit {
   }
 
   makeBusPayment(): void {
+    this.isProcessing = true;
     const user = JSON.parse(sessionStorage.getItem("Loggedinuser") || '{}');
     const myBooking: any = {
       customerId: user.sub || user.email || user._id || 'guest_user',
@@ -198,7 +286,7 @@ export class PaymentPage implements OnInit {
         : [{ name: 'Passenger', gender: 'Male', age: 25 }],
       email: this.email || user.email || 'customer@example.com',
       phoneNumber: this.phonenumber || '9876543210',
-      fare: Number(this.passfare) || 750,
+      fare: this.getTotalPayable(),
       status: "upcoming",
       busId: this.busid || '685a1c630be4a79214d264b0',
       seats: (this.passseatarray && this.passseatarray.length > 0)
@@ -225,11 +313,13 @@ export class PaymentPage implements OnInit {
 
     this.busservice.addbusmongo(myBooking).subscribe({
       next: (response: any) => {
+        this.isProcessing = false;
         console.log('✅ Bus booking success', response);
         alert('🎉 Payment successful! Your bus booking has been confirmed and saved to MongoDB.');
         this.router.navigate(['/profile']);
       },
       error: (error: any) => {
+        this.isProcessing = false;
         console.error('❌ Bus booking failed', error);
         alert('Booking submission failed. Please try again.');
       }
@@ -237,12 +327,13 @@ export class PaymentPage implements OnInit {
   }
 
   makeCabPayment(): void {
+    this.isProcessing = true;
     const cabPaymentData = {
       cabCustomerId: this.cabCustomer?._id,
       cabBookingId: this.cabBooking?._id,
       email: this.cabCustomer?.email || 'customer@example.com',
       phoneNumber: this.cabCustomer?.phone || this.cabCustomer?.phoneNumber || '9876543210',
-      fare: this.cabFare || 3500,
+      fare: this.getTotalPayable(),
       status: "confirmed",
       bookingDate: this.bookingdate
     };
@@ -251,11 +342,13 @@ export class PaymentPage implements OnInit {
 
     this.http.post<any>(`${url}api/cab-booking/payment`, cabPaymentData).subscribe({
       next: (res) => {
+        this.isProcessing = false;
         console.log('✅ Cab payment success', res);
         alert('🎉 Payment successful! Your booking has been confirmed and saved to MongoDB.');
         this.router.navigate(['/profile']);
       },
       error: (err) => {
+        this.isProcessing = false;
         console.error('Cab payment error:', err);
         alert('🎉 Payment processed successfully!');
         this.router.navigate(['/profile']);

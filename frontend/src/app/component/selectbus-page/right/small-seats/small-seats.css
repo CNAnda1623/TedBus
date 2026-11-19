@@ -1,3 +1,54 @@
-.main-container{
-    cursor: pointer;
+.seat-tile {
+  width: 36px;
+  height: 34px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border-strong);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.seat-tile:hover:not(.booked) {
+  border-color: var(--brand-primary);
+  background-color: var(--brand-subtle);
+  transform: translateY(-1px);
+}
+
+.seat-tile.selected {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(214, 53, 71, 0.4);
+}
+
+.seat-tile.booked {
+  background-color: var(--surface-sunken);
+  border-color: var(--border-subtle);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.seat-tile.ladies {
+  background-color: var(--seat-female);
+  border-color: #f472b6;
+  color: #be185d;
+}
+
+.check-icon {
+  font-size: 9px;
+  margin-top: 1px;
+}
+
+.booked-icon {
+  font-size: 10px;
 }

@@ -4,9 +4,9 @@
     <div class="search-field from-field" (click)="toggleFromDropdown()">
       <div class="field-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M2 17L12 22L22 17" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M2 12L12 17L22 12" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </div>
       <div class="field-content">
@@ -14,7 +14,7 @@
         <div class="field-value">{{ selectedFrom || 'Select departure city' }}</div>
         <div class="dropdown-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M6 9L12 15L18 9" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
@@ -38,8 +38,8 @@
             [class.selected]="selectedFrom === city">
             <div class="city-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M8 6V4C8 3.45 8.45 3 9 3H15C15.55 3 16 3.45 16 4V6H19C19.55 6 20 6.45 20 7S19.55 8 19 8H5C4.45 8 4 7.55 4 7S4.45 6 5 6H8Z" fill="#666"/>
-                <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9H6V19ZM8 11H16V19H8V11Z" fill="#666"/>
+                <path d="M8 6V4C8 3.45 8.45 3 9 3H15C15.55 3 16 3.45 16 4V6H19C19.55 6 20 6.45 20 7S19.55 8 19 8H5C4.45 8 4 7.55 4 7S4.45 6 5 6H8Z" fill="currentColor"/>
+                <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9H6V19ZM8 11H16V19H8V11Z" fill="currentColor"/>
               </svg>
             </div>
             {{ city }}
@@ -51,10 +51,10 @@
     <!-- Swap Button -->
     <div class="swap-button" (click)="swapCities()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M17 17L22 12L17 7" stroke="white" stroke-width="2" />
-        <path d="M22 12H9" stroke="white" stroke-width="2" />
-        <path d="M7 7L2 12L7 17" stroke="white" stroke-width="2" />
-        <path d="M2 12H15" stroke="white" stroke-width="2" />
+        <path d="M17 17L22 12L17 7" stroke="currentColor" stroke-width="2" />
+        <path d="M22 12H9" stroke="currentColor" stroke-width="2" />
+        <path d="M7 7L2 12L7 17" stroke="currentColor" stroke-width="2" />
+        <path d="M2 12H15" stroke="currentColor" stroke-width="2" />
       </svg>
     </div>
 
@@ -62,8 +62,8 @@
     <div class="search-field to-field" (click)="toggleToDropdown()">
       <div class="field-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" stroke="#666" stroke-width="2" />
-          <circle cx="12" cy="10" r="3" stroke="#666" stroke-width="2" />
+          <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" stroke="currentColor" stroke-width="2" />
+          <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
       <div class="field-content">
@@ -71,7 +71,7 @@
         <div class="field-value">{{ selectedTo || 'Select destination city' }}</div>
         <div class="dropdown-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M6 9L12 15L18 9" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
@@ -95,8 +95,8 @@
             [class.selected]="selectedTo === city">
             <div class="city-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" fill="#666"/>
-                <circle cx="12" cy="10" r="3" fill="white"/>
+                <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 12 1A9 9 0 0 1 21 10Z" fill="currentColor"/>
+                <circle cx="12" cy="10" r="3" fill="var(--surface-card)"/>
               </svg>
             </div>
             {{ city }}
@@ -109,10 +109,10 @@
     <div class="search-field date-field" (click)="toggleCalendar()">
       <div class="field-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="#666" stroke-width="2" />
-          <line x1="16" y1="2" x2="16" y2="6" stroke="#666" stroke-width="2" />
-          <line x1="8" y1="2" x2="8" y2="6" stroke="#666" stroke-width="2" />
-          <line x1="3" y1="10" x2="21" y2="10" stroke="#666" stroke-width="2" />
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" />
+          <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" />
+          <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" />
+          <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
       <div class="field-content">
@@ -120,31 +120,31 @@
         <div class="field-value">{{ selectedDate || 'Select date' }}</div>
         <div class="dropdown-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M6 9L12 15L18 9" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
       
-      <!-- Calendar Dropdown -->
+      <!-- Calendar Dropdown with fixed dimensions and no clipping -->
       <div class="calendar-dropdown" *ngIf="showCalendar" (click)="$event.stopPropagation()">
         <div class="calendar-header">
           <button type="button" class="nav-btn" (click)="previousMonth(); $event.stopPropagation()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18L9 12L15 6" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
           <div class="month-year">
             <button type="button" class="month-select-btn" (click)="toggleMonthPicker(); $event.stopPropagation()">
               {{ monthNames[currentMonth] | uppercase }}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="chevron-icon">
-                <path d="M6 9L12 15L18 9" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
             <span class="year">{{ currentYear }}</span>
           </div>
           <button type="button" class="nav-btn" (click)="nextMonth(); $event.stopPropagation()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M9 18L15 12L9 6" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>
@@ -188,211 +188,234 @@
     </div>
   </div>
 </div>
+
 <!-- Cab Booking Layout -->
-<div class="custom-bus-container">
+<div class="cab-rental-wrapper">
+  <div class="custom-bus-container">
 
-  <!-- Cab Size -->
-<div class="bus-option-box red-box">
-    <h2 class="box-title">Cab Size</h2>
-    <ul class="option-list">
-      <li class="option-item" 
-          [class.selected]="selectedCabType === 'Micro (1–3)'"
-          (click)="selectCabType('Micro (1–3)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Micro (1–3)
-              <span *ngIf="selectedCabType === 'Micro (1–3)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item" 
-          [class.selected]="selectedCabType === 'Sedan (1–4)'"
-          (click)="selectCabType('Sedan (1–4)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Sedan (1–4)
-              <span *ngIf="selectedCabType === 'Sedan (1–4)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item" 
-          [class.selected]="selectedCabType === 'SUV (1–6)'"
-          (click)="selectCabType('SUV (1–6)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">SUV (1–6)
-              <span *ngIf="selectedCabType === 'SUV (1–6)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item" 
-          [class.selected]="selectedCabType === 'Tempo Traveller (7–12)'"
-          (click)="selectCabType('Tempo Traveller (7–12)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Tempo Traveller (7–12)
-              <span *ngIf="selectedCabType === 'Tempo Traveller (7–12)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Trip Type -->
-  <div class="bus-option-box white-box">
-    <h2 class="box-title">Trip Type</h2>
-    <ul class="option-list">
-      <li class="option-item"
-          [class.selected]="selectedTripType === 'One Way'"
-          (click)="selectTripType('One Way')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">One Way
-              <span *ngIf="selectedTripType === 'One Way'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTripType === 'Round Trip'"
-          (click)="selectTripType('Round Trip')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Round Trip
-              <span *ngIf="selectedTripType === 'Round Trip'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTripType === 'No Stops'"
-          (click)="selectTripType('No Stops')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">No Stops
-              <span *ngIf="selectedTripType === 'No Stops'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTripType === 'Select Stops'"
-          (click)="selectTripType('Select Stops')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Select Stops
-              <span *ngIf="selectedTripType === 'Select Stops'" class="tick-icon">✔</span>
-            </div>
-            <select class="stops-dropdown">
-              <option value="">Choose cities...</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="Chennai">Chennai</option>
-              <option value="Kolkata">Kolkata</option>
-            </select>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Facilities -->
-  <div class="bus-option-box white-box">
-    <h2 class="box-title">Facilities</h2>
-    <div class="amenities-container">
-      <div 
-        class="amenity-item"
-        *ngFor="let facility of facilitiesList"
-        (click)="toggleFacility(facility)">
-        <div class="amenity-checkbox" 
-             [class.selected]="selectedFacilities.includes(facility)"></div>
-        <div class="amenity-label">{{ facility }}</div>
+    <!-- Cab Size Card -->
+    <div class="cab-card">
+      <div class="card-header-row">
+        <h2 class="box-title">Cab Size</h2>
+        <span class="step-badge">1 of 4</span>
       </div>
+      <p class="box-subtitle">Choose vehicle capacity based on passengers & bags</p>
+
+      <div class="cab-options-grid">
+        <div class="cab-item" 
+             [class.selected]="selectedCabType === 'Micro (1–3)'"
+             (click)="selectCabType('Micro (1–3)')">
+          <div class="cab-item-main">
+            <div class="cab-item-name">Micro</div>
+            <div class="cab-capacity-tags">
+              <span class="cap-pill"><i class="fa-solid fa-user"></i> 1–3 Seats</span>
+              <span class="cap-pill"><i class="fa-solid fa-suitcase"></i> 1 Medium Bag</span>
+            </div>
+          </div>
+          <div class="cab-item-select">
+            <span class="check-icon" *ngIf="selectedCabType === 'Micro (1–3)'">✔</span>
+            <button type="button" class="select-btn">{{ selectedCabType === 'Micro (1–3)' ? 'Selected' : 'Select' }}</button>
+          </div>
+        </div>
+
+        <div class="cab-item" 
+             [class.selected]="selectedCabType === 'Sedan (1–4)'"
+             (click)="selectCabType('Sedan (1–4)')">
+          <div class="cab-item-main">
+            <div class="cab-item-name">Sedan</div>
+            <div class="cab-capacity-tags">
+              <span class="cap-pill"><i class="fa-solid fa-user"></i> 1–4 Seats</span>
+              <span class="cap-pill"><i class="fa-solid fa-suitcase"></i> 2 Medium Bags</span>
+            </div>
+          </div>
+          <div class="cab-item-select">
+            <span class="check-icon" *ngIf="selectedCabType === 'Sedan (1–4)'">✔</span>
+            <button type="button" class="select-btn">{{ selectedCabType === 'Sedan (1–4)' ? 'Selected' : 'Select' }}</button>
+          </div>
+        </div>
+
+        <div class="cab-item" 
+             [class.selected]="selectedCabType === 'SUV (1–6)'"
+             (click)="selectCabType('SUV (1–6)')">
+          <div class="cab-item-main">
+            <div class="cab-item-name">SUV</div>
+            <div class="cab-capacity-tags">
+              <span class="cap-pill"><i class="fa-solid fa-user"></i> 1–6 Seats</span>
+              <span class="cap-pill"><i class="fa-solid fa-suitcase"></i> 4 Large Bags</span>
+            </div>
+          </div>
+          <div class="cab-item-select">
+            <span class="check-icon" *ngIf="selectedCabType === 'SUV (1–6)'">✔</span>
+            <button type="button" class="select-btn">{{ selectedCabType === 'SUV (1–6)' ? 'Selected' : 'Select' }}</button>
+          </div>
+        </div>
+
+        <div class="cab-item" 
+             [class.selected]="selectedCabType === 'Tempo Traveller (7–12)'"
+             (click)="selectCabType('Tempo Traveller (7–12)')">
+          <div class="cab-item-main">
+            <div class="cab-item-name">Tempo Traveller</div>
+            <div class="cab-capacity-tags">
+              <span class="cap-pill"><i class="fa-solid fa-user"></i> 7–12 Seats</span>
+              <span class="cap-pill"><i class="fa-solid fa-suitcase"></i> 8 Large Bags</span>
+            </div>
+          </div>
+          <div class="cab-item-select">
+            <span class="check-icon" *ngIf="selectedCabType === 'Tempo Traveller (7–12)'">✔</span>
+            <button type="button" class="select-btn">{{ selectedCabType === 'Tempo Traveller (7–12)' ? 'Selected' : 'Select' }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip Type Card -->
+    <div class="cab-card">
+      <div class="card-header-row">
+        <h2 class="box-title">Trip Type</h2>
+        <span class="step-badge">2 of 4</span>
+      </div>
+      <p class="box-subtitle">Select route style and stop preferences</p>
+
+      <ul class="option-list">
+        <li class="option-item"
+            [class.selected]="selectedTripType === 'One Way'"
+            (click)="selectTripType('One Way')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTripType === 'One Way'"></span>
+            <div class="option-label">One Way</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTripType === 'One Way'">✔</span>
+        </li>
+
+        <li class="option-item"
+            [class.selected]="selectedTripType === 'Round Trip'"
+            (click)="selectTripType('Round Trip')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTripType === 'Round Trip'"></span>
+            <div class="option-label">Round Trip</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTripType === 'Round Trip'">✔</span>
+        </li>
+
+        <li class="option-item"
+            [class.selected]="selectedTripType === 'No Stops'"
+            (click)="selectTripType('No Stops')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTripType === 'No Stops'"></span>
+            <div class="option-label">Direct (No Stops)</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTripType === 'No Stops'">✔</span>
+        </li>
+
+        <li class="option-item stops-item"
+            [class.selected]="selectedTripType === 'Select Stops'"
+            (click)="selectTripType('Select Stops')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTripType === 'Select Stops'"></span>
+            <div class="option-label">With Waypoints (Select Stops)</div>
+          </div>
+          <select class="stops-dropdown" (click)="$event.stopPropagation()">
+            <option value="">Choose midway stop...</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+          </select>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Facilities Card -->
+    <div class="cab-card">
+      <div class="card-header-row">
+        <h2 class="box-title">Facilities & Amenities</h2>
+        <span class="step-badge">3 of 4</span>
+      </div>
+      <p class="box-subtitle">Included features and customized comforts</p>
+
+      <div class="amenities-container">
+        <div 
+          class="amenity-item"
+          *ngFor="let facility of facilitiesList"
+          (click)="toggleFacility(facility)">
+          <div class="amenity-checkbox" 
+               [class.selected]="selectedFacilities.includes(facility)">
+            <i class="fa-solid fa-check" *ngIf="selectedFacilities.includes(facility)"></i>
+          </div>
+          <div class="amenity-label">{{ facility }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Preferences Card -->
+    <div class="cab-card">
+      <div class="card-header-row">
+        <h2 class="box-title">Time Preferences</h2>
+        <span class="step-badge">4 of 4</span>
+      </div>
+      <p class="box-subtitle">Ideal pickup window for your journey</p>
+
+      <ul class="option-list">
+        <li class="option-item"
+            [class.selected]="selectedTime === 'After midnight (12am - 6am)'"
+            (click)="selectTime('After midnight (12am - 6am)')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTime === 'After midnight (12am - 6am)'"></span>
+            <div class="option-label">Early Morning (12 AM – 6 AM)</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTime === 'After midnight (12am - 6am)'">✔</span>
+        </li>
+
+        <li class="option-item"
+            [class.selected]="selectedTime === 'Morning (6am - 12pm)'"
+            (click)="selectTime('Morning (6am - 12pm)')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTime === 'Morning (6am - 12pm)'"></span>
+            <div class="option-label">Morning (6 AM – 12 PM)</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTime === 'Morning (6am - 12pm)'">✔</span>
+        </li>
+
+        <li class="option-item"
+            [class.selected]="selectedTime === 'Afternoon (12pm - 6pm)'"
+            (click)="selectTime('Afternoon (12pm - 6pm)')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTime === 'Afternoon (12pm - 6pm)'"></span>
+            <div class="option-label">Afternoon (12 PM – 6 PM)</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTime === 'Afternoon (12pm - 6pm)'">✔</span>
+        </li>
+
+        <li class="option-item"
+            [class.selected]="selectedTime === 'Night (6pm - 12am)'"
+            (click)="selectTime('Night (6pm - 12am)')">
+          <div class="option-left">
+            <span class="radio-indicator" [class.checked]="selectedTime === 'Night (6pm - 12am)'"></span>
+            <div class="option-label">Night (6 PM – 12 AM)</div>
+          </div>
+          <span class="check-icon" *ngIf="selectedTime === 'Night (6pm - 12am)'">✔</span>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <!-- Time Preferences -->
-  <div class="bus-option-box red-box">
-    <h2 class="box-title">Time Preferences</h2>
-    <ul class="option-list">
-      <li class="option-item"
-          [class.selected]="selectedTime === 'After midnight (12am - 6am)'"
-          (click)="selectTime('After midnight (12am - 6am)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">After midnight (12am - 6am)
-              <span *ngIf="selectedTime === 'After midnight (12am - 6am)'" class="tick-icon">✔</span>
-            </div>
-          </div>
+  <!-- Sticky / Bottom Summary Bar -->
+  <div class="sticky-estimate-bar">
+    <div class="estimate-inner">
+      <div class="estimate-left">
+        <span class="fare-tag">ESTIMATED FARE</span>
+        <div class="fare-amount">
+          ₹{{ getEstimatedFare() | number:'1.0-0' }}
+          <span class="fare-note">Taxes & Tolls included</span>
         </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTime === 'Morning (6am - 12pm)'"
-          (click)="selectTime('Morning (6am - 12pm)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Morning (6am - 12pm)
-              <span *ngIf="selectedTime === 'Morning (6am - 12pm)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTime === 'Afternoon (12pm - 6pm)'"
-          (click)="selectTime('Afternoon (12pm - 6pm)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Afternoon (12pm - 6pm)
-              <span *ngIf="selectedTime === 'Afternoon (12pm - 6pm)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-
-      <li class="option-item"
-          [class.selected]="selectedTime === 'Night (6pm - 12am)'"
-          (click)="selectTime('Night (6pm - 12am)')">
-        <div class="option-left">
-          <div class="option-text">
-            <div class="option-label">Night (6pm - 12am)
-              <span *ngIf="selectedTime === 'Night (6pm - 12am)'" class="tick-icon">✔</span>
-            </div>
-          </div>
-        </div>
-        <button class="select-btn">Select</button>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Proceed Button -->
-  <div class="proceed-container">
-    <button class="proceed-btn" (click)="handleCabBookingSubmit()">Proceed</button>
+      </div>
+      <button class="proceed-btn" (click)="handleCabBookingSubmit()">
+        <span>Proceed to Passenger Details</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
   </div>
 </div>
+
 <app-cab-booking-form *ngIf="showCabBookingForm" (close)="showCabBookingForm = false"></app-cab-booking-form>
-
-

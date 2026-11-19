@@ -1,4 +1,4 @@
-import { Component , Input} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../service/data.service';
 
@@ -8,7 +8,7 @@ import { DataService } from '../../../../service/data.service';
   templateUrl: './bus-booking-form.html',
   styleUrl: './bus-booking-form.css'
 })
-export class BusBookingForm {
+export class BusBookingForm implements OnInit {
     @Input() selectedseat:number[]=[]
     @Input() seatprice:number=0
     @Input() routedetails :any
@@ -20,12 +20,30 @@ export class BusBookingForm {
     passemail:string=''
     passphn:string=''
     passisbuisness:boolean=false
-    passinsurance:boolean=false
-    sendupdates:boolean=false
+    passinsurance:boolean=true
+    sendupdates:boolean=true
     passiscovid:boolean=false
+
     constructor(private router:Router, private dataservice:DataService){}
 
+    ngOnInit(): void {
+      const stored = sessionStorage.getItem('Loggedinuser');
+      if (stored) {
+        try {
+          const user = JSON.parse(stored);
+          if (user.email) this.passemail = user.email;
+        } catch (e) {}
+      }
 
+      // Initialize empty passenger records for all selected seats
+      if (this.selectedseat && this.selectedseat.length > 0) {
+        this.selectedseat.forEach((_, idx) => {
+          if (!this.passdetails[idx]) {
+            this.passdetails[idx] = { name: '', age: '', gender: 'Male' };
+          }
+        });
+      }
+    }
 
   handlePassGender(event: Event, index: number): void {
   const target = event.target as HTMLInputElement;

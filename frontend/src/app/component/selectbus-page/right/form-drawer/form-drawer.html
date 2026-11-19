@@ -1,7 +1,16 @@
-<button class="proceedButton" (click)="toggleForm()">Proceed To Book</button>
+<div class="form-drawer-wrapper">
+  <button type="button" class="btn-proceed-to-book" [disabled]="selectedseat.length === 0" (click)="toggleForm()">
+    <span>{{ showForm ? 'Hide Passenger Details' : 'Proceed to Book' }}</span>
+    <i class="fa-solid" [class.fa-angle-up]="showForm" [class.fa-angle-down]="!showForm"></i>
+  </button>
 
-<div *ngIf="showForm" class="form-container" [class.slide-in]="showForm">
+  <div *ngIf="selectedseat.length === 0" class="disabled-reason-hint">
+    Select at least 1 seat to continue
+  </div>
+
+  <div *ngIf="showForm && selectedseat.length > 0" class="inline-passenger-form-drawer">
     <app-bus-booking-form [selectedseat]="selectedseat" [seatprice]="seatprice" [routedetails]="routedetails"
-        [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname">
+      [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname">
     </app-bus-booking-form>
+  </div>
 </div>

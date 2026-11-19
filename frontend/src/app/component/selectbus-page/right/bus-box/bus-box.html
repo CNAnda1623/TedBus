@@ -1,85 +1,252 @@
-<div class="bus-box">
-    <div class="busBoxSection1">
-        <div class="busBoxSection11">
-            <div>{{operatorname}}</div>
-            <div>{{bustypename}}</div>
-        </div>
-        <div class="busBoxSection12">
-            <div>
-                {{busdeparturetime}}:00
-            </div>
-            <div>{{routedetails.departureLocation.name}}</div>
-        </div>
-        <div class="busBoxSection13">
-            <div>
-                {{routedetails.duration}} &nbsp;h
-            </div>
-        </div>
-        <div class="busBoxSection14">
-            <div>
-                {{busarrivaltime}}:00
-            </div>
-            <div>
-                {{routedetails.arrivalLocation.name}}
-            </div>
-        </div>
-        <div class="busBoxSection15">
-            <div>
-                <i class="material-icons">star</i>
-                <div>{{avgrating}}</div>
-            </div>
-            <div><i class="material-icons">people</i>
-                <div>{{totalreview}}</div>
-            </div>
-        </div>
-        <div class="busBoxSection16">
-            <div>
-                <div>INR</div>
-                <div>{{seatprivce}}</div>
-            </div>
-            <div><i class="material-icons">local_offer</i>
-                <div>reDeal applied</div>
-            </div>
-        </div>
-        <div class="busBoxSection17">
-            <div></div>
-            <div>
-                <div>{{40 -filledseats.length}}</div>
-                <div>Seats Available</div>
-            </div>
-            <div>20</div>
-            <div>Window</div>
-        </div>
+<div class="bus-card-container">
+  <!-- Main 3-Zone Card Grid -->
+  <div class="bus-card-main">
+    
+    <!-- Zone 1: Operator & Bus Type (Left) -->
+    <div class="bus-zone-operator">
+      <h3 class="operator-name">{{ operatorname }}</h3>
+      <div class="bus-type-badge">{{ bustypename }}</div>
+      
+      <div class="rating-review-row">
+        <span class="rating-badge" [class.high-rating]="avgrating >= 4.0">
+          <i class="fa-solid fa-star text-xs mr-1"></i>{{ avgrating }}
+        </span>
+        <span class="review-count">({{ totalreview }} reviews)</span>
+      </div>
     </div>
-    <div class="busBoxSection2">
-        <div class="busBoxSection21">
-            <span matTooltip="Charging Point">
-                <i class="material-icons">power</i>
-            </span>
-            <span matTooltip="Movie">
-                <i class="material-icons">movie_filter</i>
-            </span>
-            <span matTooltip="Reading Light">
-                <i class="material-icons">wb_incandescent</i>
-            </span>
-            <span matTooltip="Track My Bus">
-                <i class="material-icons">directions_bus</i>
-            </span>
+
+    <!-- Zone 2: Timeline & Journey (Center) -->
+    <div class="bus-zone-timeline">
+      <div class="time-city-group departure">
+        <span class="journey-time">{{ busdeparturetime < 10 ? '0' + busdeparturetime : busdeparturetime }}:00</span>
+        <span class="journey-city">{{ routedetails?.departureLocation?.name || 'Departure City' }}</span>
+      </div>
+
+      <div class="duration-path">
+        <span class="duration-text">{{ routedetails?.duration || 5 }} hrs</span>
+        <div class="duration-line">
+          <span class="duration-dot start"></span>
+          <span class="duration-bar"></span>
+          <span class="duration-dot end"></span>
         </div>
-        <div class="busBoxSection22">
-            <div *ngIf="livetracking ===1">
-                <i class="material-icons">gps_fixed</i>
-                <span>Live Tracking</span>
-            </div>
-            <div *ngIf="reschedulable === 1">
-                <i class="material-icons">restore</i>
-                <span>Reschedulable</span>
-            </div>
+        <span class="stops-count">Non-stop</span>
+      </div>
+
+      <div class="time-city-group arrival">
+        <span class="journey-time">{{ busarrivaltime < 10 ? '0' + busarrivaltime : busarrivaltime }}:00</span>
+        <span class="journey-city">{{ routedetails?.arrivalLocation?.name || 'Arrival City' }}</span>
+      </div>
+    </div>
+
+    <!-- Zone 3: Price & Primary Action (Right) -->
+    <div class="bus-zone-action">
+      <div class="price-container">
+        <span class="price-currency">INR</span>
+        <span class="price-amount">₹{{ seatprivce }}</span>
+      </div>
+
+      <div class="deal-tag">
+        <i class="fa-solid fa-tag mr-1"></i> reDeal applied
+      </div>
+
+      <div class="seats-left-pill" [class.low-seats]="getSeatsLeft() < 10">
+        <i class="fa-solid fa-fire text-amber-500 mr-1" *ngIf="getSeatsLeft() < 10"></i>
+        <span>{{ getSeatsLeft() }} Seats left</span>
+      </div>
+
+      <button type="button" class="btn-view-seats" (click)="toggleViewSeats()">
+        <span>{{ activeTab === 4 ? 'Hide Seats' : 'View Seats' }}</span>
+        <i class="fa-solid" [class.fa-angle-up]="activeTab === 4" [class.fa-angle-down]="activeTab !== 4"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Bottom Details & Feature Strip -->
+  <div class="bus-card-footer">
+    <!-- Left: Feature Chips & Amenities Icons -->
+    <div class="footer-left-chips">
+      <div class="feature-chip" *ngIf="livetracking === 1">
+        <i class="fa-solid fa-location-crosshairs text-blue-500"></i>
+        <span>Live Tracking</span>
+      </div>
+      <div class="feature-chip" *ngIf="reschedulable === 1">
+        <i class="fa-solid fa-rotate-left text-green-600"></i>
+        <span>Reschedulable</span>
+      </div>
+
+      <div class="amenity-icons-group">
+        <span title="Charging Point"><i class="fa-solid fa-plug text-xs"></i></span>
+        <span title="Free High-Speed WiFi"><i class="fa-solid fa-wifi text-xs"></i></span>
+        <span title="Movie / TV Entertainment"><i class="fa-solid fa-tv text-xs"></i></span>
+        <span title="Complimentary Water Bottle"><i class="fa-solid fa-bottle-water text-xs"></i></span>
+      </div>
+    </div>
+
+    <!-- Right: In-Card Accordion Tabs -->
+    <div class="footer-tabs-group">
+      <button type="button" class="tab-link-btn" [class.active]="activeTab === 0" (click)="toggleTab(0)">
+        Amenities
+      </button>
+      <button type="button" class="tab-link-btn" [class.active]="activeTab === 1" (click)="toggleTab(1)">
+        Boarding & Dropping Points
+      </button>
+      <button type="button" class="tab-link-btn" [class.active]="activeTab === 2" (click)="toggleTab(2)">
+        Reviews
+      </button>
+      <button type="button" class="tab-link-btn" [class.active]="activeTab === 3" (click)="toggleTab(3)">
+        Cancellation Policies
+      </button>
+    </div>
+  </div>
+
+  <!-- In-Card Accordion Panels -->
+  <div class="bus-accordion-content" *ngIf="activeTab !== -1">
+    
+    <!-- Tab 0: Amenities -->
+    <div *ngIf="activeTab === 0" class="tab-panel amenities-panel">
+      <h4 class="panel-heading">Amenities On-Board</h4>
+      <div class="amenities-grid">
+        <div class="amenity-card">
+          <i class="fa-solid fa-plug text-[var(--brand-primary)]"></i>
+          <span>Charging Socket at Every Berth</span>
         </div>
+        <div class="amenity-card">
+          <i class="fa-solid fa-wifi text-[var(--brand-primary)]"></i>
+          <span>Free High-Speed Wi-Fi</span>
+        </div>
+        <div class="amenity-card">
+          <i class="fa-solid fa-bottle-water text-[var(--brand-primary)]"></i>
+          <span>Packaged Drinking Water</span>
+        </div>
+        <div class="amenity-card">
+          <i class="fa-solid fa-blanket text-[var(--brand-primary)]"></i>
+          <span>Clean Sanitized Blanket & Pillow</span>
+        </div>
+        <div class="amenity-card">
+          <i class="fa-solid fa-tv text-[var(--brand-primary)]"></i>
+          <span>Central TV Entertainment</span>
+        </div>
+        <div class="amenity-card">
+          <i class="fa-solid fa-shield-virus text-[var(--brand-primary)]"></i>
+          <span>Hand Sanitizer & First Aid</span>
+        </div>
+      </div>
     </div>
-    <div class="busBoxSection3">
-        <app-bottom-tab [busid]='busid' [filledseats]="filledseats" [seatprice]="seatprivce" [routedetials]="routedetails"
-            [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime"
-            [operatorname]="operatorname"></app-bottom-tab>
+
+    <!-- Tab 1: Boarding & Dropping Points -->
+    <div *ngIf="activeTab === 1" class="tab-panel points-panel">
+      <div class="points-grid">
+        <div class="points-column">
+          <h4 class="panel-heading">Boarding Points ({{ routedetails?.departureLocation?.name }})</h4>
+          <div class="point-item">
+            <span class="point-time-badge">{{ busdeparturetime }}:00</span>
+            <div class="point-details">
+              <span class="point-location">Kashmiri Gate ISBT, Counter 12</span>
+              <span class="point-sub">Near Metro Gate No. 2, Ring Road</span>
+            </div>
+          </div>
+          <div class="point-item">
+            <span class="point-time-badge">{{ (busdeparturetime + 1) % 24 }}:00</span>
+            <div class="point-details">
+              <span class="point-location">Dhaula Kuan, Metro Station</span>
+              <span class="point-sub">Under Flyover, Main Bus Stop</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="points-column">
+          <h4 class="panel-heading">Dropping Points ({{ routedetails?.arrivalLocation?.name }})</h4>
+          <div class="point-item">
+            <span class="point-time-badge">{{ busarrivaltime }}:00</span>
+            <div class="point-details">
+              <span class="point-location">Sindhi Camp Central Bus Stand</span>
+              <span class="point-sub">Platform 4, Main Arrival Terminal</span>
+            </div>
+          </div>
+          <div class="point-item">
+            <span class="point-time-badge">{{ (busarrivaltime + 1) % 24 }}:00</span>
+            <div class="point-details">
+              <span class="point-location">Transport Nagar Entry</span>
+              <span class="point-sub">Near Bypass Toll Gate</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Tab 2: Reviews -->
+    <div *ngIf="activeTab === 2" class="tab-panel reviews-panel">
+      <div class="reviews-summary-header">
+        <div class="overall-score-box">
+          <span class="score-number">{{ avgrating }}</span>
+          <div class="score-stars">
+            <i class="fa-solid fa-star text-amber-400"></i>
+            <i class="fa-solid fa-star text-amber-400"></i>
+            <i class="fa-solid fa-star text-amber-400"></i>
+            <i class="fa-solid fa-star text-amber-400"></i>
+            <i class="fa-solid fa-star-half-stroke text-amber-400"></i>
+          </div>
+          <span class="score-subtitle">Based on {{ totalreview }} verified ratings</span>
+        </div>
+        <div class="review-highlights">
+          <span class="pill-chip active">Punctual (92%)</span>
+          <span class="pill-chip active">Clean Interior (88%)</span>
+          <span class="pill-chip active">Polite Staff (86%)</span>
+        </div>
+      </div>
+
+      <div class="reviews-list">
+        <div class="review-comment">
+          <div class="reviewer-meta">
+            <span class="reviewer-name">Amit S.</span>
+            <span class="reviewer-date">Verified Rider • 3 days ago</span>
+          </div>
+          <p class="reviewer-text">Bus was on time at Kashmiri Gate. Clean blankets and smooth ride with minimal bumps.</p>
+        </div>
+        <div class="review-comment">
+          <div class="reviewer-meta">
+            <span class="reviewer-name">Neha K.</span>
+            <span class="reviewer-date">Verified Rider • 1 week ago</span>
+          </div>
+          <p class="reviewer-text">Live tracking worked accurately. Reached destination 15 minutes before scheduled time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Cancellation Policies -->
+    <div *ngIf="activeTab === 3" class="tab-panel policies-panel">
+      <h4 class="panel-heading">Cancellation & Refund Timeline</h4>
+      <div class="policies-table">
+        <div class="policy-row header">
+          <span>Cancellation Time</span>
+          <span>Refund Percentage</span>
+          <span>Penalty Fee</span>
+        </div>
+        <div class="policy-row">
+          <span>Before 24 hours of departure</span>
+          <span class="text-green-600 font-bold">90% Refund</span>
+          <span>10% fee</span>
+        </div>
+        <div class="policy-row">
+          <span>Between 12 to 24 hours of departure</span>
+          <span class="text-amber-600 font-bold">50% Refund</span>
+          <span>50% fee</span>
+        </div>
+        <div class="policy-row">
+          <span>Within 12 hours of departure</span>
+          <span class="text-red-600 font-bold">0% Refund</span>
+          <span>Non-refundable</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Interactive View Seats -->
+    <div *ngIf="activeTab === 4" class="tab-panel seats-panel">
+      <app-view-seats [filledseats]="filledseats" [seatprice]="seatprivce" [routedetails]="routedetails" [busid]="busid"
+        [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname"></app-view-seats>
+    </div>
+
+  </div>
+
 </div>

@@ -1,66 +1,92 @@
-<div class="left">
-    <div class="left_filters">
-        <p>Filters</p>
-        <ul>
-            <li (click)="handlelivetrackingclick()">
-                <div class="first-section">
-                    <mat-icon>
-                        gps_fixed
-                    </mat-icon>
-                    <span>Live Tracking</span>
-                    <mat-icon *ngIf="sidefiltervalues.livetracking"
-                        style="color: green;">check_circle_outline</mat-icon>
-                </div>
-            </li>
-            <li (click)="handlerescheduleclick()">
-                <div class="first-section">
-                    <mat-icon>restore</mat-icon>
-                    <span>Reschedulable</span>
-                    <mat-icon *ngIf="sidefiltervalues.reschedulable"
-                        style="color: green;">check_circle_outline</mat-icon>
-                </div>
-            </li>
-        </ul>
+<div class="filters-sidebar">
+  <div class="filters-header">
+    <div class="header-title">
+      <mat-icon class="filter-icon">tune</mat-icon>
+      <span class="title-text">Filters</span>
+      <span *ngIf="getActiveFilterCount() > 0" class="active-badge">{{ getActiveFilterCount() }}</span>
     </div>
-    
-    <div class="left_filters">
-        <p>DEPARTURE TIME</p>
-        <ul>
-            <li *ngFor="let key of getobjectkey(sidefiltervalues.departuretime)" class="first-section">
-            <input type="checkbox" [name]="key" [checked]="sidefiltervalues.departuretime[key]" (change)="handledeparturetimeclick($event,key)">
-            <mat-icon>av_timer</mat-icon>
-            <span>{{key}}</span>
-            </li>
-        </ul>
-    </div>
-    <div class="left_filters">
-        <p>BUS TYPES</p>
-        <ul>
-            <li *ngFor="let key of getobjectkey(sidefiltervalues.bustype)" class="first-section">
-            <input type="checkbox" [name]="key" [checked]="sidefiltervalues.bustype[key]" (change)="handlebustypeclick($event,key)">
-            <mat-icon>airline_seat_legroom_extra</mat-icon>
-            <span>{{key}}</span>
-            </li>
-        </ul>
-    </div>
-    <div class="left_filters">
-        <p>ARRIVAL TIME</p>
-        <ul>
-            <li *ngFor="let key of getobjectkey(sidefiltervalues.arrivaltime)" class="first-section">
-            <input type="checkbox" [name]="key" [checked]="sidefiltervalues.arrivaltime[key]" (change)="handlearivaltimeclick($event,key)">
-            <mat-icon>av_timer</mat-icon>
-            <span>{{key}}</span>
-            </li>
-        </ul>
-    </div>
-    <div class="left_filters">
-        <p>AMENITIES</p>
-        <ul>
-            <li *ngFor="let key of getobjectkey(sidefiltervalues.amenities)" class="first-section">
-            <mat-icon>{{amenityIcon[key]}}</mat-icon>
-            <span>{{key}}</span>
-            </li>
-        </ul>
+    <button *ngIf="getActiveFilterCount() > 0" class="clear-btn" (click)="clearAll()">
+      Clear All
+    </button>
+  </div>
+
+  <!-- Popular / Quick Features -->
+  <div class="filter-group">
+    <div class="group-title">QUICK PREFERENCES</div>
+    <div class="toggle-card" [class.active]="sidefiltervalues.livetracking" (click)="handlelivetrackingclick()">
+      <div class="toggle-left">
+        <mat-icon class="icon">gps_fixed</mat-icon>
+        <span class="label">Live Tracking</span>
+      </div>
+      <div class="toggle-switch">
+        <span class="switch-ball"></span>
+      </div>
     </div>
 
+    <div class="toggle-card" [class.active]="sidefiltervalues.reschedulable" (click)="handlerescheduleclick()">
+      <div class="toggle-left">
+        <mat-icon class="icon">update</mat-icon>
+        <span class="label">Reschedulable</span>
+      </div>
+      <div class="toggle-switch">
+        <span class="switch-ball"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Departure Time -->
+  <div class="filter-group">
+    <div class="group-title">DEPARTURE TIME</div>
+    <div class="options-list">
+      <label *ngFor="let key of getobjectkey(sidefiltervalues.departuretime)" class="checkbox-option" [class.selected]="sidefiltervalues.departuretime[key]">
+        <input type="checkbox" [checked]="sidefiltervalues.departuretime[key]" (change)="handledeparturetimeclick($event, key)">
+        <mat-icon class="option-icon">{{ timeIcons[key] || 'schedule' }}</mat-icon>
+        <span class="option-label">{{ getLabel(key) }}</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Bus Types -->
+  <div class="filter-group">
+    <div class="group-title">BUS TYPE</div>
+    <div class="options-list">
+      <label *ngFor="let key of getobjectkey(sidefiltervalues.bustype)" class="checkbox-option" [class.selected]="sidefiltervalues.bustype[key]">
+        <input type="checkbox" [checked]="sidefiltervalues.bustype[key]" (change)="handlebustypeclick($event, key)">
+        <mat-icon class="option-icon">directions_bus</mat-icon>
+        <span class="option-label">{{ getLabel(key) }}</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Arrival Time -->
+  <div class="filter-group">
+    <div class="group-title">ARRIVAL TIME</div>
+    <div class="options-list">
+      <label *ngFor="let key of getobjectkey(sidefiltervalues.arrivaltime)" class="checkbox-option" [class.selected]="sidefiltervalues.arrivaltime[key]">
+        <input type="checkbox" [checked]="sidefiltervalues.arrivaltime[key]" (change)="handlearivaltimeclick($event, key)">
+        <mat-icon class="option-icon">{{ timeIcons[key] || 'schedule' }}</mat-icon>
+        <span class="option-label">{{ getLabel(key) }}</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Amenities -->
+  <div class="filter-group">
+    <div class="group-title">AMENITIES</div>
+    <div class="options-list">
+      <label *ngFor="let key of getobjectkey(sidefiltervalues.amenities)" class="checkbox-option" [class.selected]="sidefiltervalues.amenities[key]">
+        <input type="checkbox" [checked]="sidefiltervalues.amenities[key]" (change)="handleamenityclick($event, key)">
+        <i [class]="amenityIcons[key] || 'fa-solid fa-check'" class="option-fa-icon"></i>
+        <span class="option-label">{{ getLabel(key) }}</span>
+      </label>
+    </div>
+  </div>
 </div>

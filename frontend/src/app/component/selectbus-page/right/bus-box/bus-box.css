@@ -1,239 +1,517 @@
-* {
-    box-sizing: border-box;
+/* ===========================================
+   3-ZONE BUS CARD DESIGN (CSS TOKENS)
+   =========================================== */
+
+.bus-card-container {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.bus-card-container:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+/* Main 3-Zone Card Layout */
+.bus-card-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 20px;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .bus-card-main {
+    grid-template-columns: 1.2fr 1.6fr 1fr;
+    gap: 20px;
   }
-  .bus-box {
-    width: 100%;
-    min-height: 180px;
-    height: auto;
-    border: 1px solid #ddd;
-    margin-top: 20px;
-    padding: 10px 0 0;
-    color: #4a4a4a;
-    /* font-family: Montserrat; */
-    font-size: 14px;
-    font-weight: 400;
-    padding: 10px;
+}
+
+/* Zone 1: Operator Details */
+.bus-zone-operator {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.operator-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.bus-type-badge {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.rating-review-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #4b5563;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.rating-badge.high-rating {
+  background-color: var(--semantic-success);
+}
+
+.review-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Zone 2: Timeline */
+.bus-zone-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.time-city-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-city-group.arrival {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.journey-time {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.journey-city {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.duration-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 0 16px;
+}
+
+.duration-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.duration-line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.duration-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--border-strong);
+}
+
+.duration-bar {
+  flex: 1;
+  height: 2px;
+  background-color: var(--border-strong);
+}
+
+.stops-count {
+  font-size: 11px;
+  color: var(--text-disabled);
+  margin-top: 4px;
+}
+
+/* Zone 3: Price & Action */
+.bus-zone-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+@media (min-width: 768px) {
+  .bus-zone-action {
+    align-items: flex-end;
+    text-align: right;
   }
-  
-  .bus-box:hover {
-    box-shadow: 0 16px 30px 1px rgb(0 0 0 / 10%);
-    transition: 1s;
-  }
-  
-  .bus-box > * {
-    width: 100%;
-    /* border: 1px solid red; */
-  }
-  
-  /* bus section 1 */
-  .busBoxSection1 {
-    height: 40%;
-    margin-bottom: 1%;
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  
-  
-  .busBoxSection1 > div {
-    height: 100%;
-  }
-  
-  .busBoxSection11 {
-    width: 25%;
-  }
-  
-  .busBoxSection11 > div:nth-child(1) {
-    color: #3e3e52;
-    line-height: 24px;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  
-  .busBoxSection11 > div:nth-child(2) {
-    color: #7e7e8c;
-    margin-top: 12px;
-    font-size: 12px;
-  }
-  
-  .busBoxSection12 {
-    width: 10%;
-  }
-  
-  .busBoxSection12 > div:nth-child(1) {
-    color: #3e3e52;
-    line-height: 24px;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  
-  .busBoxSection12 > div:nth-child(2) {
-    color: #7e7e8c;
-    margin-top: 12px;
-    font-size: 12px;
-  }
-  
-  .busBoxSection13 {
-    width: 10%;
-  }
-  
-  .busBoxSection13 > div {
-    font-size: 14px;
-    font-weight: 400;
-  }
-  
-  .busBoxSection14 {
-    width: 14%;
-  }
-  
-  .busBoxSection14 > div:nth-child(1) {
-    color: #3e3e52;
-    line-height: 24px;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  
-  .busBoxSection14 > div:nth-child(2) {
-    color: #7e7e8c;
-    margin-top: 12px;
-    font-size: 12px;
-  }
-  
-  .busBoxSection15 {
-    width: 10%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  
-  .busBoxSection15 > div {
-    width: 45px;
-    height: 25px;
-    display: flex;
-    justify-content: space-around;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.price-currency {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.price-amount {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.deal-tag {
+  font-size: 11px;
+  color: var(--semantic-success);
+  font-weight: 600;
+  background-color: rgba(15, 139, 84, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.seats-left-pill {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.seats-left-pill.low-seats {
+  color: var(--semantic-warning);
+  font-weight: 700;
+}
+
+.btn-view-seats {
+  margin-top: 6px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  background-color: var(--brand-primary);
+  color: white;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-view-seats:hover {
+  background-color: var(--brand-hover);
+  transform: translateY(-1px);
+}
+
+/* Footer Strip */
+.bus-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: var(--surface-sunken);
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (min-width: 768px) {
+  .bus-card-footer {
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
   }
-  
-  .busBoxSection15 > :nth-child(1) {
-    background-color: #62c18b;
-    color: white;
-    font-weight: 100;
-    border-radius: 4px;
-    margin-bottom: 3px;
+}
+
+.footer-left-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.amenity-icons-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  padding-left: 8px;
+  border-left: 1px solid var(--border-strong);
+}
+
+.amenity-icons-group span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-tabs-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tab-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.tab-link-btn:hover, .tab-link-btn.active {
+  color: var(--brand-primary);
+  font-weight: 600;
+}
+
+.tab-link-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--brand-primary);
+}
+
+/* In-Card Accordion Content Panel */
+.bus-accordion-content {
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  animation: fadeIn 200ms ease-out;
+}
+
+.tab-panel {
+  padding: 24px;
+}
+
+.panel-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+}
+
+/* Amenities Panel Grid */
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .amenities-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .busBoxSection15 > :nth-child(1) > :nth-child(1) {
-    font-size: 17px;
+}
+
+.amenity-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-sunken);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Boarding / Dropping Points */
+.points-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .points-grid {
+    grid-template-columns: 1fr 1fr;
   }
-  
-  .busBoxSection15 > :nth-child(1) > :nth-child(2) {
-    font-size: 12px;
-  }
-  
-  .busBoxSection15 > :nth-child(2) > :nth-child(1) {
-    font-size: 17px;
-    margin-left: 5px;
-  }
-  
-  .busBoxSection15 > :nth-child(2) > :nth-child(2) {
-    font-size: 12px;
-  }
-  
-  .busBoxSection16 {
-    width: 15%;
-  }
-  
-  .busBoxSection16 > div:nth-child(1) {
-    width: 90%;
-    height: 17px;
-    color: #7e7e8c;
-    display: flex;
-    justify-content: flex-start;
-    font-size: 15px;
-  }
-  
-  .busBoxSection16 > div:nth-child(1) > div:nth-child(2) {
-    color: #3e3e52;
-    font-weight: 700;
-    margin-left: 7px;
-  }
-  
-  .busBoxSection16 > div:nth-child(2) {
-    width: 90%;
-    color: #7e7e8c;
-    font-size: 12px;
-    margin-top: 7px;
-    display: flex;
-    justify-content: flex-start;
-  }
-  
-  .busBoxSection16 > div:nth-child(2) > :nth-child(1) {
-    color: red;
-    font-size: 15px;
-  }
-  
-  .busBoxSection16 > div:nth-child(2) > div:nth-child(2) {
-    margin-left: 7px;
-  }
-  
-  .busBoxSection17 {
-    width: 15%;
-  }
-  
-  .busBoxSection17 > div:nth-child(1) {
-    height: 4px;
-    width: 72px;
-    border-radius: 3px;
-    background-color: red;
-  }
-  
-  .busBoxSection17 > div:nth-child(2),
-  .busBoxSection17 > div:nth-child(3) {
-    margin-top: 7px;
-    display: flex;
-    color: #7b7b7b;
-  }
-  
-  .busBoxSection17 > div:nth-child(2) > div:nth-child(1),
-  .busBoxSection17 > div:nth-child(3) > div:nth-child(1) {
-    margin-right: 4px;
-    font-weight: 500;
-    color: black;
-  }
-  
-  /* bus box section 2 */
-  
-  .busBoxSection2 {
-    height: 16%;
-    margin-bottom: 1%;
-    display: flex;
-  }
-  
-  .busBoxSection21 {
-    width: 160px;
-    height: 100%;
-  }
-  
-  .busBoxSection22 {
-    width: auto;
-    display: flex;
-  }
-  
-  .busBoxSection22 > div {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-right: 10px;
-    border-radius: 3px;
-    background-color: #f8f4f4;
-    padding: 2.5px 8px;
-    font-size: 10px;
-  }
-  
-  /* Bus box section 3 */
-  
-  .busBoxSection3 {
-    min-height:45%;
-    height: auto;
-  }
+}
+
+.points-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.point-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: var(--surface-sunken);
+}
+
+.point-time-badge {
+  background-color: var(--brand-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.point-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.point-location {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.point-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Reviews Panel */
+.reviews-summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 16px;
+}
+
+.overall-score-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-number {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--semantic-success);
+}
+
+.score-stars {
+  font-size: 13px;
+}
+
+.score-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.review-highlights {
+  display: flex;
+  gap: 8px;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-comment {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--surface-sunken);
+}
+
+.reviewer-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.reviewer-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.reviewer-date {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.reviewer-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Policies Panel Table */
+.policies-table {
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.policy-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.policy-row:last-child {
+  border-bottom: none;
+}
+
+.policy-row.header {
+  background-color: var(--surface-sunken);
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,18 +1,23 @@
-<div class="security-container">
-    <mat-icon style="font-size: 20px; padding-bottom: 10px;">security</mat-icon>
-    <div>All bus ratings include safety as a major factor</div>
+<div class="sorting-container">
+  <div class="results-meta">
+    <span class="count-pill">{{ busCount }} buses</span>
+    <span class="route-label" *ngIf="departure && arrival">
+      {{ departure }} <mat-icon class="arrow-icon">arrow_forward</mat-icon> {{ arrival }}
+    </span>
   </div>
-  <mat-divider></mat-divider>
-  <div class="main-container">
-    <div class="main-container1">
-      <div>BUSES LIST</div>
-      <div>SORT BY :</div>
+
+  <div class="sort-segmented-control">
+    <span class="sort-label">SORT BY:</span>
+    <div class="segment-group">
+      <button 
+        *ngFor="let opt of sortOptions"
+        type="button"
+        class="segment-btn"
+        [class.active]="activeSort === opt.key"
+        (click)="selectSort(opt.key)">
+        <mat-icon class="opt-icon">{{ opt.icon }}</mat-icon>
+        <span>{{ opt.label }}</span>
+      </button>
     </div>
-    <div class="main-container2" >Departure</div>
-    <div class="main-container3" >Duration</div>
-    <div class="main-container4" >Arrivals</div>
-    <div class="main-container5" >Ratings</div>
-    <div class="main-container6">Fare</div>
-    <div class="main-container7">Seats Available</div>
   </div>
-  
+</div>

@@ -1,343 +1,354 @@
-<section
-    class="h-[32rem] bg-main-color bg-[url('assets/hero-img.png')] bg-center  bg-no-repeat bg-cover flex justify-center">
-    <div class="flex flex-col items-center w-full max-w-[1400px]">
-        <h1 class="text-2xl mx-4 md:text-[2rem] text-white font-bold mt-16 mb-4 text-center">India's No. 1 Online Bus
-            Ticket Booking Site</h1>
+<!-- Hero Search Section -->
+<section class="hero-section">
+  <div class="hero-container">
+    <h1 class="hero-title">India's No. 1 Online Bus & Cab Booking Platform</h1>
+    <p class="hero-subtitle">Fast, secure bookings with real-time tracking and verified bus operators</p>
 
-        <!-- travel search section sharts here -->
-        <div
-            class="w-[90%] sm:w-[80%] lg:h-24 mt-4 bg-white cursor-pointer relative bottom-7 sm:bottom-0 flex flex-col lg:flex-row rounded-3xl overflow-hidden hover:drop-shadow-lg">
-            <!-- travel search left side  -->
-            <div class="h-full flex flex-col sm:flex-row items-center justify-center lg:w-1/2">
-                <div class="h-full border-b sm:border-r border-gray-300 w-full md:w-[50%] sm:w-auto">
-                    <div class="px-7 py-8 flex items-center h-full gap-3">
-                        <i class="fa-solid fa-bus-simple text-gray-500 text-2xl"></i>
-                        <input class="outline-none w-full" type="text" name="" id="" placeholder="From"
-                            [matMenuTriggerFor]="menu" [(ngModel)]="fromoption">
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="fromEvent('Delhi')">Delhi</button>
-                            <button mat-menu-item (click)="fromEvent('Mumbai')">Mumbai</button>
-                            <button mat-menu-item (click)="fromEvent('Bangalore')">Bangalore</button>
-                            <button mat-menu-item (click)="fromEvent('Kolkata')">Kolkata</button>
-                            <button mat-menu-item (click)="fromEvent('Chennai')">Chennai</button>
-                        </mat-menu>
-                    </div>
-                </div>
-                <div class="w-10 h-10 bg-white rounded-full  grid place-content-center absolute border border-gray-300">
-                    <i class="fa-solid fa-arrows-turn-to-dots text-gray-500 text-xl"></i>
-                </div>
-                <div class="h-full border-b sm:border-r border-gray-300 w-full md:w-[50%] sm:w-auto">
-                    <div class="px-7 py-8 flex items-center h-full gap-3">
-                        <i class="fa-solid fa-person-walking-luggage text-gray-500 text-2xl"></i>
-                        <input class="outline-none w-full" type="text" name="" id="" placeholder="To"
-                            [matMenuTriggerFor]="menu2" [(ngModel)]="tooption">
-                        <mat-menu #menu2="matMenu">
-                            <button mat-menu-item (click)="toEvent('Jaipur')">Jaipur</button>
-                            <button mat-menu-item (click)="toEvent('Goa')">Goa</button>
-                            <button mat-menu-item (click)="toEvent('Mysore')">Mysore</button>
-                            <button mat-menu-item (click)="toEvent('Darjeeling')">Darjeeling</button>
-                            <button mat-menu-item (click)="toEvent('Pondicherry')">Pondicherry</button>
-                        </mat-menu>
-                    </div>
-                </div>
-            </div>
-            <!-- travel search right section  -->
-            <div class="flex bg-white flex-col sm:flex-row lg:w-1/2">
-                <div class="h-full border-b sm:border-r border-gray-300 sm:w-1/2 w-full">
-                    <div class="px-7 py-8 flex items-center h-full gap-3 group relative pr-12 cursor-pointer" (click)="picker.open()">
-
-                        <i class="fa-solid fa-calendar-days text-gray-500 text-2xl"></i>
-                        <input matInput class="outline-none opacity-0 scale-[3] h-14 w-[30px] absolute left-14 z-10 cursor-pointer"
-                            placeholder="Date" [matDatepicker]="picker"
-                            (dateChange)="matchDate($event)">
-                        <p [ngClass]="(date && date !== 'null') ? 'text-black font-semibold' : 'text-gray-400'">{{ (date && date !== 'null') ? date : 'Date' }}</p>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </div>
-                </div>
-                <button
-                    class=" px-7 py-8 flex items-center justify-center bg-red-400 whitespace-nowrap text-white font-bold w-full sm:w-1/2 text-center"
-                    (click)="submit()">
-                    SEARCH BUSES
-                </button>
-            </div>
-
+    <!-- Travel search bar -->
+    <div class="search-box">
+      <!-- From Field -->
+      <div class="search-cell" [matMenuTriggerFor]="fromMenu">
+        <i class="fa-solid fa-bus-simple cell-icon"></i>
+        <div class="cell-text">
+          <label class="cell-label">From</label>
+          <input class="cell-input" type="text" placeholder="Departure City" [(ngModel)]="fromoption" readonly>
         </div>
-        <!-- travel search section ends here -->
-    </div>
-</section>
-<!-- -------------------------- hero section ends here ---------------------------  -->
+        <mat-menu #fromMenu="matMenu">
+          <button mat-menu-item (click)="fromEvent('Delhi')">Delhi</button>
+          <button mat-menu-item (click)="fromEvent('Mumbai')">Mumbai</button>
+          <button mat-menu-item (click)="fromEvent('Bangalore')">Bangalore</button>
+          <button mat-menu-item (click)="fromEvent('Kolkata')">Kolkata</button>
+          <button mat-menu-item (click)="fromEvent('Chennai')">Chennai</button>
+        </mat-menu>
+      </div>
 
+      <!-- Swap Pin -->
+      <div class="swap-pin" (click)="fromoption && tooption ? selectPopularRoute(tooption, fromoption) : null">
+        <i class="fa-solid fa-arrows-turn-to-dots"></i>
+      </div>
 
-
-
-
-<!-- ------------------------------- offers section starts here -------------------- -->
-<section class="flex relative md:bottom-[150px] mb-20 mt-10 md:my-0 justify-center">
-    <div class="flex flex-col items-center w-full max-w-[1400px] py-6 pb-0">
-        <div class="w-full md:w-[83%] md:p-8 flex flex-col gap-6 bg-white md:rounded-3xl md:drop-shadow-xl">
-            <div class="flex justify-between px-4 md:px-0">
-                <h2 class="text-xl md:text-3xl text-gray-600">TRENDING OFFERS</h2>
-                <button
-                    class="text-blue-600 py-1 font-semibold text-base  px-4 rounded-full border border-gray-500 hover:shadow-lg">View
-                    All</button>
-            </div>
-            <div class="flex text-white gap-6 overflow-auto pl-4 md:pl-0">
-
-                <!-- offer card one  -->
-                <div
-                    class="h-36 w-64 rounded-xl bg-gradient-to-r from-blue-800 to-blue-500 flex p-3 cursor-pointer flex-shrink-0">
-                    <div class="h-full grid place-content-center px-2">
-                        <img class="rounded-full w-24" src="./assets/offer1.png" alt="">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs px-1 py-[1px] bg-[#ffffff4c] rounded-full w-10 grid place-content-center">BUS
-                        </p>
-                        <h3 class="font-bold text-base leading-5">Save up to Rs 250 on bus tickets</h3>
-                        <p class="text-xs">Valid till 30 Nov</p>
-                        <div class="flex gap-3 items-center">
-                            <p
-                                class="grid place-content-center bg-[#ffffff4c] h-6 font-semibold px-2 rounded-sm border border-dashed border-white text-xs">
-                                FIRST</p>
-                            <i class="fa-regular fa-copy text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- offer card two  -->
-                <div
-                    class="h-36 w-64 rounded-xl bg-gradient-to-r from-red-800 to-red-500 flex p-3 cursor-pointer flex-shrink-0">
-                    <div class="h-full grid place-content-center px-2">
-                        <img class="rounded-full w-24" src="./assets/offer2.png" alt="">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs px-1 py-[1px] bg-[#ffffff4c] rounded-full w-10 grid place-content-center">BUS
-                        </p>
-                        <h3 class="font-bold text-base leading-5">Save up to Rs 300 on AP, TS routes</h3>
-                        <p class="text-xs">Valid till 30 Nov</p>
-                        <div class="flex gap-3 items-center">
-                            <p
-                                class="grid place-content-center bg-[#ffffff4c] h-6 font-semibold px-2 rounded-sm border border-dashed border-white text-xs">
-                                SUPERHIT</p>
-                            <i class="fa-regular fa-copy text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- offer card three  -->
-                <div
-                    class="h-36 w-64 rounded-xl bg-gradient-to-r from-green-800 to-green-500 flex p-3 cursor-pointer flex-shrink-0">
-                    <div class="h-full grid place-content-center px-2">
-                        <img class="rounded-full w-24" src="./assets/offer3.png" alt="">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs px-1 py-[1px] bg-[#ffffff4c] rounded-full w-10 grid place-content-center">BUS
-                        </p>
-                        <h3 class="font-bold text-base leading-5">Save up to Rs 300 on RJ,MH, Goa, MP,</h3>
-                        <p class="text-xs">Valid till 30 Nov</p>
-                        <div class="flex gap-3 items-center">
-                            <p
-                                class="grid place-content-center bg-[#ffffff4c] h-6 font-semibold px-2 rounded-sm border border-dashed border-white text-xs">
-                                BUS300</p>
-                            <i class="fa-regular fa-copy text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- offer card four  -->
-                <div
-                    class="h-36 w-64 rounded-xl bg-gradient-to-r from-sky-800 to-sky-500 flex p-3 cursor-pointer flex-shrink-0">
-                    <div class="h-full grid place-content-center px-2">
-                        <img class="rounded-full w-24" src="./assets/offer4.png" alt="">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs px-1 py-[1px] bg-[#ffffff4c] rounded-full w-10 grid place-content-center">BUS
-                        </p>
-                        <h3 class="font-bold text-base leading-5">Save up to Rs 200 in Kerala routes.</h3>
-                        <p class="text-xs">Valid till 30 Nov</p>
-                        <div class="flex gap-3 items-center">
-                            <p
-                                class="grid place-content-center bg-[#ffffff4c] h-6 font-semibold px-2 rounded-sm border border-dashed border-white text-xs">
-                                RBTRIP</p>
-                            <i class="fa-regular fa-copy text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- To Field -->
+      <div class="search-cell" [matMenuTriggerFor]="toMenu">
+        <i class="fa-solid fa-location-dot cell-icon"></i>
+        <div class="cell-text">
+          <label class="cell-label">To</label>
+          <input class="cell-input" type="text" placeholder="Destination City" [(ngModel)]="tooption" readonly>
         </div>
+        <mat-menu #toMenu="matMenu">
+          <button mat-menu-item (click)="toEvent('Jaipur')">Jaipur</button>
+          <button mat-menu-item (click)="toEvent('Goa')">Goa</button>
+          <button mat-menu-item (click)="toEvent('Mysore')">Mysore</button>
+          <button mat-menu-item (click)="toEvent('Darjeeling')">Darjeeling</button>
+          <button mat-menu-item (click)="toEvent('Pondicherry')">Pondicherry</button>
+        </mat-menu>
+      </div>
+
+      <!-- Date Field -->
+      <div class="search-cell date-cell" (click)="picker.open()">
+        <i class="fa-solid fa-calendar-days cell-icon"></i>
+        <div class="cell-text">
+          <label class="cell-label">Date of Journey</label>
+          <span class="cell-date-val" [class.has-date]="date && date !== 'null'">
+            {{ (date && date !== 'null') ? date : 'Select Date' }}
+          </span>
+        </div>
+        <input matInput class="hidden-date-input" [matDatepicker]="picker" (dateChange)="matchDate($event)">
+        <mat-datepicker #picker></mat-datepicker>
+      </div>
+
+      <!-- Submit CTA -->
+      <button class="search-cta-btn" (click)="submit()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>SEARCH BUSES</span>
+      </button>
     </div>
+  </div>
 </section>
 
-
-
-<section class="flex justify-center  my-20 md:my-40">
-    <div class="flex flex-col w-full px-6 md:px-0 md:w-[80%] max-w-[1300px]">
-        <h1 class="text-gray-700 text-2xl md:text-[2.5rem] mb-6 md:mb-12">FREQUENTY ASKED QUESTIONS</h1>
-
-        <!-- faq navigation buttons starts here  -->
-        <div class="flex gap-6 text-sm md:text-base lg:text-lg">
-            <a class="py-2 px-2 border-b-[3px] border-main-color text-main-color" href="">General</a>
-            <a class="py-2 px-2 hover:border-b-[3px] border-gray-300" href="">Ticket-related</a>
-            <a href=""
-                class=" leading-none flex justify-center items-center gap-3 py-2 px-2 hover:border-b-[3px] border-gray-300 sm:hidden">More
-                <i class="fa-solid fa-chevron-right"></i></a>
-            <a class="hidden sm:inline-block py-2 px-2 hover:border-b-[3px] border-gray-300" href="">Payment</a>
-            <a class="hidden sm:inline-block py-2 px-2 hover:border-b-[3px] border-gray-300" href="">Cancellation &
-                Refund</a>
-            <a class="hidden sm:inline-block py-2 px-2 hover:border-b-[3px] border-gray-300" href="">Insurance</a>
+<!-- Trending Offers Section -->
+<section class="offers-section">
+  <div class="section-container">
+    <div class="offers-wrapper">
+      <div class="offers-header">
+        <div class="offers-title-group">
+          <span class="eyebrow">EXCLUSIVE DEALS</span>
+          <h2 class="section-title">Trending Travel Offers</h2>
         </div>
-        <!-- faq navigation buttons starts here  -->
+        <button class="view-all-btn">View All Offers</button>
+      </div>
 
-        <!-- faq ans stats here  -->
-        <div class="flex flex-col gap-6 md:gap-10 mt-11">
-
-            <!-- 1st faq  -->
-            <div class="p-4 md:p-7 cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>Can I track the location of my booked bus online?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
+      <div class="offers-carousel">
+        <!-- Offer 1 -->
+        <div class="offer-card bg-gradient-blue">
+          <div class="offer-left">
+            <img class="offer-img" src="./assets/offer1.png" alt="Discount">
+          </div>
+          <div class="offer-right">
+            <span class="offer-tag">BUS</span>
+            <h3 class="offer-name">Save up to ₹250 on first ticket</h3>
+            <p class="offer-validity">Valid till 30 Nov</p>
+            <div class="coupon-pill">
+              <span class="code">FIRST</span>
+              <i class="fa-regular fa-copy"></i>
             </div>
-            <!-- 1st faq ends here  -->
-
-
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>Why book bus tickets online on tedbus?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>Do I need to create an account on the tedbus site to book my bus ticket?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>Does bus booking online cost me more?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>How can I get the discounts on the bus booking?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>What's New in Bus Booking on tedbus?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
-            <div
-                class="p-4 md:p-7  cursor-pointer bg-white group hover:bg-slate-100 rounded-2xl border border-gray-100">
-                <!-- displayed part  -->
-                <div class="flex md:text-base text-sm justify-between items-center font-semibold gap-2">
-                    <h3>Can I book a Government bus ticket on tedbus?</h3>
-                    <i class="fa-solid fa-plus inline-block group-hover:hidden"></i>
-                    <i class="fa-solid fa-minus hidden group-hover:inline-block"></i>
-                </div>
-
-                <!-- hidden content -->
-                <div class="text-xs md:text-sm mt-6 hidden group-hover:inline-block">
-                    <p>Yes, you can track your <strong>bus online</strong> by using our bus tracking app feature called
-                        <a class="text-blue-500">Track My Bus</a>. This feature allows passengers and their families to
-                        track the live bus tracking location. You may follow your bus on a map and use the information
-                        to plan your trip to the boarding point and to get off at the correct stop. Family and friends
-                        may also check the bus position to plan pick-ups and ensure your safety.</p>
-                </div>
-            </div>
-
-
+          </div>
         </div>
-        <!-- faq ans ends here  -->
 
+        <!-- Offer 2 -->
+        <div class="offer-card bg-gradient-red">
+          <div class="offer-left">
+            <img class="offer-img" src="./assets/offer2.png" alt="Superhit">
+          </div>
+          <div class="offer-right">
+            <span class="offer-tag">BUS</span>
+            <h3 class="offer-name">Save up to ₹300 on AP & TS routes</h3>
+            <p class="offer-validity">Valid till 30 Nov</p>
+            <div class="coupon-pill">
+              <span class="code">SUPERHIT</span>
+              <i class="fa-regular fa-copy"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offer 3 -->
+        <div class="offer-card bg-gradient-green">
+          <div class="offer-left">
+            <img class="offer-img" src="./assets/offer3.png" alt="Regional">
+          </div>
+          <div class="offer-right">
+            <span class="offer-tag">REGIONAL</span>
+            <h3 class="offer-name">Flat 15% off on RJ, Goa, MH routes</h3>
+            <p class="offer-validity">Valid till 30 Nov</p>
+            <div class="coupon-pill">
+              <span class="code">BUS300</span>
+              <i class="fa-regular fa-copy"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offer 4 -->
+        <div class="offer-card bg-gradient-sky">
+          <div class="offer-left">
+            <img class="offer-img" src="./assets/offer4.png" alt="Weekend">
+          </div>
+          <div class="offer-right">
+            <span class="offer-tag">WEEKEND</span>
+            <h3 class="offer-name">Get ₹200 off on South India tours</h3>
+            <p class="offer-validity">Valid till 30 Nov</p>
+            <div class="coupon-pill">
+              <span class="code">RBTRIP</span>
+              <i class="fa-regular fa-copy"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- Popular Corridors Section (Bridges the 180px gap) -->
+<section class="corridors-section">
+  <div class="section-container">
+    <div class="corridors-header">
+      <span class="eyebrow">TOP TRAVEL ROUTES</span>
+      <h2 class="section-title">Popular Bus Routes</h2>
+      <p class="section-subtitle">Click any route to instantly pre-fill your journey and check schedules</p>
+    </div>
+
+    <div class="corridors-grid">
+      <!-- Route 1 -->
+      <div class="corridor-card" (click)="selectPopularRoute('Delhi', 'Jaipur')">
+        <div class="corridor-top">
+          <div class="cities">
+            <span class="from">Delhi</span>
+            <i class="fa-solid fa-arrow-right route-arrow"></i>
+            <span class="to">Jaipur</span>
+          </div>
+          <span class="fare-pill">From ₹450</span>
+        </div>
+        <div class="corridor-bottom">
+          <span class="meta"><i class="fa-solid fa-clock"></i> 5h 30m</span>
+          <span class="meta"><i class="fa-solid fa-bus"></i> 42 daily buses</span>
+        </div>
+      </div>
+
+      <!-- Route 2 -->
+      <div class="corridor-card" (click)="selectPopularRoute('Mumbai', 'Goa')">
+        <div class="corridor-top">
+          <div class="cities">
+            <span class="from">Mumbai</span>
+            <i class="fa-solid fa-arrow-right route-arrow"></i>
+            <span class="to">Goa</span>
+          </div>
+          <span class="fare-pill">From ₹750</span>
+        </div>
+        <div class="corridor-bottom">
+          <span class="meta"><i class="fa-solid fa-clock"></i> 11h 00m</span>
+          <span class="meta"><i class="fa-solid fa-bus"></i> 28 daily buses</span>
+        </div>
+      </div>
+
+      <!-- Route 3 -->
+      <div class="corridor-card" (click)="selectPopularRoute('Bangalore', 'Mysore')">
+        <div class="corridor-top">
+          <div class="cities">
+            <span class="from">Bangalore</span>
+            <i class="fa-solid fa-arrow-right route-arrow"></i>
+            <span class="to">Mysore</span>
+          </div>
+          <span class="fare-pill">From ₹280</span>
+        </div>
+        <div class="corridor-bottom">
+          <span class="meta"><i class="fa-solid fa-clock"></i> 3h 15m</span>
+          <span class="meta"><i class="fa-solid fa-bus"></i> 65 daily buses</span>
+        </div>
+      </div>
+
+      <!-- Route 4 -->
+      <div class="corridor-card" (click)="selectPopularRoute('Kolkata', 'Darjeeling')">
+        <div class="corridor-top">
+          <div class="cities">
+            <span class="from">Kolkata</span>
+            <i class="fa-solid fa-arrow-right route-arrow"></i>
+            <span class="to">Darjeeling</span>
+          </div>
+          <span class="fare-pill">From ₹650</span>
+        </div>
+        <div class="corridor-bottom">
+          <span class="meta"><i class="fa-solid fa-clock"></i> 12h 00m</span>
+          <span class="meta"><i class="fa-solid fa-bus"></i> 18 daily buses</span>
+        </div>
+      </div>
+
+      <!-- Route 5 -->
+      <div class="corridor-card" (click)="selectPopularRoute('Chennai', 'Pondicherry')">
+        <div class="corridor-top">
+          <div class="cities">
+            <span class="from">Chennai</span>
+            <i class="fa-solid fa-arrow-right route-arrow"></i>
+            <span class="to">Pondicherry</span>
+          </div>
+          <span class="fare-pill">From ₹220</span>
+        </div>
+        <div class="corridor-bottom">
+          <span class="meta"><i class="fa-solid fa-clock"></i> 3h 30m</span>
+          <span class="meta"><i class="fa-solid fa-bus"></i> 50 daily buses</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- "Why TedBus" Value Strip -->
+<section class="value-strip-section">
+  <div class="section-container">
+    <div class="value-strip-grid">
+      <div class="value-item">
+        <div class="value-icon-box">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+        <div class="value-text">
+          <h4 class="value-title">Live Bus Tracking</h4>
+          <p class="value-desc">Track your bus location in real time with precise GPS updates</p>
+        </div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon-box">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+        <div class="value-text">
+          <h4 class="value-title">Easy Rescheduling</h4>
+          <p class="value-desc">Change your journey date up to 8 hours before departure with zero hassle</p>
+        </div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon-box">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <div class="value-text">
+          <h4 class="value-title">24/7 Dedicated Support</h4>
+          <p class="value-desc">Round-the-clock customer assistance across live chat and hotline</p>
+        </div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon-box">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="value-text">
+          <h4 class="value-title">Verified Safe Buses</h4>
+          <p class="value-desc">Sanitized vehicles, polite drivers, and audited safety standards</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+  <div class="section-container">
+    <div class="faq-header">
+      <span class="eyebrow">HAVE QUESTIONS?</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-accordion-list">
+      <!-- FAQ 1 -->
+      <details class="faq-item" open>
+        <summary class="faq-question">
+          <span>Can I track the live location of my bus?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </summary>
+        <div class="faq-answer">
+          <p>Yes! Look for buses marked with the <strong>Live Tracking</strong> badge on the search results page. Once booked, you'll receive a live GPS tracking link via SMS and email, and you can also track it directly inside your account.</p>
+        </div>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>What is TedBus Reschedulable ticket feature?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </summary>
+        <div class="faq-answer">
+          <p>Buses with the <strong>Reschedulable</strong> tag allow you to alter your travel date or time up to 8 hours before scheduled departure without incurring heavy cancellation fees.</p>
+        </div>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>What payment methods are supported on TedBus?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </summary>
+        <div class="faq-answer">
+          <p>We support all major payment modes including instant UPI (Google Pay, PhonePe, Paytm, BHIM, QR scan), Credit & Debit cards (Visa, MasterCard, RuPay), Net Banking for over 40+ banks, and digital wallets.</p>
+        </div>
+      </details>
+
+      <!-- FAQ 4 -->
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Can I charter an entire bus for private groups or events?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </summary>
+        <div class="faq-answer">
+          <p>Yes, use our <strong>Custom Busses</strong> option directly from the search bar or header to hire sanitized, air-conditioned buses for weddings, corporate tours, and pilgrim groups with custom pickup points.</p>
+        </div>
+      </details>
+
+      <!-- FAQ 5 -->
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>How do I get discounts on my bus bookings?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </summary>
+        <div class="faq-answer">
+          <p>First-time users can use code <strong>FIRST</strong> or <strong>FIRST50</strong> for instant discounts. For festival and seasonal savings, check our Trending Offers strip or use code <strong>TEDFEST</strong> on checkout.</p>
+        </div>
+      </details>
+    </div>
+  </div>
 </section>

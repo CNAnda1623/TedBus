@@ -1,68 +1,53 @@
-.proceedButton {
-    width: 100%;
-    height: 40px;
-    padding: 6px 39px 7px;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 400;
-    overflow: hidden;
-    position: relative;
-    text-decoration: none;
-    border: none;
-    text-align: center;
-    background-color: #d84e55;
-    color: #fff;
-    margin-top: 30px;
-    cursor: pointer;
+.form-drawer-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.form-container {
-    width: 100%;
-    margin-top: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-height: 600px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-    z-index: 1000;
-    animation: slideInFromRight 0.4s ease-out;
-    transform-origin: right center;
+.btn-proceed-to-book {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
 }
 
-.form-container::-webkit-scrollbar {
-    width: 12px;
+.btn-proceed-to-book:hover:not(:disabled) {
+  background-color: var(--brand-hover);
+  transform: translateY(-1px);
 }
 
-.form-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 6px;
+.btn-proceed-to-book:disabled {
+  background-color: var(--border-subtle);
+  color: var(--text-disabled);
+  cursor: not-allowed;
 }
 
-.form-container::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 6px;
-    border: 2px solid #f1f1f1;
+.disabled-reason-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
 }
 
-.form-container::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-.form-container::-webkit-scrollbar-thumb:active {
-    background: #8a8a8a;
-}
-
-@keyframes slideInFromRight {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.inline-passenger-form-drawer {
+  width: 100%;
+  margin-top: 12px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 200ms ease-out;
 }

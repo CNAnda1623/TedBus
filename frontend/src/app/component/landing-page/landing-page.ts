@@ -21,6 +21,20 @@ export class LandingPage {
   toEvent(option:string){
     this.tooption=option;
   }
+  selectPopularRoute(from: string, to: string) {
+    this.fromoption = from;
+    this.tooption = to;
+    if (!this.date || this.date === 'null') {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const day = tomorrow.getDate().toString().padStart(2, '0');
+      const month = (tomorrow.getMonth() + 1).toString().padStart(2, '0');
+      const year = tomorrow.getFullYear().toString().substr(-2);
+      this.date = `${day}/${month}/${year}`;
+    }
+    // smooth scroll to top search bar
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   matchDate(event:any){
     if(event.value){
       const date = new Date(event.value);
