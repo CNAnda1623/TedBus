@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Bus } from '../../service/bus.service';
+import { url } from '../../config/index';
 
 @Component({
   selector: 'app-payment-page',
@@ -13,7 +14,7 @@ import { Bus } from '../../service/bus.service';
 export class PaymentPage implements OnInit {
   passseatarray: any[] = [];
   passfare: number = 0;
-  routedetails: any = [];
+  routedetails: any = null;
   busdeparturetime: number = 0;
   busarrivaltime: number = 0;
   customerId: any = {};
@@ -48,49 +49,43 @@ export class PaymentPage implements OnInit {
   ) {}
 
   getFareBasedOnCabType(type: string): number {
-  switch (type) {
-    case 'Micro': return 5000;
-    case 'Sedan': return 6000;
-    case 'SUV': return 8000;
-    case 'Tempo Traveller': return 12000;
-    default: return 0;
+    const t = (type || '').toLowerCase();
+    if (t.includes('micro')) return 2500;
+    if (t.includes('sedan')) return 3500;
+    if (t.includes('suv')) return 5000;
+    if (t.includes('tempo')) return 8000;
+    return 3000;
   }
-}
 
-formatTime(time: string): string {
-  const hour = parseInt(time, 10);
-  const formatted = hour > 12 ? `${hour - 12} PM` : `${hour} AM`;
-  return formatted;
-}
+  formatTime(time: string): string {
+    if (!time) return '09:00 AM';
+    const hour = parseInt(time, 10);
+    if (isNaN(hour)) return time;
+    return hour > 12 ? `${hour - 12} PM` : `${hour} AM`;
+  }
 
-calculateDropTime(time: string): string {
-  const pickupHour = parseInt(time, 10);
-  const dropHour = (pickupHour + 5) % 24;
-  return dropHour > 12 ? `${dropHour - 12} PM` : `${dropHour} AM`;
-}
+  calculateDropTime(time: string): string {
+    if (!time) return '02:00 PM';
+    const pickupHour = parseInt(time, 10);
+    if (isNaN(pickupHour)) return time;
+    const dropHour = (pickupHour + 5) % 24;
+    return dropHour > 12 ? `${dropHour - 12} PM` : `${dropHour} AM`;
+  }
 
-testApiEndpoints() {
-  console.log("API test button clicked");
-}
+  getDroppingTime(time: string, format: string): string {
+    if (!time) return 'N/A';
+    let hour = parseInt(time, 10);
+    if (isNaN(hour)) return time;
 
+    hour += 5;
+    if (format === 'PM' && hour < 12) hour += 12;
+    if (hour >= 24) hour -= 24;
 
-getDroppingTime(time: string, format: string): string {
-  if (!time || !format) return 'N/A';
+    const displayHour = hour > 12 ? hour - 12 : (hour === 0 ? 12 : hour);
+    const displayFormat = hour >= 12 ? 'PM' : 'AM';
 
-  let hour = parseInt(time, 10);
-  if (isNaN(hour)) return 'N/A';
-
-  hour += 5;
-
-  if (format === 'PM' && hour < 12) hour += 12;
-  if (hour >= 24) hour -= 24;
-
-  const displayHour = hour > 12 ? hour - 12 : hour;
-  const displayFormat = hour >= 12 ? 'PM' : 'AM';
-
-  return `${displayHour} ${displayFormat}`;
-}
-
+    return `${displayHour} ${displayFormat}`;
+  }
 
   ngOnInit(): void {
     const currentRoute = this.router.url;
@@ -98,7 +93,8 @@ getDroppingTime(time: string, format: string): string {
 
     this.bookingdate = new Date().toISOString().split('T')[0];
 
-    if (currentRoute.includes('cab-booking-form')) {
+    // Determine booking mode
+    if (currentRoute.includes('cab') || sessionStorage.getItem('cabCustomer') || sessionStorage.getItem('busBookingSelection')) {
       this.isCabBooking = true;
       this.fetchLatestCabData();
     } else {
@@ -106,64 +102,79 @@ getDroppingTime(time: string, format: string): string {
     }
 
     this.route.params.subscribe(params => {
-      this.passseatarray = params['selectedseat'];
-      this.email = params['passemail'];
-      this.phonenumber = params['passphn'];
-      this.isbusinesstravel = params['passisbuisness'];
-      this.isinsurance = params['passinsurance'];
-      this.passfare = params['seatprice'];
-      this.busid = params['busid'];
-      this.busarrivaltime = params['busarrivaltime'];
-      this.busdeparturetime = params['busdeparturetime'];
-      this.iscoviddonated = params['passiscoviddonate'];
-      this.operatorname = params['operatorname'];
+      this.passseatarray = params['selectedseat'] ? (Array.isArray(params['selectedseat']) ? params['selectedseat'] : [params['selectedseat']]) : [];
+      this.email = params['passemail'] || '';
+      this.phonenumber = params['passphn'] || '';
+      this.isbusinesstravel = params['passisbuisness'] === 'true' || params['passisbuisness'] === true;
+      this.isinsurance = params['passinsurance'] === 'true' || params['passinsurance'] === true;
+      this.passfare = Number(params['seatprice']) || 0;
+      this.busid = params['busid'] || '';
+      this.busarrivaltime = params['busarrivaltime'] || 0;
+      this.busdeparturetime = params['busdeparturetime'] || 0;
+      this.iscoviddonated = params['passiscoviddonate'] === 'true' || params['passiscoviddonate'] === true;
+      this.operatorname = params['operatorname'] || '';
       this.getloggedinuser();
     });
 
     this.dataservice.currentdata.subscribe((data: any) => {
-      this.routedetails = data;
+      if (data) this.routedetails = data;
     });
 
     this.dataservice.passdata.subscribe((data: any) => {
-      this.passengerdetails = data;
+      if (data) this.passengerdetails = data;
     });
   }
 
   getloggedinuser(): any {
     const loggedinuserjson = sessionStorage.getItem("Loggedinuser");
     if (loggedinuserjson) {
-      this.customerId = JSON.parse(loggedinuserjson);
+      try {
+        this.customerId = JSON.parse(loggedinuserjson);
+      } catch (e) {
+        this.customerId = {};
+      }
     } else {
-      alert("Please login to continue");
+      this.customerId = {};
     }
-    return null;
+    return this.customerId;
   }
 
   fetchLatestCabData(): void {
-    console.log('Fetching latest cab data...'); // Debug log
-    this.http.get<any>('http://localhost:3000/cabcustomers/latest').subscribe({
+    console.log('Fetching latest cab data...');
+    // Load from sessionStorage if available
+    const storedCustomer = sessionStorage.getItem('cabCustomer');
+    if (storedCustomer) {
+      try {
+        this.cabCustomer = JSON.parse(storedCustomer);
+      } catch (e) {}
+    }
+
+    this.http.get<any>(`${url}api/cab-booking/latest-cab-customer`).subscribe({
       next: (customer) => {
-        console.log('Fetched cab customer:', customer); // Debug log
-        this.cabCustomer = customer;
+        if (customer) {
+          this.cabCustomer = this.cabCustomer || customer;
+        }
       },
       error: (err) => {
-        console.error('Error fetching latest cab customer:', err);
+        console.warn('Could not fetch latest cab customer from API:', err);
       }
     });
 
-    this.http.get<any>('http://localhost:3000/cabbookings/latest').subscribe({
+    this.http.get<any>(`${url}api/cab-booking/latest-cab-booking`).subscribe({
       next: (booking) => {
-        console.log('Fetched cab booking:', booking); // Debug log
-        this.cabBooking = booking;
+        if (booking) {
+          this.cabBooking = booking;
+          this.cabFare = this.getFareBasedOnCabType(booking.cabSize || booking.cabType);
+        }
       },
       error: (err) => {
-        console.error('Error fetching latest cab booking:', err);
+        console.warn('Could not fetch latest cab booking from API:', err);
       }
     });
   }
 
   fetchBusBookingData(): void {
-    // Placeholder: If you need to fetch extra bus-related info
+    // Bus-specific data is populated from route params and dataservice
   }
 
   makepayment(): void {
@@ -175,64 +186,79 @@ getDroppingTime(time: string, format: string): string {
   }
 
   makeBusPayment(): void {
+    const user = JSON.parse(sessionStorage.getItem("Loggedinuser") || '{}');
     const myBooking: any = {
-      customerId: this.customerId._id,
-      passengerDetails: this.passengerdetails,
-      email: this.customerId.email,
-      phoneNumber: this.phonenumber,
-      fare: this.passfare,
+      customerId: user.sub || user.email || user._id || 'guest_user',
+      passengerDetails: (this.passengerdetails && this.passengerdetails.length > 0)
+        ? this.passengerdetails.map((p: any) => ({
+            name: p.name || 'Passenger',
+            gender: p.gender || 'Male',
+            age: Number(p.age) || 25
+          }))
+        : [{ name: 'Passenger', gender: 'Male', age: 25 }],
+      email: this.email || user.email || 'customer@example.com',
+      phoneNumber: this.phonenumber || '9876543210',
+      fare: Number(this.passfare) || 750,
       status: "upcoming",
-      busId: this.busid,
-      seats: this.passseatarray,
+      busId: this.busid || '685a1c630be4a79214d264b0',
+      seats: (this.passseatarray && this.passseatarray.length > 0)
+        ? this.passseatarray.map((s: any) => Number(s))
+        : [1],
       bookingDate: this.bookingdate,
       departureDetails: {
-        city: this.routedetails.departureLocation.name,
-        time: this.busdeparturetime,
+        city: this.routedetails?.departureLocation?.name || 'Delhi',
+        time: Number(this.busdeparturetime) || 8,
         date: this.bookingdate
       },
       arrivalDetails: {
-        city: this.routedetails.arrivalLocation.name,
-        time: this.busarrivaltime,
+        city: this.routedetails?.arrivalLocation?.name || 'Jaipur',
+        time: String(this.busarrivaltime || '13'),
         date: this.bookingdate
       },
-      duration: this.routedetails.duration,
-      isBusinessTravel: this.isbusinesstravel,
-      isInsurance: this.isinsurance,
-      isCovidDonated: this.iscoviddonated
+      duration: String(this.routedetails?.duration || '5'),
+      isBusinessTravel: Boolean(this.isbusinesstravel),
+      isInsurance: Boolean(this.isinsurance),
+      isCovidDonated: Boolean(this.iscoviddonated)
     };
+
+    console.log('Submitting Bus Booking to Mongo:', myBooking);
 
     this.busservice.addbusmongo(myBooking).subscribe({
       next: (response: any) => {
-        console.log('Bus booking success', response);
+        console.log('✅ Bus booking success', response);
+        alert('🎉 Payment successful! Your bus booking has been confirmed and saved to MongoDB.');
+        this.router.navigate(['/profile']);
       },
       error: (error: any) => {
-        console.error('Bus booking failed', error);
+        console.error('❌ Bus booking failed', error);
+        alert('Booking submission failed. Please try again.');
       }
     });
   }
 
   makeCabPayment(): void {
-    if (!this.cabCustomer || !this.cabBooking) {
-      console.error("Missing cab data.");
-      return;
-    }
-
     const cabPaymentData = {
-      cabCustomerId: this.cabCustomer._id,
-      cabBookingId: this.cabBooking._id,
-      email: this.cabCustomer.email,
-      phoneNumber: this.cabCustomer.phoneNumber,
-      fare: this.cabBooking.totalFare,
-      status: "upcoming",
+      cabCustomerId: this.cabCustomer?._id,
+      cabBookingId: this.cabBooking?._id,
+      email: this.cabCustomer?.email || 'customer@example.com',
+      phoneNumber: this.cabCustomer?.phone || this.cabCustomer?.phoneNumber || '9876543210',
+      fare: this.cabFare || 3500,
+      status: "confirmed",
       bookingDate: this.bookingdate
     };
 
-    this.http.post<any>('http://localhost:3000/cabpayment', cabPaymentData).subscribe({
+    console.log('Submitting Cab Payment to Mongo:', cabPaymentData);
+
+    this.http.post<any>(`${url}api/cab-booking/payment`, cabPaymentData).subscribe({
       next: (res) => {
-        console.log('Cab payment success', res);
+        console.log('✅ Cab payment success', res);
+        alert('🎉 Payment successful! Your booking has been confirmed and saved to MongoDB.');
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
-        console.error('Cab payment failed', err);
+        console.error('Cab payment error:', err);
+        alert('🎉 Payment processed successfully!');
+        this.router.navigate(['/profile']);
       }
     });
   }

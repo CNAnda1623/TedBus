@@ -172,27 +172,7 @@
       <div class="passangerName">{{ cabCustomer.name }}</div>
     </div>
 
-    <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; font-size: 12px;">
-                <strong>Debug Info:</strong><br>
-                Route: {{ router.url }}<br>
-                Is Cab Booking: {{ isCabBooking }}<br>
-                Cab Customer Loaded: {{ !!cabCustomer }}<br>
-                Cab Booking Loaded: {{ !!cabBooking }}<br>
-                Cab Type: {{ cabBooking?.cabType }}<br>
-                Pickup Time: {{ cabCustomer?.pickupTime }} ({{ typeof cabCustomer?.pickupTime }})<br>
-                Calculated Fare: {{ getFareBasedOnCabType(cabBooking?.cabType) }}<br>
-                <button (click)="testApiEndpoints()" style="margin-top: 10px; padding: 5px 10px;">Test API Endpoints</button><br>
-                <button (click)="fetchLatestCabData()" style="margin-top: 5px; padding: 5px 10px;">Refresh Cab Data</button>
-                <br><br>
-                <details>
-                    <summary>Raw Customer Data</summary>
-                    <pre>{{ cabCustomer | json }}</pre>
-                </details>
-                <details>
-                    <summary>Raw Booking Data</summary>
-                    <pre>{{ cabBooking | json }}</pre>
-                </details>
-    </div>
+
   </div>
 
   <!-- BUS BOOKING UI -->

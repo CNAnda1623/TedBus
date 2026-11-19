@@ -6,15 +6,20 @@ const communityPostSchema = new mongoose.Schema({
   city: String,
   story: String,
   tips: String,
-  photos: [String], // this is where image URLs will be saved
+  photos: [String], // image URLs
   author: { type: String, default: 'Anonymous' },
-  timestamp: { type: Date, default: Date.now }, // when the post is created
+  posterName: { type: String, default: 'Anonymous' },
+  posterPhoto: { type: String, default: '' },
+  timestamp: { type: Date, default: Date.now },
   likes: { type: Number, default: 0 },
   comments: [
     {
       content: String,
+      author: { type: String, default: 'Anonymous' },
+      authorPhoto: { type: String, default: '' },
       createdAt: { type: Date, default: Date.now }
     }
   ]
-});
+}, { timestamps: true });
+
 module.exports = mongoose.model('CommunityPost', communityPostSchema);

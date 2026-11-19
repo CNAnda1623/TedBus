@@ -13,11 +13,16 @@ try {
   }
 };
 
-exports.addbooking=async(req,res)=>{
-    const booking =await Booking.create(req.body);
-    console.log(booking);
-    res.send(booking);
-}
+exports.addbooking = async (req, res) => {
+  try {
+    const booking = await Booking.create(req.body);
+    console.log('✅ Booking created:', booking);
+    res.status(201).send(booking);
+  } catch (err) {
+    console.error('❌ Error creating booking:', err);
+    res.status(500).send({ error: err.message });
+  }
+};
 
 exports.getBooking =async(req,res)=>{
     let {id}=req.params;

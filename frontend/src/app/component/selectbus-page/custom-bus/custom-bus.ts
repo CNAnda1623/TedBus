@@ -33,18 +33,19 @@ export class CustomBus {
 
 
   selectBusSize(size: string) {
-  this.selectedBusSize = size;
-}
+    this.selectedBusSize = this.selectedBusSize === size ? '' : size;
+  }
+
   selectRouteType(type: string) {
-    this.selectedRouteType = type;
+    this.selectedRouteType = this.selectedRouteType === type ? '' : type;
   }
 
   selectBusType(type: string) {
-    this.selectedBusType = type;
+    this.selectedBusType = this.selectedBusType === type ? '' : type;
   }
 
   selectStops(stops: string) {
-    this.selectedStops = stops;
+    this.selectedStops = this.selectedStops === stops ? '' : stops;
   }
 
   toggleAmenity(amenity: string) {

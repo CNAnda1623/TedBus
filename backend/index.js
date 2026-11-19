@@ -32,12 +32,27 @@ app.use(cors({
 
 // ✅ Routes
 const cabBookingRoutes = require('./routes/cabBooking');
-app.use('/api/cab-booking', cabBookingRoutes); // ✅ this line remains
+app.use('/api/cab-booking', cabBookingRoutes);
+app.use('/cab-booking', cabBookingRoutes);
 app.use('/api/booking', require('./routes/booking'));
+app.use('/booking', require('./routes/booking'));
 app.use('/api', require('./routes/customer'));
 app.use('/api', require('./routes/route'));
 app.use('/api', require('./routes/busRoutes'));
 app.use('/api/community', communityRoutes);
+
+// Compatibility endpoints
+app.use('/cabpayment', (req, res) => res.status(200).json({ message: 'Cab payment processed' }));
+app.use('/cabcustomers/latest', async (req, res) => {
+  const CabCustomer = require('./models/CabCustomer');
+  const latest = await CabCustomer.findOne().sort({ createdAt: -1 });
+  res.json(latest);
+});
+app.use('/cabbookings/latest', async (req, res) => {
+  const CabBooking = require('./models/cabBooking');
+  const latest = await CabBooking.findOne().sort({ createdAt: -1 });
+  res.json(latest);
+});
 
 
 

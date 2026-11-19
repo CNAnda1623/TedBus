@@ -3,41 +3,41 @@
   <div class="bus-option-box red-box">
     <h2 class="box-title">Bus Size</h2>
     <ul class="option-list">
-      <li class="option-item" (click)="selectBusSize('mini')">
+      <li class="option-item" (click)="selectBusSize('mini')" [class.active-item]="selectedBusSize === 'mini'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusSize === 'mini'"></div>
           <div class="option-text">
             <div class="option-label">Mini (18-24)</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusSize === 'mini'">{{ selectedBusSize === 'mini' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusSize('midsize')">
+      <li class="option-item" (click)="selectBusSize('midsize')" [class.active-item]="selectedBusSize === 'midsize'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusSize === 'midsize'"></div>
           <div class="option-text">
             <div class="option-label">Midsize (25-30)</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusSize === 'midsize'">{{ selectedBusSize === 'midsize' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusSize('standard')">
+      <li class="option-item" (click)="selectBusSize('standard')" [class.active-item]="selectedBusSize === 'standard'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusSize === 'standard'"></div>
           <div class="option-text">
             <div class="option-label">Standard (31-40)</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusSize === 'standard'">{{ selectedBusSize === 'standard' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusSize('fullsize')">
+      <li class="option-item" (click)="selectBusSize('fullsize')" [class.active-item]="selectedBusSize === 'fullsize'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusSize === 'fullsize'"></div>
           <div class="option-text">
             <div class="option-label">Fullsize (41-49)</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusSize === 'fullsize'">{{ selectedBusSize === 'fullsize' ? 'Selected' : 'Select' }}</button>
       </li>
     </ul>
   </div>
@@ -46,39 +46,39 @@
   <div class="bus-option-box white-box">
     <h2 class="box-title">Select Route</h2>
     <ul class="option-list">
-      <li class="option-item" (click)="selectRouteType('round-trip')">
+      <li class="option-item" (click)="selectRouteType('round-trip')" [class.active-item]="selectedRouteType === 'round-trip'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedRouteType === 'round-trip'"></div>
           <div class="option-text">
             <div class="option-label">Round Trip</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedRouteType === 'round-trip'">{{ selectedRouteType === 'round-trip' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectRouteType('single-trip')">
+      <li class="option-item" (click)="selectRouteType('single-trip')" [class.active-item]="selectedRouteType === 'single-trip'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedRouteType === 'single-trip'"></div>
           <div class="option-text">
             <div class="option-label">Single Trip</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedRouteType === 'single-trip'">{{ selectedRouteType === 'single-trip' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectRouteType('no-stops')">
+      <li class="option-item" (click)="selectRouteType('no-stops')" [class.active-item]="selectedRouteType === 'no-stops'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedRouteType === 'no-stops'"></div>
           <div class="option-text">
             <div class="option-label">No Stops</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedRouteType === 'no-stops'">{{ selectedRouteType === 'no-stops' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item">
+      <li class="option-item" (click)="selectRouteType('select-stops')" [class.active-item]="selectedRouteType === 'select-stops'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedRouteType === 'select-stops'"></div>
           <div class="option-text">
             <div class="option-label">Select Stops</div>
-            <select class="stops-dropdown" [(ngModel)]="selectedStops" (change)="selectRouteType('select-stops')">
+            <select class="stops-dropdown" [(ngModel)]="selectedStops" (click)="$event.stopPropagation()" (change)="selectRouteType('select-stops')">
               <option value="">Choose cities...</option>
               <option value="delhi">Delhi</option>
               <option value="mumbai">Mumbai</option>
@@ -88,7 +88,7 @@
             </select>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedRouteType === 'select-stops'">{{ selectedRouteType === 'select-stops' ? 'Selected' : 'Select' }}</button>
       </li>
     </ul>
   </div>
@@ -97,25 +97,25 @@
   <div class="bus-option-box white-box">
     <h2 class="box-title">Bus Type</h2>
     <ul class="option-list">
-      <li class="option-item" (click)="selectBusType('seater')">
+      <li class="option-item" (click)="selectBusType('seater')" [class.active-item]="selectedBusType === 'seater'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusType === 'seater'"></div>
           <div class="option-text">
             <div class="option-label">Seater</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusType === 'seater'">{{ selectedBusType === 'seater' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusType('sleeper')">
+      <li class="option-item" (click)="selectBusType('sleeper')" [class.active-item]="selectedBusType === 'sleeper'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusType === 'sleeper'"></div>
           <div class="option-text">
             <div class="option-label">Sleeper</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusType === 'sleeper'">{{ selectedBusType === 'sleeper' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusType('premium')">
+      <li class="option-item" (click)="selectBusType('premium')" [class.active-item]="selectedBusType === 'premium'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusType === 'premium'"></div>
           <div class="option-text">
@@ -123,9 +123,9 @@
             <div class="option-description">Extra comfort, private pods, etc.</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusType === 'premium'">{{ selectedBusType === 'premium' ? 'Selected' : 'Select' }}</button>
       </li>
-      <li class="option-item" (click)="selectBusType('double-deck')">
+      <li class="option-item" (click)="selectBusType('double-deck')" [class.active-item]="selectedBusType === 'double-deck'">
         <div class="option-left">
           <div class="option-radio" [class.selected]="selectedBusType === 'double-deck'"></div>
           <div class="option-text">
@@ -133,7 +133,7 @@
             <div class="option-description">Sleeper + Seating</div>
           </div>
         </div>
-        <button class="select-btn">Select</button>
+        <button type="button" class="select-btn" [class.btn-selected]="selectedBusType === 'double-deck'">{{ selectedBusType === 'double-deck' ? 'Selected' : 'Select' }}</button>
       </li>
     </ul>
   </div>

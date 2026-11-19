@@ -24,4 +24,17 @@ router.get('/latest-cab-customer', async (req, res) => {
   }
 });
 
+router.post('/payment', async (req, res) => {
+  try {
+    console.log('Cab payment received:', req.body);
+    if (req.body.cabBookingId) {
+      await CabBooking.findByIdAndUpdate(req.body.cabBookingId, { status: 'confirmed' });
+    }
+    res.status(200).json({ message: 'Cab payment processed successfully', payment: req.body });
+  } catch (error) {
+    console.error('Cab payment error:', error);
+    res.status(500).json({ error: 'Failed to process cab payment' });
+  }
+});
+
 module.exports = router;

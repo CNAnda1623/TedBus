@@ -5,7 +5,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
-const { createPost, getAllPosts } = require('../controller/communityController');
+const { createPost, getAllPosts, likePost, addComment, getComments } = require('../controller/communityController');
 require('dotenv').config();
 // ✅ Supabase Setup
 const supabase = createClient(
@@ -65,5 +65,12 @@ router.post('/upload', upload.array('photos'), async (req, res) => {
 
 // Get all posts
 router.get('/posts', getAllPosts);
+
+// Like a post
+router.patch('/posts/:id/like', likePost);
+
+// Comments
+router.post('/posts/:id/comments', addComment);
+router.get('/posts/:id/comments', getComments);
 
 module.exports = router;
