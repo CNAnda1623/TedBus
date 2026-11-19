@@ -211,7 +211,9 @@
     align-items: stretch;
   }
 
-  .route-block, .date-block, .actions-block {
+  .route-block,
+  .date-block,
+  .actions-block {
     justify-content: space-between;
   }
 }

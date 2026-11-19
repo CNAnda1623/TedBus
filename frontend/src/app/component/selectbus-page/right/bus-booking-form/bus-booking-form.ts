@@ -9,44 +9,44 @@ import { DataService } from '../../../../service/data.service';
   styleUrl: './bus-booking-form.css'
 })
 export class BusBookingForm implements OnInit {
-    @Input() selectedseat:number[]=[]
-    @Input() seatprice:number=0
-    @Input() routedetails :any
-    @Input() busid:string =''
-    @Input() busarrivaltime: number=0
-    @Input() busdeparturetime: number=0
-    @Input() operatorname:string=''
-    passdetails:{name:string,age:string,gender:string}[]=[]
-    passemail:string=''
-    passphn:string=''
-    passisbuisness:boolean=false
-    passinsurance:boolean=true
-    sendupdates:boolean=true
-    passiscovid:boolean=false
+  @Input() selectedseat: number[] = []
+  @Input() seatprice: number = 0
+  @Input() routedetails: any
+  @Input() busid: string = ''
+  @Input() busarrivaltime: number = 0
+  @Input() busdeparturetime: number = 0
+  @Input() operatorname: string = ''
+  passdetails: { name: string, age: string, gender: string }[] = []
+  passemail: string = ''
+  passphn: string = ''
+  passisbuisness: boolean = false
+  passinsurance: boolean = true
+  sendupdates: boolean = true
+  passiscovid: boolean = false
 
-    constructor(private router:Router, private dataservice:DataService){}
+  constructor(private router: Router, private dataservice: DataService) { }
 
-    ngOnInit(): void {
-      const stored = sessionStorage.getItem('Loggedinuser');
-      if (stored) {
-        try {
-          const user = JSON.parse(stored);
-          if (user.email) this.passemail = user.email;
-        } catch (e) {}
-      }
-
-      // Initialize empty passenger records for all selected seats
-      if (this.selectedseat && this.selectedseat.length > 0) {
-        this.selectedseat.forEach((_, idx) => {
-          if (!this.passdetails[idx]) {
-            this.passdetails[idx] = { name: '', age: '', gender: 'Male' };
-          }
-        });
-      }
+  ngOnInit(): void {
+    const stored = sessionStorage.getItem('Loggedinuser');
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        if (user.email) this.passemail = user.email;
+      } catch (e) { }
     }
 
+    // Initialize empty passenger records for all selected seats
+    if (this.selectedseat && this.selectedseat.length > 0) {
+      this.selectedseat.forEach((_, idx) => {
+        if (!this.passdetails[idx]) {
+          this.passdetails[idx] = { name: '', age: '', gender: 'Male' };
+        }
+      });
+    }
+  }
+
   handlePassGender(event: Event, index: number): void {
-  const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLInputElement;
     if (!this.passdetails[index]) {
       // If not, initialize it with default values
       this.passdetails[index] = { name: '', age: '', gender: '' };
@@ -57,7 +57,7 @@ export class BusBookingForm implements OnInit {
   handlePassName(event: Event, index: number): void {
     const target = event.target as HTMLInputElement;
     if (!this.passdetails[index]) {
-    // If not, initialize it with default values
+      // If not, initialize it with default values
       this.passdetails[index] = { name: '', age: '', gender: '' };
     }
     this.passdetails[index].name = target.value;
@@ -66,29 +66,29 @@ export class BusBookingForm implements OnInit {
   handlePassAge(event: Event, index: number): void {
     const target = event.target as HTMLInputElement;
     if (!this.passdetails[index]) {
-    // If not, initialize it with default values
+      // If not, initialize it with default values
       this.passdetails[index] = { name: '', age: '', gender: '' };
     }
     this.passdetails[index].age = target.value;
   }
 
-  handleproceedtopay():void{
-    const routeParams={
-      operatorname:this.operatorname, 
-      selectedseat:this.selectedseat,
-      passemail:this.passemail,
-      passphn:this.passphn,
-      passiscoviddonate:this.passiscovid,
-      passisbuisness:this.passisbuisness,
-      passinsurance:this.passinsurance,
-      seatprice:this.seatprice,
-      busid:this.busid,
-      busarrivaltime:this.busarrivaltime,
-      busdeparturetime:this.busdeparturetime
+  handleproceedtopay(): void {
+    const routeParams = {
+      operatorname: this.operatorname,
+      selectedseat: this.selectedseat,
+      passemail: this.passemail,
+      passphn: this.passphn,
+      passiscoviddonate: this.passiscovid,
+      passisbuisness: this.passisbuisness,
+      passinsurance: this.passinsurance,
+      seatprice: this.seatprice,
+      busid: this.busid,
+      busarrivaltime: this.busarrivaltime,
+      busdeparturetime: this.busdeparturetime
     };
 
     this.dataservice.passobj(this.passdetails)
     this.dataservice.sendobj(this.routedetails)
-    this.router.navigate(['/payment',routeParams])
+    this.router.navigate(['/payment', routeParams])
   }
 }

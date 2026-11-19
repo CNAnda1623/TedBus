@@ -9,11 +9,7 @@
   <div class="sort-segmented-control">
     <span class="sort-label">SORT BY:</span>
     <div class="segment-group">
-      <button 
-        *ngFor="let opt of sortOptions"
-        type="button"
-        class="segment-btn"
-        [class.active]="activeSort === opt.key"
+      <button *ngFor="let opt of sortOptions" type="button" class="segment-btn" [class.active]="activeSort === opt.key"
         (click)="selectSort(opt.key)">
         <mat-icon class="opt-icon">{{ opt.icon }}</mat-icon>
         <span>{{ opt.label }}</span>

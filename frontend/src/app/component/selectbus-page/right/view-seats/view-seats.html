@@ -1,8 +1,8 @@
 <div class="view-seats-wrapper">
-  
+
   <!-- Left/Center: Bus Chassis Deck -->
   <div class="bus-deck-chassis">
-    
+
     <!-- Chassis Header with Driver and Legend -->
     <div class="chassis-header">
       <div class="deck-indicator">
@@ -43,17 +43,16 @@
       <div class="seats-matrix">
         <!-- Row 1 (Window Left) -->
         <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" 
-            [seatno]="index" [alreadybookedseats]="filledseats"
+          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="index" [alreadybookedseats]="filledseats"
             (seatselected)="handleselectedseats($event)" [selectedseats]="selectedseats">
           </app-small-seats>
         </div>
 
         <!-- Row 2 (Aisle Left) -->
         <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" 
-            [seatno]="10 + index" [alreadybookedseats]="filledseats"
-            (seatselected)="handleselectedseats($event)" [selectedseats]="selectedseats">
+          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="10 + index"
+            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
+            [selectedseats]="selectedseats">
           </app-small-seats>
         </div>
 
@@ -64,17 +63,17 @@
 
         <!-- Row 3 (Aisle Right) -->
         <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" 
-            [seatno]="20 + index" [alreadybookedseats]="filledseats"
-            (seatselected)="handleselectedseats($event)" [selectedseats]="selectedseats">
+          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="20 + index"
+            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
+            [selectedseats]="selectedseats">
           </app-small-seats>
         </div>
 
         <!-- Row 4 (Window Right) -->
         <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" 
-            [seatno]="30 + index" [alreadybookedseats]="filledseats"
-            (seatselected)="handleselectedseats($event)" [selectedseats]="selectedseats">
+          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="30 + index"
+            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
+            [selectedseats]="selectedseats">
           </app-small-seats>
         </div>
       </div>
@@ -92,14 +91,16 @@
         <div class="summary-point">
           <div class="point-badge">From</div>
           <div>
-            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.departureLocation?.name || 'Delhi' }}</div>
+            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.departureLocation?.name ||
+              'Delhi' }}</div>
             <div class="text-xs text-[var(--text-secondary)]">{{ busdeparturetime }}:00 hrs</div>
           </div>
         </div>
         <div class="summary-point">
           <div class="point-badge">To</div>
           <div>
-            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.arrivalLocation?.name || 'Jaipur' }}</div>
+            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.arrivalLocation?.name || 'Jaipur'
+              }}</div>
             <div class="text-xs text-[var(--text-secondary)]">{{ busarrivaltime }}:00 hrs</div>
           </div>
         </div>
@@ -111,7 +112,8 @@
         <div class="seat-chips-row" *ngIf="selectedseats.length > 0">
           <span class="seat-chip" *ngFor="let s of selectedseats">
             Seat {{ s }}
-            <i class="fa-solid fa-xmark ml-1 text-xs cursor-pointer opacity-70 hover:opacity-100" (click)="handleselectedseats(s)"></i>
+            <i class="fa-solid fa-xmark ml-1 text-xs cursor-pointer opacity-70 hover:opacity-100"
+              (click)="handleselectedseats(s)"></i>
           </span>
         </div>
         <div class="no-seat-hint" *ngIf="selectedseats.length === 0">
@@ -131,7 +133,8 @@
       <!-- Action: Proceed To Book -->
       <div class="proceed-drawer-container">
         <app-form-drawer [selectedseat]="selectedseats" [seatprice]="seatprice" [routedetails]="routedetails"
-          [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime" [operatorname]="operatorname">
+          [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime"
+          [operatorname]="operatorname">
         </app-form-drawer>
       </div>
 
