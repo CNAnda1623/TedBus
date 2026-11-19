@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { TravelPost, Comment } from './../model/community-post.model';
+import { url } from '../config/index';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunityHubService {
-  private apiUrl = 'https://tedbus-sxrx.onrender.com/api/community';  // Your backend API base
+  private apiUrl = url + 'api/community';  // Your backend API base
   private postsSubject = new BehaviorSubject<TravelPost[]>([]);
   public posts$ = this.postsSubject.asObservable();
 

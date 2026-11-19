@@ -109,8 +109,8 @@ TEDBUS/
 │   ├── package.json
 │   └── netlify.toml
 │
-├── server/
-│   ├── controllers/              # Request handlers
+├── backend/
+│   ├── controller/               # Request handlers
 │   ├── models/                   # MongoDB schemas
 │   ├── routes/                   # API routes
 │   ├── uploads/                  # Local uploads (dev only)
@@ -149,7 +149,7 @@ TEDBUS/
 ### Backend Setup
 
 ```bash
-cd frontend/server
+cd backend
 npm install
 node index.js
 ```

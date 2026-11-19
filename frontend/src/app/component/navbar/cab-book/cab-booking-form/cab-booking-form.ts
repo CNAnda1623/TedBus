@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CabCustomerService } from '../../../../service/cab-customer.service';
 import { HttpClient } from '@angular/common/http';
+import { url } from '../../../../config/index';
 
 @Component({
   selector: 'app-cab-booking-form',
@@ -22,13 +23,12 @@ export class CabBookingForm {
   busBookingSelection: any = null;
 
   ngOnInit(): void {
-  const busBookingData = sessionStorage.getItem('busBookingSelection');
-  if (busBookingData) {
-    this.isBusBooking = true;
-    this.busBookingSelection = JSON.parse(busBookingData);
+    const busBookingData = sessionStorage.getItem('busBookingSelection');
+    if (busBookingData) {
+      this.isBusBooking = true;
+      this.busBookingSelection = JSON.parse(busBookingData);
+    }
   }
-}
-
 
   cabDetails = {
     name: '',
@@ -45,12 +45,18 @@ export class CabBookingForm {
 
   closeForm() {
     this.close.emit();
+    if (this.router.url.includes('cab-booking-form')) {
+      window.history.back();
+    }
   }
 
   submitForm() {
+    if (!this.cabDetails.name || !this.cabDetails.email || !this.cabDetails.phone) {
+      alert('Please enter Name, Email, and Phone number.');
+      return;
+    }
+
     console.log('Form Submitted:', this.cabDetails);
-    console.log('Time Field:', this.cabDetails.time);
-    console.log('TimeFormat Field:', this.cabDetails.timeFormat);
 
     const payload: any = {
       ...this.cabDetails
@@ -63,8 +69,8 @@ export class CabBookingForm {
 
     // Set endpoint based on source
     const endpoint = this.isBusBooking
-      ? 'https://tedbus-sxrx.onrender.com/api/custom-bus-customer'
-      : 'https://tedbus-sxrx.onrender.com/api/cab-customer';
+      ? `${url}api/custom-bus-customer`
+      : `${url}api/cab-customer`;
 
     // Use HttpClient directly instead of service for dual route logic
     this.http.post(endpoint, payload).subscribe({

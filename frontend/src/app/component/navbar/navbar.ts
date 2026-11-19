@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class Navbar implements OnInit, AfterViewInit {
   // Template uses "isloggedIn" (lowercase) — keep that name to avoid changing templates.
   public isloggedIn = false;
-  public user: { name?: string; picture?: string; email?:string } | null = null;
+  public user: { name?: string; picture?: string; email?: string } | null = null;
 
   // Mobile menu state used by template bindings
   public showMobileMenu = false;
@@ -29,7 +29,7 @@ export class Navbar implements OnInit, AfterViewInit {
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   // ------------------------
   // Lifecycle
@@ -64,7 +64,7 @@ export class Navbar implements OnInit, AfterViewInit {
           }
 
           google.accounts.id.initialize({
-            client_id: '381733711473-1jv1mbdngoh41cgci17ukr37fg1j7us4.apps.googleusercontent.com', // TODO: replace
+            client_id: '381733711473-4h9t4u8852ekot3pr3ucekjha6u6gb73.apps.googleusercontent.com', // TODO: replace
             callback: (response: any) => {
               this.ngZone.run(() => this.handleCredentialResponse(response));
             }
@@ -234,7 +234,10 @@ export class Navbar implements OnInit, AfterViewInit {
         }
       }
 
-      // TODO: call server logout endpoint if necessary.
+      // Re-render Google Sign-in button onto the newly rendered container
+      setTimeout(() => {
+        this.renderGoogleButton();
+      }, 100);
     } catch (err) {
       console.error('Error during sign out', err);
     }

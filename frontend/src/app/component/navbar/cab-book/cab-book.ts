@@ -12,29 +12,41 @@ export class CabBook implements OnInit {
   constructor(private cabBookingService: CabBookingService) {}
 
   handleCabBookingSubmit() {
-  const cabBooking = {
-    departure: this.departure,
-    arrival: this.arrival,
-    date: this.date,
-    cabSize: this.selectedCabType,
-    tripType: this.selectedTripType,
-    timePreference: this.selectedTime,
-    facilities: this.selectedFacilities
-  };
-
-  console.log('Payload:', cabBooking);
-
-  this.cabBookingService.createBooking(cabBooking).subscribe({
-    next: () => {
-      alert('Booking saved!');
-      this.showCabBookingForm = true; // ✅ Show the form AFTER save
-    },
-    error: err => {
-      console.error('Save failed', err);
-      alert('Something went wrong while saving your booking.');
+    if (!this.selectedCabType) {
+      alert('Please select a Cab Size before proceeding.');
+      return;
     }
-  });
-}
+    if (!this.selectedTripType) {
+      alert('Please select a Trip Type before proceeding.');
+      return;
+    }
+    if (!this.selectedTime) {
+      alert('Please select a Time Preference before proceeding.');
+      return;
+    }
+
+    const cabBooking = {
+      departure: this.departure,
+      arrival: this.arrival,
+      date: this.date,
+      cabSize: this.selectedCabType,
+      tripType: this.selectedTripType,
+      timePreference: this.selectedTime,
+      facilities: this.selectedFacilities
+    };
+
+    console.log('Payload:', cabBooking);
+
+    this.cabBookingService.createBooking(cabBooking).subscribe({
+      next: () => {
+        this.showCabBookingForm = true; // ✅ Show the form AFTER save
+      },
+      error: err => {
+        console.error('Save failed', err);
+        alert('Something went wrong while saving your booking. Please check your connection.');
+      }
+    });
+  }
   // Original properties
   departure: string = 'Delhi';
   arrival: string = 'Jaipur';
@@ -50,6 +62,7 @@ export class CabBook implements OnInit {
   showFromDropdown: boolean = false;
   showToDropdown: boolean = false;
   showCalendar: boolean = false;
+  showMonthPicker: boolean = false;
   
   // Search terms
   fromSearchTerm: string = '';
@@ -217,7 +230,19 @@ export class CabBook implements OnInit {
     this.updateCalendar();
   }
 
+  toggleMonthPicker() {
+    this.showMonthPicker = !this.showMonthPicker;
+  }
+
+  selectMonth(idx: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.currentMonth = idx;
+    this.showMonthPicker = false;
+    this.updateCalendar();
+  }
+
   previousMonth() {
+    this.showMonthPicker = false;
     if (this.currentMonth === 0) {
       this.currentMonth = 11;
       this.currentYear--;
@@ -228,6 +253,7 @@ export class CabBook implements OnInit {
   }
 
   nextMonth() {
+    this.showMonthPicker = false;
     if (this.currentMonth === 11) {
       this.currentMonth = 0;
       this.currentYear++;
@@ -312,15 +338,15 @@ export class CabBook implements OnInit {
   selectedTime: string = '';
 
   selectCabType(type: string) {
-    this.selectedCabType = type;
+    this.selectedCabType = this.selectedCabType === type ? '' : type;
   }
 
   selectTripType(type: string) {
-    this.selectedTripType = type;
+    this.selectedTripType = this.selectedTripType === type ? '' : type;
   }
 
   selectTime(type: string) {
-    this.selectedTime = type;
+    this.selectedTime = this.selectedTime === type ? '' : type;
   }
 
   

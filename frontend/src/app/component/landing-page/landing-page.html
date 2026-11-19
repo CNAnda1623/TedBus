@@ -44,15 +44,14 @@
             <!-- travel search right section  -->
             <div class="flex bg-white flex-col sm:flex-row lg:w-1/2">
                 <div class="h-full border-b sm:border-r border-gray-300 sm:w-1/2 w-full">
-                    <div class="px-7 py-8 flex items-center h-full gap-3 group relative pr-12">
+                    <div class="px-7 py-8 flex items-center h-full gap-3 group relative pr-12 cursor-pointer" (click)="picker.open()">
 
                         <i class="fa-solid fa-calendar-days text-gray-500 text-2xl"></i>
-                        <input matInput class="outline-none opacity-0 scale-[3] h-14 w-[30px] absolute left-14 z-10"
-                            placeholder="Date" [matDatepicker]="picker" (click)="picker.open()"
+                        <input matInput class="outline-none opacity-0 scale-[3] h-14 w-[30px] absolute left-14 z-10 cursor-pointer"
+                            placeholder="Date" [matDatepicker]="picker"
                             (dateChange)="matchDate($event)">
-                        <p class="text-gray-400">Date</p>
+                        <p [ngClass]="(date && date !== 'null') ? 'text-black font-semibold' : 'text-gray-400'">{{ (date && date !== 'null') ? date : 'Date' }}</p>
                         <mat-datepicker #picker></mat-datepicker>
-                        <!-- <p class="text-gray-400">Date</p> -->
                     </div>
                 </div>
                 <button

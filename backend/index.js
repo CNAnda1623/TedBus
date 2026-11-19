@@ -2,6 +2,8 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 const app = express();
 const path = require('path');
 const communityRoutes = require('./routes/communityRoutes');

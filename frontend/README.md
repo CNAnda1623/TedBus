@@ -149,7 +149,7 @@ TEDBUS/
 ### Backend Setup
 
 ```bash
-cd frontend/server
+cd backend
 npm install
 node index.js
 ```

@@ -33,11 +33,26 @@ export class CommunityHub implements OnInit {
   constructor(private communityService: CommunityHubService) { }
 
   ngOnInit(): void {
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.loggedInUser = JSON.parse(user);
+    const stored = sessionStorage.getItem('Loggedinuser');
+    if (stored) {
+      try {
+        this.loggedInUser = JSON.parse(stored);
+        this.isloggedIn = true;
+      } catch {
+        this.loggedInUser = null;
+        this.isloggedIn = false;
+      }
+    } else {
+      const localUser = localStorage.getItem('user');
+      if (localUser) {
+        try {
+          this.loggedInUser = JSON.parse(localUser);
+          this.isloggedIn = true;
+        } catch {
+          this.loggedInUser = null;
+        }
+      }
     }
-    this.isloggedIn = !!sessionStorage.getItem('Loggedinuser');
     this.loadPosts();
   }
 
@@ -94,7 +109,7 @@ export class CommunityHub implements OnInit {
 
   createPostWithImages(imageFilenames: string[]): void {
     const userData = JSON.parse(sessionStorage.getItem('Loggedinuser') || '{}');
-    console.log('User Data:', userData)
+    console.log('User Data:', userData);
     const postData: TravelPost = {
       title: this.newPost.title,
       route: this.newPost.route,
@@ -103,8 +118,8 @@ export class CommunityHub implements OnInit {
       tips: this.newPost.tips,
       photos: imageFilenames,
       likes: 0,
-      posterName: userData.name || 'Anonymous',
-      posterPhoto: userData.picture || '',
+      posterName: userData.name || this.loggedInUser?.name || 'Anonymous',
+      posterPhoto: userData.picture || this.loggedInUser?.picture || '',
       createdAt: new Date().toISOString(),
       comments: []
     };
@@ -113,22 +128,35 @@ export class CommunityHub implements OnInit {
       next: (createdPost) => {
         this.travelPosts.unshift(createdPost);
         this.communityService.updatePosts(this.travelPosts);
+        alert('Your story has been shared successfully!');
         this.resetForm();
       },
-      error: (err) => console.error('Post creation failed', err)
+      error: (err) => {
+        console.error('Post creation failed', err);
+        alert('Failed to share your story. Please try again.');
+      }
     });
   }
 
   submitPost(): void {
+    if (!this.newPost.title || !this.newPost.story) {
+      alert('Please fill in both Journey Title and Story before sharing.');
+      return;
+    }
+
     if (this.newPost.photos.length > 0) {
       const fileList = new DataTransfer();
       this.newPost.photos.forEach(file => fileList.items.add(file));
 
       this.communityService.uploadImages(fileList.files).subscribe({
         next: (res) => {
-          this.createPostWithImages(res.imageUrls);
+          this.createPostWithImages(res.imageUrls || []);
         },
-        error: (err) => console.error('Image upload failed', err)
+        error: (err) => {
+          console.error('Image upload failed', err);
+          alert('Image upload failed. Submitting story without images...');
+          this.createPostWithImages([]);
+        }
       });
     } else {
       this.createPostWithImages([]);

@@ -23,25 +23,31 @@ export class Right implements OnInit{
   constructor(private route:ActivatedRoute,private busservice:Bus){}
 
   getkeys(){
-    return Object.keys(this.seats)
+    return Object.keys(this.seats);
+  }
+
+  getFilledSeats(busId?: string): any[] {
+    return (busId && this.seats[busId]) || [];
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params=>{
-      const departure=params['departure'];
-      const arrival=params['arrival'];
-      const date=params['date'];
-      this.departurevar=departure
-      this.arrival=arrival
-      this.date=date
-    });
-    this.busservice.GETBUSDETAILS(this.departurevar,this.arrival,this.date).subscribe((response:any)=>{
-      
-      this.matchedbus=response.matchedBuses;
-      this.routes=response.route;
-      this.seats=response.busidwithseatobj;
-      // console.log(this.routes)
-    })
+    this.route.queryParams.subscribe(params => {
+      this.departurevar = params['departure'] || '';
+      this.arrival = params['arrival'] || '';
+      this.date = params['date'] || '';
 
+      if (this.departurevar && this.arrival && this.date) {
+        this.busservice.GETBUSDETAILS(this.departurevar, this.arrival, this.date).subscribe({
+          next: (response: any) => {
+            this.matchedbus = response.matchedBuses || [];
+            this.routes = response.route || null;
+            this.seats = response.busidwithseatobj || {};
+          },
+          error: (err) => {
+            console.error('Failed to load buses:', err);
+          }
+        });
+      }
+    });
   }
 
 }
