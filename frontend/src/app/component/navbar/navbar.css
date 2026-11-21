@@ -1,8 +1,8 @@
 .active-nav-link {
   color: var(--brand-primary) !important;
   font-weight: 600;
-  border-bottom: 2px solid var(--brand-primary);
-  border-radius: 4px 4px 0 0;
+  background-color: var(--brand-subtle);
+  border-radius: 9999px;
 }
 
 .active-nav-link svg, .active-nav-link i {

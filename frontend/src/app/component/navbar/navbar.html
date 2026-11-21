@@ -3,7 +3,7 @@
     <!-- Logo & Main Nav -->
     <div class="flex items-center gap-4 md:gap-10">
         <!-- Mobile Menu Toggle Button -->
-        <button class="md:hidden p-2 rounded-lg hover:bg-[var(--surface-sunken)] focus:outline-none" 
+        <button class="md:hidden p-2 rounded-full hover:bg-[var(--surface-sunken)] focus:outline-none" 
                 (click)="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
             <svg class="h-6 w-6 stroke-[var(--text-primary)]" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -17,17 +17,17 @@
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-2">
             <a routerLink="/landing-page" routerLinkActive="active-nav-link" [routerLinkActiveOptions]="{exact: true}"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] cursor-pointer no-underline">
+                class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] cursor-pointer no-underline">
                 <i class="fa-solid fa-bus text-lg"></i>
                 <span class="font-medium">Bus Tickets</span>
             </a>
             <a routerLink="/cab-book" routerLinkActive="active-nav-link"
-               class="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] cursor-pointer no-underline">
+               class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] cursor-pointer no-underline">
                 <i class="fa-solid fa-taxi text-lg"></i>
                 <span class="font-medium">Cab Rental</span>
             </a>
             <a routerLink="/landing-page"
-               class="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-[var(--surface-sunken)] text-[var(--text-secondary)] opacity-80 cursor-pointer no-underline">
+               class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-[var(--surface-sunken)] text-[var(--text-secondary)] opacity-80 cursor-pointer no-underline">
                 <i class="fa-solid fa-train text-lg"></i>
                 <span class="font-medium">Train Tickets</span>
             </a>
@@ -48,19 +48,19 @@
         <!-- Google Login Button -->
         <div id="google-btn" *ngIf="!isloggedIn"></div>
 
-        <a *ngIf="isloggedIn" routerLink="/community" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] transition-colors no-underline">
+        <a *ngIf="isloggedIn" routerLink="/community" class="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] transition-colors no-underline">
             <span class="material-icons text-lg text-[var(--brand-primary)]">travel_explore</span>
             <span class="font-medium hidden sm:inline">Community Hub</span>
         </a>
         
         <!-- Desktop Account Menu -->
         <div class="hidden md:flex items-center gap-2" *ngIf="isloggedIn">
-            <button (click)="openHelpChatbot()" class="flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] transition-colors">
+            <button (click)="openHelpChatbot()" class="flex items-center gap-2 h-10 px-4 rounded-full hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] transition-colors">
                 <i class="fa-solid fa-headset text-lg text-[var(--brand-primary)]"></i>
                 <span>Help</span>
             </button>
             
-            <button class="flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] border border-[var(--border-subtle)] transition-colors" [matMenuTriggerFor]="menu">
+            <button class="flex items-center gap-2 h-10 px-4 rounded-full hover:bg-[var(--surface-sunken)] text-[var(--text-primary)] border border-[var(--border-subtle)] transition-colors" [matMenuTriggerFor]="menu">
                 <img *ngIf="user?.picture" [src]="user?.picture" class="w-6 h-6 rounded-full object-cover" alt="Avatar"/>
                 <i *ngIf="!user?.picture" class="fa-regular fa-user text-base"></i>
                 <span class="font-medium max-w-[100px] truncate">{{ user?.name || 'Account' }}</span>

@@ -55,7 +55,7 @@
 
 .create-forum-card {
   background: #fff;
-  border-radius: 16px !important;
+  border-radius: 24px !important;
   box-shadow: 0 8px 32px rgba(139, 38, 53, 0.1) !important;
   border: 1px solid #ffb3ba;
   transition: all 0.3s ease;
@@ -96,7 +96,7 @@
 ::ng-deep .mat-mdc-form-field {
   .mat-mdc-text-field-wrapper {
     background-color: #fff5f5 !important;
-    border-radius: 8px !important;
+    border-radius: 14px !important;
   }
   
   .mat-mdc-form-field-focus-overlay {
@@ -130,8 +130,8 @@
 .submit-btn {
   background-color: #d63447 !important;
   color: white !important;
-  border-radius: 25px !important;
-  padding: 0 24px !important;
+  border-radius: 9999px !important;
+  padding: 0 28px !important;
   font-weight: 500 !important;
   transition: all 0.3s ease !important;
 }
@@ -143,7 +143,7 @@
 
 .clear-btn {
   color: #8b2635 !important;
-  border-radius: 25px !important;
+  border-radius: 9999px !important;
   transition: all 0.3s ease !important;
 }
 
@@ -182,8 +182,8 @@
 .thread-count {
   background: #ffe0e0;
   color: #8b2635;
-  padding: 4px 12px;
-  border-radius: 16px;
+  padding: 4px 14px;
+  border-radius: 9999px;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -197,7 +197,7 @@
 
 .thread-card {
   background: #fff !important;
-  border-radius: 16px !important;
+  border-radius: 24px !important;
   box-shadow: 0 4px 16px rgba(139, 38, 53, 0.08) !important;
   border: 1px solid #ffb3ba;
   transition: all 0.3s ease !important;

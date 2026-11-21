@@ -1,12 +1,13 @@
 .search-summary-bar {
   background: var(--surface-card);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 12px 20px;
+  padding: 14px 20px;
   position: sticky;
   top: 0;
   z-index: 50;
   box-shadow: var(--shadow-sm);
   margin-bottom: 24px;
+  border-radius: 0 0 24px 24px;
 }
 
 .search-summary-container {
@@ -26,8 +27,8 @@
   gap: 14px;
   background: var(--surface-raised);
   border: 1px solid var(--border-subtle);
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
+  padding: 8px 20px;
+  border-radius: 9999px;
 }
 
 .city-node {
@@ -53,7 +54,7 @@
   background: var(--surface-card);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
-  border-radius: var(--radius-full);
+  border-radius: 50%;
   width: 32px;
   height: 32px;
   display: flex;
@@ -82,15 +83,15 @@
   gap: 6px;
   background: var(--surface-raised);
   border: 1px solid var(--border-subtle);
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  border-radius: 9999px;
 }
 
 .date-arrow-btn {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   width: 28px;
   height: 28px;
   display: flex;
@@ -157,8 +158,8 @@
   background: var(--surface-raised);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
-  padding: 9px 16px;
-  border-radius: var(--radius-md);
+  padding: 9px 18px;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -184,8 +185,8 @@
   background: var(--brand-primary);
   border: none;
   color: #ffffff;
-  padding: 9px 18px;
-  border-radius: var(--radius-md);
+  padding: 9px 20px;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;

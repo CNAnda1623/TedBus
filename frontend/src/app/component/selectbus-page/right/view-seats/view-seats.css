@@ -21,8 +21,8 @@
 .bus-deck-chassis {
   background-color: var(--surface-sunken);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -87,7 +87,7 @@
 .bus-floor-plan {
   background-color: var(--surface-card);
   border: 2px solid var(--border-strong);
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -130,7 +130,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--surface-sunken);
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 
 .aisle-label {
@@ -150,8 +150,8 @@
 .seat-side-card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -185,8 +185,8 @@
   text-transform: uppercase;
   background-color: var(--surface-sunken);
   color: var(--text-secondary);
-  padding: 3px 6px;
-  border-radius: 4px;
+  padding: 3px 10px;
+  border-radius: 9999px;
 }
 
 .selected-seats-section {
@@ -206,8 +206,8 @@
   color: var(--brand-primary);
   font-size: 12px;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
   border: 1px solid var(--brand-border);
   display: inline-flex;
   align-items: center;
@@ -220,8 +220,8 @@
 
 .fare-total-box {
   background-color: var(--surface-sunken);
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 18px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;

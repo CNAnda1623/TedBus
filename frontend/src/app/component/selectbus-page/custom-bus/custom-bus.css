@@ -14,7 +14,7 @@
 }
 
 .bus-option-box {
-  border-radius: 12px;
+  border-radius: 26px;
   padding: 30px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -72,7 +72,7 @@
 
 .option-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 14px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -148,8 +148,8 @@
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 8px 18px;
+  border-radius: 9999px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -177,12 +177,12 @@
 
 .option-item.active-item {
   background-color: rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
+  border-radius: 14px;
 }
 
 .white-box .option-item.active-item {
   background-color: rgba(220, 53, 69, 0.1);
-  border-radius: 8px;
+  border-radius: 14px;
 }
 
 .select-btn:hover {
@@ -197,9 +197,9 @@
 /* Dropdown styles for Select Stops */
 .stops-dropdown {
   margin-top: 8px;
-  padding: 6px 10px;
+  padding: 8px 14px;
   border: 1px solid #dc3545;
-  border-radius: 4px;
+  border-radius: 14px;
   background-color: white;
   color: #333;
   font-size: 14px;
@@ -254,7 +254,7 @@
 
 .amenity-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 14px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -374,7 +374,7 @@
   color: white;
   border: none;
   padding: 15px 40px;
-  border-radius: 8px;
+  border-radius: 9999px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;

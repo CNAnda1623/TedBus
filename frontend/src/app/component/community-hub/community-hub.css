@@ -15,7 +15,7 @@
   padding: 40px 24px;
   background: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card);
+  border-radius: 28px;
   box-shadow: var(--shadow-sm);
   color: var(--text-primary);
 }
@@ -184,7 +184,7 @@
 
 .post-form .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: white;
-  border-radius: 4px;
+  border-radius: 14px;
 }
 
 .post-form .mat-form-field-appearance-outline .mat-form-field-outline-thick {
@@ -262,7 +262,7 @@
   margin: 20px 0;
   padding: 20px;
   border: 2px dashed #e0e0e0;
-  border-radius: 8px;
+  border-radius: 22px;
   background-color: #fafafa;
   text-align: center;
   cursor: pointer;
@@ -348,7 +348,7 @@
   padding: 12px 24px;
   font-size: 16px;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: 9999px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -384,8 +384,18 @@
   }
 }
 
+.create-post-btn {
+  border-radius: 9999px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+}
+
+.login-prompt button {
+  border-radius: 9999px !important;
+}
+
 .post-form-card {
-  border-radius: 16px;
+  border-radius: 26px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
 }
@@ -424,7 +434,7 @@
 .photo-upload-section {
   padding: 20px;
   border: 2px dashed #e2e8f0;
-  border-radius: 12px;
+  border-radius: 22px;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -462,8 +472,8 @@
   align-items: center;
   gap: 8px;
   background-color: #e2e8f0;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
   font-size: 0.9rem;
 }
 
@@ -488,14 +498,14 @@
   color: white;
   padding: 12px 24px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 9999px;
 }
 
 .reset-btn {
   border: 2px solid #e2e8f0;
   color: #4a5568;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 9999px;
 }
 
 /* Posts Feed Section */
@@ -603,7 +613,7 @@
   display: grid;
   gap: 8px;
   margin-bottom: 20px;
-  border-radius: 12px;
+  border-radius: 22px;
   overflow: hidden;
 }
 
@@ -623,7 +633,7 @@
 .photo-item {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 18px;
   cursor: pointer;
 }
 
@@ -682,7 +692,7 @@
 .travel-tips {
   background: var(--surface-raised);
   padding: 18px;
-  border-radius: var(--radius-md);
+  border-radius: 20px;
   margin: 16px 0;
   border-left: 4px solid var(--semantic-warning);
 }
@@ -709,8 +719,6 @@
   white-space: pre-line;
   font-size: 13px;
 }
-  font-size: 0.95rem;
-}
 
 /* City Tags */
 .city-tags {
@@ -720,7 +728,7 @@
 .city-chip {
   background: linear-gradient(45deg, #74b9ff, #0984e3);
   color: white;
-  border-radius: 20px;
+  border-radius: 9999px;
   margin: 4px;
 }
 
@@ -735,6 +743,7 @@
 .action-btn {
   color: #718096;
   font-weight: 500;
+  border-radius: 9999px;
   transition: all 0.3s ease;
 }
 
@@ -771,7 +780,7 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
@@ -779,6 +788,7 @@
   position: absolute;
   top: -50px;
   right: 0;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   color: white;
   backdrop-filter: blur(10px);
@@ -788,6 +798,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   color: white;
   backdrop-filter: blur(10px);
@@ -809,7 +820,7 @@
   color: white;
   background: rgba(0, 0, 0, 0.5);
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: 9999px;
   font-size: 0.9rem;
 }
 

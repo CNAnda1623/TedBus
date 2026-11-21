@@ -31,6 +31,20 @@
   --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
   --transition-fast: 180ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-normal: 250ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* Aesthetic Circular / Rounded Tokens */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-card: 24px;
+  --radius-modal: 28px;
+  --radius-btn: 9999px;
+  --radius-input: 16px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
 }
 
 [data-theme="dark"], body.dark {
@@ -92,9 +106,9 @@ body {
 .btn-primary {
   background-color: var(--brand-primary);
   color: #ffffff;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-weight: 600;
-  padding: 10px 20px;
+  padding: 10px 24px;
   border: none;
   cursor: pointer;
   display: inline-flex;
@@ -124,9 +138,9 @@ body {
   background-color: var(--surface-card);
   color: var(--text-primary);
   border: 1px solid var(--border-strong);
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-weight: 500;
-  padding: 10px 20px;
+  padding: 10px 22px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -143,9 +157,9 @@ body {
   background-color: transparent;
   color: var(--brand-primary);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-weight: 600;
-  padding: 8px 14px;
+  padding: 8px 16px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -158,7 +172,7 @@ body {
 
 .tedbus-card {
   background-color: var(--surface-card);
-  border-radius: 14px;
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-subtle);
   transition: all var(--transition-fast);
@@ -171,8 +185,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
-  border-radius: 9999px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
   font-size: 13px;
   font-weight: 500;
   border: 1px solid var(--border-subtle);
@@ -187,4 +201,28 @@ body {
   border-color: var(--brand-border);
   color: var(--brand-primary);
   font-weight: 600;
+}
+
+/* Material Components Rounded Aesthetic Overrides */
+.mat-mdc-menu-panel, .mat-menu-panel {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: var(--radius-modal) !important;
+  overflow: hidden !important;
+}
+
+.mat-mdc-card, .mat-card {
+  border-radius: var(--radius-card) !important;
+}
+
+.mat-mdc-unelevated-button, .mat-mdc-raised-button {
+  border-radius: var(--radius-btn) !important;
+}
+
+.mat-mdc-chip, .mat-chip {
+  border-radius: var(--radius-pill) !important;
 }
