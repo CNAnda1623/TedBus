@@ -28,7 +28,7 @@ export class Navbar implements OnInit, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     public router: Router,
     public themeService: ThemeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const stored = sessionStorage.getItem('Loggedinuser');
@@ -185,7 +185,7 @@ export class Navbar implements OnInit, AfterViewInit {
     if (google && google.accounts && google.accounts.id) {
       try {
         google.accounts.id.disableAutoSelect();
-      } catch {}
+      } catch { }
     }
 
     setTimeout(() => {
