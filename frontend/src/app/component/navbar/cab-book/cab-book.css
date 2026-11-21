@@ -187,8 +187,15 @@
 }
 
 @keyframes dropdownFadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .calendar-header {
@@ -706,16 +713,20 @@
   .search-container {
     flex-direction: column;
   }
+
   .custom-bus-container {
     grid-template-columns: 1fr;
   }
+
   .amenities-container {
     grid-template-columns: 1fr;
   }
+
   .estimate-inner {
     flex-direction: column;
     align-items: stretch;
   }
+
   .proceed-btn {
     justify-content: center;
   }

@@ -1,141 +1,309 @@
-<div class="view-seats-wrapper">
+<div class="inline-expansion-wrapper">
+  <!-- Top Stepper Navigation -->
+  <div class="stepper-header">
+    <div class="step-item" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+      <div class="step-num"><i class="fa-solid fa-check" *ngIf="currentStep > 1"></i><span *ngIf="currentStep <= 1">1</span></div>
+      <span class="step-label">Select Seats</span>
+    </div>
+    <div class="step-divider" [class.active]="currentStep >= 2"></div>
+    <div class="step-item" [class.active]="currentStep === 2">
+      <div class="step-num">2</div>
+      <span class="step-label">Passenger Details</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <span class="step-label">Review & Pay</span>
+    </div>
+  </div>
 
-  <!-- Left/Center: Bus Chassis Deck -->
-  <div class="bus-deck-chassis">
+  <!-- Seat Hold Timer Banner -->
+  <div class="hold-timer-strip" *ngIf="selectedseats.length > 0">
+    <i class="fa-regular fa-clock timer-icon"></i>
+    <span>Seats temporarily held for <strong class="tabular-nums">{{ timerString }}</strong> minutes</span>
+  </div>
 
-    <!-- Chassis Header with Driver and Legend -->
-    <div class="chassis-header">
-      <div class="deck-indicator">
-        <span class="deck-title">Lower Deck</span>
-        <span class="deck-type-tag">2 + 2 Seater Layout</span>
+  <!-- ======================================================================
+       STEP 1: 2-COLUMN LAYOUT (SEAT MAP + STICKY 360px SUMMARY PANEL)
+       ====================================================================== -->
+  <div class="step-1-layout" *ngIf="currentStep === 1">
+    
+    <!-- Left: Bus Interior Deck Chassis -->
+    <div class="bus-deck-chassis">
+      <div class="chassis-toolbar">
+        <!-- Lower / Upper Deck Toggle -->
+        <div class="deck-segmented-control">
+          <button type="button" class="deck-btn" [class.active]="activeDeck === 'lower'" (click)="activeDeck = 'lower'">
+            <i class="fa-solid fa-chair mr-1"></i> Lower Deck
+          </button>
+          <button type="button" class="deck-btn" [class.active]="activeDeck === 'upper'" (click)="activeDeck = 'upper'">
+            <i class="fa-solid fa-bed mr-1"></i> Upper Deck (Sleeper)
+          </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="seat-legend">
+          <div class="legend-item"><span class="legend-tile available"></span><span>Available</span></div>
+          <div class="legend-item"><span class="legend-tile selected"></span><span>Selected</span></div>
+          <div class="legend-item"><span class="legend-tile booked"></span><span>Booked</span></div>
+          <div class="legend-item"><span class="legend-tile ladies"></span><span>Ladies</span></div>
+        </div>
       </div>
 
-      <!-- Seat Legend -->
-      <div class="seat-legend">
-        <div class="legend-item">
-          <div class="legend-box available"></div>
-          <span>Available</span>
+      <!-- Bus Floor Plan with 40px Tiles -->
+      <div class="bus-chassis-body">
+        <!-- Front / Steering Cabin -->
+        <div class="driver-cabin">
+          <div class="cabin-indicator">FRONT</div>
+          <i class="fa-solid fa-dharmachakra steering-icon" title="Driver Cabin"></i>
         </div>
-        <div class="legend-item">
-          <div class="legend-box selected"></div>
-          <span>Selected</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-box booked"></div>
-          <span>Booked</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-box ladies"></div>
-          <span>Ladies Only</span>
+
+        <!-- Seats Matrix Grid with Aisle -->
+        <div class="seats-grid-layout">
+          <!-- Col 1: Window Left -->
+          <div class="seat-col">
+            <app-small-seats *ngFor="let index of generatearray(10)" 
+              [seatno]="activeDeck === 'lower' ? index : 40 + index" 
+              [alreadybookedseats]="filledseats"
+              (seatselected)="handleselectedseats($event)" 
+              [selectedseats]="selectedseats">
+            </app-small-seats>
+          </div>
+
+          <!-- Col 2: Aisle Left -->
+          <div class="seat-col">
+            <app-small-seats *ngFor="let index of generatearray(10)" 
+              [seatno]="activeDeck === 'lower' ? 10 + index : 50 + index" 
+              [alreadybookedseats]="filledseats" 
+              (seatselected)="handleselectedseats($event)"
+              [selectedseats]="selectedseats">
+            </app-small-seats>
+          </div>
+
+          <!-- Central Walking Aisle -->
+          <div class="central-aisle">
+            <span class="aisle-text">A I S L E</span>
+          </div>
+
+          <!-- Col 3: Aisle Right -->
+          <div class="seat-col">
+            <app-small-seats *ngFor="let index of generatearray(10)" 
+              [seatno]="activeDeck === 'lower' ? 20 + index : 60 + index" 
+              [alreadybookedseats]="filledseats" 
+              (seatselected)="handleselectedseats($event)"
+              [selectedseats]="selectedseats">
+            </app-small-seats>
+          </div>
+
+          <!-- Col 4: Window Right -->
+          <div class="seat-col">
+            <app-small-seats *ngFor="let index of generatearray(10)" 
+              [seatno]="activeDeck === 'lower' ? 30 + index : 70 + index" 
+              [alreadybookedseats]="filledseats" 
+              (seatselected)="handleselectedseats($event)"
+              [selectedseats]="selectedseats">
+            </app-small-seats>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Bus Interior Floor -->
-    <div class="bus-floor-plan">
-      <!-- Front Steering Cabin -->
-      <div class="driver-cabin">
-        <i class="fa-solid fa-dharmachakra steering-wheel text-xl" title="Driver Cabin"></i>
-        <div class="cabin-label">FRONT</div>
-      </div>
+    <!-- Right: Sticky 360px Summary Panel (NO OVERFLOW) -->
+    <div class="sticky-summary-sidebar">
+      <div class="summary-card">
+        <h3 class="summary-heading">Trip Summary</h3>
 
-      <!-- 4 Rows of Seats with Central Aisle -->
-      <div class="seats-matrix">
-        <!-- Row 1 (Window Left) -->
-        <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="index" [alreadybookedseats]="filledseats"
-            (seatselected)="handleselectedseats($event)" [selectedseats]="selectedseats">
-          </app-small-seats>
+        <!-- Journey Route Points -->
+        <div class="route-strip">
+          <div class="strip-point">
+            <div class="point-tag">From</div>
+            <div class="point-meta">
+              <span class="point-city">{{ routedetails?.departureLocation?.name || 'Delhi' }}</span>
+              <span class="point-clock tabular-nums">{{ busdeparturetime < 10 ? '0' + busdeparturetime : busdeparturetime }}:00</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-down-long route-direction-icon"></i>
+          <div class="strip-point">
+            <div class="point-tag">To</div>
+            <div class="point-meta">
+              <span class="point-city">{{ routedetails?.arrivalLocation?.name || 'Jaipur' }}</span>
+              <span class="point-clock tabular-nums">{{ busarrivaltime < 10 ? '0' + busarrivaltime : busarrivaltime }}:00</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Row 2 (Aisle Left) -->
-        <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="10 + index"
-            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
-            [selectedseats]="selectedseats">
-          </app-small-seats>
+        <!-- Boarding & Dropping Points with Change Toggle -->
+        <div class="boarding-points-box">
+          <div class="bp-row">
+            <div class="bp-info">
+              <span class="bp-type">Boarding:</span>
+              <span class="bp-name">{{ selectedBoardingPoint.name }}</span>
+            </div>
+            <button class="btn-change-point" (click)="showPointChanger = !showPointChanger">Change</button>
+          </div>
+
+          <!-- Collapsible changer -->
+          <div class="point-changer-dropdown" *ngIf="showPointChanger">
+            <label class="point-label">Select Boarding Stop:</label>
+            <select class="point-select" [(ngModel)]="selectedBoardingPoint">
+              <option *ngFor="let bp of boardingPoints" [ngValue]="bp">{{ bp.name }} ({{ bp.time }})</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Central Aisle Space -->
-        <div class="bus-central-aisle">
-          <span class="aisle-label">A I S L E</span>
+        <!-- Selected Seats Chips List -->
+        <div class="selected-seats-section">
+          <span class="section-label">Selected Seats ({{ selectedseats.length }}):</span>
+          <div class="seat-chips-list" *ngIf="selectedseats.length > 0">
+            <span class="seat-pill-chip" *ngFor="let s of selectedseats">
+              <span>Seat {{ s }}</span>
+              <i class="fa-solid fa-xmark remove-seat-icon" (click)="handleselectedseats(s)"></i>
+            </span>
+          </div>
+          <div class="no-seat-warning" *ngIf="selectedseats.length === 0">
+            <i class="fa-solid fa-hand-pointer mr-1 text-amber-500"></i> Tap seats on the bus map to select
+          </div>
         </div>
 
-        <!-- Row 3 (Aisle Right) -->
-        <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="20 + index"
-            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
-            [selectedseats]="selectedseats">
-          </app-small-seats>
+        <!-- Transparent Fare Breakdown -->
+        <div class="fare-breakdown-box">
+          <div class="fare-row">
+            <span class="fare-item">Base Fare ({{ selectedseats.length }} seats)</span>
+            <span class="fare-val tabular-nums">₹{{ baseTotal }}</span>
+          </div>
+          <div class="fare-row" *ngIf="selectedseats.length > 0">
+            <span class="fare-item">GST & Transit Service Tax (5%)</span>
+            <span class="fare-val tabular-nums">₹{{ taxAmount }}</span>
+          </div>
+          <div class="fare-row discount-row" *ngIf="discountAmount > 0">
+            <span class="fare-item text-green-600">reDeal Applied Discount</span>
+            <span class="fare-val text-green-600 tabular-nums">-₹{{ discountAmount }}</span>
+          </div>
+          <div class="fare-divider"></div>
+          <div class="fare-total-row">
+            <span class="total-label">Total Payable</span>
+            <span class="total-amount tabular-nums">₹{{ grandTotal }}</span>
+          </div>
         </div>
 
-        <!-- Row 4 (Window Right) -->
-        <div class="seat-row-col">
-          <app-small-seats *ngFor="let index of generatearray(10)" [seatno]="30 + index"
-            [alreadybookedseats]="filledseats" (seatselected)="handleselectedseats($event)"
-            [selectedseats]="selectedseats">
-          </app-small-seats>
+        <!-- Continue CTA Button -->
+        <div class="continue-action-box">
+          <button type="button" 
+                  class="btn-primary w-full continue-btn" 
+                  [disabled]="selectedseats.length === 0"
+                  (click)="goToPassengerDetails()">
+            <span>Continue</span>
+            <i class="fa-solid fa-arrow-right ml-2"></i>
+          </button>
+          <div class="disabled-hint" *ngIf="selectedseats.length === 0">
+            Select at least 1 seat to continue
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Right: Sticky Booking Summary & Passenger Flow -->
-  <div class="seats-summary-side">
-    <div class="seat-side-card">
-      <h3 class="side-card-title">Selected Journey</h3>
+  <!-- ======================================================================
+       STEP 2: FULL-WIDTH PASSENGER DETAILS FORM (NOT SQUEEZED!)
+       ====================================================================== -->
+  <div class="step-2-full-layout" *ngIf="currentStep === 2">
+    <div class="passenger-form-container">
+      <div class="form-banner-header">
+        <div>
+          <h3 class="banner-title">Passenger Information</h3>
+          <p class="banner-sub">Please enter government ID details for all passengers</p>
+        </div>
+        <button class="btn-secondary btn-compact" (click)="backToSeatSelection()">
+          <i class="fa-solid fa-arrow-left mr-1"></i> Change Seats
+        </button>
+      </div>
 
-      <!-- Route Points -->
-      <div class="boarding-dropping-summary">
-        <div class="summary-point">
-          <div class="point-badge">From</div>
-          <div>
-            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.departureLocation?.name ||
-              'Delhi' }}</div>
-            <div class="text-xs text-[var(--text-secondary)]">{{ busdeparturetime }}:00 hrs</div>
+      <!-- One Full-Width Card Per Selected Seat -->
+      <div class="passenger-cards-stack">
+        <div class="passenger-card" *ngFor="let p of passengers; let i = index">
+          <div class="card-p-header">
+            <div class="p-header-left">
+              <span class="p-badge">Passenger {{ i + 1 }}</span>
+              <span class="seat-badge">Seat {{ p.seatNo }}</span>
+            </div>
+            <button type="button" class="btn-ghost btn-compact autofill-btn" *ngIf="autofillUserName" (click)="useGoogleProfile(i)">
+              <i class="fa-brands fa-google mr-1 text-brand"></i> Use Google Name
+            </button>
+          </div>
+
+          <div class="p-fields-grid">
+            <div class="form-group name-group">
+              <label class="input-label">Full Name (as per Govt ID) *</label>
+              <input type="text" class="custom-input" [(ngModel)]="p.name" placeholder="e.g. Rahul Sharma" required />
+            </div>
+
+            <div class="form-group age-group">
+              <label class="input-label">Age *</label>
+              <input type="number" class="custom-input" [(ngModel)]="p.age" min="1" max="110" placeholder="28" required />
+            </div>
+
+            <div class="form-group gender-group">
+              <label class="input-label">Gender *</label>
+              <div class="gender-segmented-control">
+                <button type="button" class="gender-btn" [class.active]="p.gender === 'Male'" (click)="p.gender = 'Male'">
+                  <i class="fa-solid fa-mars mr-1"></i> Male
+                </button>
+                <button type="button" class="gender-btn" [class.active]="p.gender === 'Female'" (click)="p.gender = 'Female'">
+                  <i class="fa-solid fa-venus mr-1"></i> Female
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="summary-point">
-          <div class="point-badge">To</div>
-          <div>
-            <div class="font-bold text-sm text-[var(--text-primary)]">{{ routedetails?.arrivalLocation?.name || 'Jaipur'
-              }}</div>
-            <div class="text-xs text-[var(--text-secondary)]">{{ busarrivaltime }}:00 hrs</div>
+      </div>
+
+      <!-- Contact & Ticket Delivery Card -->
+      <div class="contact-card">
+        <h4 class="contact-card-title">
+          <i class="fa-solid fa-paper-plane mr-2 text-brand"></i>
+          <span>Ticket Delivery Contact</span>
+        </h4>
+        <div class="contact-grid">
+          <div class="form-group">
+            <label class="input-label">Email ID (for e-ticket & invoice) *</label>
+            <input type="email" class="custom-input" [(ngModel)]="email" placeholder="name@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">Mobile Number (for SMS & live tracking) *</label>
+            <div class="phone-input-group">
+              <span class="phone-prefix">+91</span>
+              <input type="tel" class="custom-input phone-field" [(ngModel)]="phone" placeholder="9876543210" maxlength="10" required />
+            </div>
           </div>
         </div>
+
+        <!-- Travel Protection Add-on -->
+        <div class="insurance-add-on-box">
+          <label class="insurance-checkbox-label">
+            <input type="checkbox" [(ngModel)]="tripInsurance" class="custom-checkbox" />
+            <div class="insurance-copy">
+              <div class="ins-title-row">
+                <span class="ins-title">Add Comprehensive Travel Protection (+₹15 / passenger)</span>
+                <span class="ins-recommended-tag">Recommended</span>
+              </div>
+              <p class="ins-desc">Includes up to ₹5,00,000 personal accident coverage and ₹5,000 baggage delay cover.</p>
+            </div>
+          </label>
+        </div>
       </div>
 
-      <!-- Selected Seats Chips -->
-      <div class="selected-seats-section">
-        <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase">Selected Seats:</span>
-        <div class="seat-chips-row" *ngIf="selectedseats.length > 0">
-          <span class="seat-chip" *ngFor="let s of selectedseats">
-            Seat {{ s }}
-            <i class="fa-solid fa-xmark ml-1 text-xs cursor-pointer opacity-70 hover:opacity-100"
-              (click)="handleselectedseats(s)"></i>
-          </span>
-        </div>
-        <div class="no-seat-hint" *ngIf="selectedseats.length === 0">
-          <i class="fa-solid fa-hand-pointer text-amber-500 mr-1"></i> Please tap seats on the bus map to select
-        </div>
-      </div>
+      <!-- Action Row: Back & Proceed to Payment -->
+      <div class="step-2-actions-bar">
+        <button type="button" class="btn-secondary" (click)="backToSeatSelection()">
+          <i class="fa-solid fa-arrow-left mr-2"></i> Back to Seats
+        </button>
 
-      <!-- Live Fare Total -->
-      <div class="fare-total-box">
-        <div class="text-xs text-[var(--text-secondary)]">Total Seat Amount</div>
-        <div class="total-price-display">
-          ₹{{ selectedseats.length * seatprice }}
-        </div>
-        <div class="tax-note">Taxes & discounts calculated on checkout</div>
-      </div>
-
-      <!-- Action: Proceed To Book -->
-      <div class="proceed-drawer-container">
-        <app-form-drawer [selectedseat]="selectedseats" [seatprice]="seatprice" [routedetails]="routedetails"
-          [busid]="busid" [busarrivaltime]="busarrivaltime" [busdeparturetime]="busdeparturetime"
-          [operatorname]="operatorname">
-        </app-form-drawer>
+        <button type="button" class="btn-primary proceed-payment-btn" (click)="proceedToPayment()">
+          <span>Proceed to Pay ₹{{ grandTotal }}</span>
+          <i class="fa-solid fa-lock ml-2"></i>
+        </button>
       </div>
 
     </div>

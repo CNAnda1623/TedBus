@@ -1,29 +1,32 @@
 <div class="bus-card-container">
-  <!-- Main 3-Zone Card Grid -->
+  <!-- Main 12-Column Grid Card -->
   <div class="bus-card-main">
     
-    <!-- Zone 1: Operator & Bus Type (Left) -->
+    <!-- Zone A (4 cols): Operator & Bus Type (Left) -->
     <div class="bus-zone-operator">
       <h3 class="operator-name">{{ operatorname }}</h3>
       <div class="bus-type-badge">{{ bustypename }}</div>
       
       <div class="rating-review-row">
-        <span class="rating-badge" [class.high-rating]="avgrating >= 4.0">
+        <span class="rating-pill" 
+              [class.high]="avgrating >= 4.0"
+              [class.medium]="avgrating >= 3.0 && avgrating < 4.0"
+              [class.low]="avgrating < 3.0">
           <i class="fa-solid fa-star text-xs mr-1"></i>{{ avgrating }}
         </span>
         <span class="review-count">({{ totalreview }} reviews)</span>
       </div>
     </div>
 
-    <!-- Zone 2: Timeline & Journey (Center) -->
+    <!-- Zone B (5 cols): Timeline & Duration (Center) -->
     <div class="bus-zone-timeline">
       <div class="time-city-group departure">
-        <span class="journey-time">{{ busdeparturetime < 10 ? '0' + busdeparturetime : busdeparturetime }}:00</span>
+        <span class="journey-time tabular-nums">{{ busdeparturetime < 10 ? '0' + busdeparturetime : busdeparturetime }}:00</span>
         <span class="journey-city">{{ routedetails?.departureLocation?.name || 'Departure City' }}</span>
       </div>
 
       <div class="duration-path">
-        <span class="duration-text">{{ routedetails?.duration || 5 }} hrs</span>
+        <span class="duration-text tabular-nums">{{ routedetails?.duration || 5 }}h 00m</span>
         <div class="duration-line">
           <span class="duration-dot start"></span>
           <span class="duration-bar"></span>
@@ -33,16 +36,15 @@
       </div>
 
       <div class="time-city-group arrival">
-        <span class="journey-time">{{ busarrivaltime < 10 ? '0' + busarrivaltime : busarrivaltime }}:00</span>
+        <span class="journey-time tabular-nums">{{ busarrivaltime < 10 ? '0' + busarrivaltime : busarrivaltime }}:00</span>
         <span class="journey-city">{{ routedetails?.arrivalLocation?.name || 'Arrival City' }}</span>
       </div>
     </div>
 
-    <!-- Zone 3: Price & Primary Action (Right) -->
+    <!-- Zone C (3 cols): Price & Primary Action (Right) -->
     <div class="bus-zone-action">
       <div class="price-container">
-        <span class="price-currency">INR</span>
-        <span class="price-amount">₹{{ seatprivce }}</span>
+        <span class="price-amount tabular-nums">₹{{ seatprivce }}</span>
       </div>
 
       <div class="deal-tag">
@@ -51,11 +53,11 @@
 
       <div class="seats-left-pill" [class.low-seats]="getSeatsLeft() < 10">
         <i class="fa-solid fa-fire text-amber-500 mr-1" *ngIf="getSeatsLeft() < 10"></i>
-        <span>{{ getSeatsLeft() }} Seats left</span>
+        <span class="tabular-nums">{{ getSeatsLeft() }} Seats left</span>
       </div>
 
-      <button type="button" class="btn-view-seats" (click)="toggleViewSeats()">
-        <span>{{ activeTab === 4 ? 'Hide Seats' : 'View Seats' }}</span>
+      <button type="button" class="btn-primary btn-compact btn-view-seats" (click)="toggleViewSeats()">
+        <span>{{ activeTab === 4 ? 'Hide seats' : 'View seats' }}</span>
         <i class="fa-solid" [class.fa-angle-up]="activeTab === 4" [class.fa-angle-down]="activeTab !== 4"></i>
       </button>
     </div>
@@ -78,8 +80,9 @@
       <div class="amenity-icons-group">
         <span title="Charging Point"><i class="fa-solid fa-plug text-xs"></i></span>
         <span title="Free High-Speed WiFi"><i class="fa-solid fa-wifi text-xs"></i></span>
-        <span title="Movie / TV Entertainment"><i class="fa-solid fa-tv text-xs"></i></span>
+        <span title="Clean Blankets & Pillows"><i class="fa-solid fa-bed text-xs"></i></span>
         <span title="Complimentary Water Bottle"><i class="fa-solid fa-bottle-water text-xs"></i></span>
+        <span title="Movie / TV Entertainment"><i class="fa-solid fa-tv text-xs"></i></span>
       </div>
     </div>
 
@@ -120,7 +123,7 @@
           <span>Packaged Drinking Water</span>
         </div>
         <div class="amenity-card">
-          <i class="fa-solid fa-blanket text-[var(--brand-primary)]"></i>
+          <i class="fa-solid fa-bed text-[var(--brand-primary)]"></i>
           <span>Clean Sanitized Blanket & Pillow</span>
         </div>
         <div class="amenity-card">
@@ -140,14 +143,14 @@
         <div class="points-column">
           <h4 class="panel-heading">Boarding Points ({{ routedetails?.departureLocation?.name }})</h4>
           <div class="point-item">
-            <span class="point-time-badge">{{ busdeparturetime }}:00</span>
+            <span class="point-time-badge tabular-nums">{{ busdeparturetime < 10 ? '0' + busdeparturetime : busdeparturetime }}:00</span>
             <div class="point-details">
               <span class="point-location">Kashmiri Gate ISBT, Counter 12</span>
               <span class="point-sub">Near Metro Gate No. 2, Ring Road</span>
             </div>
           </div>
           <div class="point-item">
-            <span class="point-time-badge">{{ (busdeparturetime + 1) % 24 }}:00</span>
+            <span class="point-time-badge tabular-nums">{{ (busdeparturetime + 1) % 24 }}:00</span>
             <div class="point-details">
               <span class="point-location">Dhaula Kuan, Metro Station</span>
               <span class="point-sub">Under Flyover, Main Bus Stop</span>
@@ -158,14 +161,14 @@
         <div class="points-column">
           <h4 class="panel-heading">Dropping Points ({{ routedetails?.arrivalLocation?.name }})</h4>
           <div class="point-item">
-            <span class="point-time-badge">{{ busarrivaltime }}:00</span>
+            <span class="point-time-badge tabular-nums">{{ busarrivaltime < 10 ? '0' + busarrivaltime : busarrivaltime }}:00</span>
             <div class="point-details">
               <span class="point-location">Sindhi Camp Central Bus Stand</span>
               <span class="point-sub">Platform 4, Main Arrival Terminal</span>
             </div>
           </div>
           <div class="point-item">
-            <span class="point-time-badge">{{ (busarrivaltime + 1) % 24 }}:00</span>
+            <span class="point-time-badge tabular-nums">{{ (busarrivaltime + 1) % 24 }}:00</span>
             <div class="point-details">
               <span class="point-location">Transport Nagar Entry</span>
               <span class="point-sub">Near Bypass Toll Gate</span>

@@ -1,60 +1,47 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SearchBar, SearchParams } from '../../shared/search-bar/search-bar';
 
 @Component({
   selector: 'app-header',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, SearchBar],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
 export class Header implements OnInit {
-  @Output() customBusClicked = new EventEmitter<void>();
+  @Input() resultCount: number = 0;
+  @Output() searchUpdated = new EventEmitter<SearchParams>();
 
-  departure: string = '';
-  arrival: string = '';
+  departure: string = 'Delhi';
+  arrival: string = 'Jaipur';
   date: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.departure = params['departure'] || '';
-      this.arrival = params['arrival'] || '';
-      this.date = params['date'] || '';
+      if (params['departure']) this.departure = params['departure'];
+      if (params['arrival']) this.arrival = params['arrival'];
+      if (params['date']) this.date = params['date'];
+      if (!this.date) {
+        this.date = new Date().toISOString().split('T')[0];
+      }
     });
   }
 
-  onCustomBusClick(): void {
-    this.customBusClicked.emit();
-  }
-
-  swapRoutes(): void {
-    if (!this.departure || !this.arrival) return;
-    const temp = this.departure;
-    this.departure = this.arrival;
-    this.arrival = temp;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { departure: this.departure, arrival: this.arrival, date: this.date },
-      queryParamsHandling: 'merge'
+  handleSearch(params: SearchParams): void {
+    this.departure = params.from;
+    this.arrival = params.to;
+    this.date = params.date;
+    this.router.navigate(['/selectbus-page'], {
+      queryParams: {
+        departure: params.from,
+        arrival: params.to,
+        date: params.date
+      }
     });
-  }
-
-  shiftDate(days: number): void {
-    if (!this.date) return;
-    const d = new Date(this.date);
-    if (isNaN(d.getTime())) return;
-    d.setDate(d.getDate() + days);
-    const newDateStr = d.toISOString().split('T')[0];
-    this.date = newDateStr;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { departure: this.departure, arrival: this.arrival, date: newDateStr },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  modifySearch(): void {
-    this.router.navigate(['/']);
+    this.searchUpdated.emit(params);
   }
 }

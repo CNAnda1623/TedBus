@@ -1,0 +1,318 @@
+/* Global Footer Styling */
+.app-global-footer {
+  background-color: var(--surface-card);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 48px 20px 24px 20px;
+  margin-top: 60px;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Top Links Grid (4 Columns) */
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.link-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-header-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: default;
+  text-align: left;
+}
+
+.group-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.accordion-icon {
+  display: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform var(--transition-fast);
+}
+
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-list li a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.link-list li a:hover {
+  color: var(--brand-primary);
+  text-decoration: underline;
+}
+
+/* Divider */
+.footer-divider {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 36px 0;
+}
+
+/* Company Block Grid */
+.company-block-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 36px;
+}
+
+.brand-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.footer-logo {
+  width: 32px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.footer-brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand-primary);
+}
+
+.brand-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 16px 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-sunken);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+.social-icon:hover {
+  background-color: var(--brand-subtle);
+  color: var(--brand-primary);
+  border-color: var(--brand-border);
+}
+
+/* Link Columns */
+.link-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.col-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 14px 0;
+}
+
+.col-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.col-links li a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.col-links li a:hover {
+  color: var(--brand-primary);
+}
+
+/* App Download Badges */
+.download-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0 0 14px 0;
+}
+
+.app-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.app-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+.app-badge:hover {
+  border-color: var(--border-strong);
+}
+
+.badge-icon {
+  font-size: 22px;
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-sub {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.badge-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.payment-guarantee-line {
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.text-brand {
+  color: var(--brand-primary);
+}
+
+/* Bottom Legal Strip */
+.legal-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.legal-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legal-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.legal-links a:hover {
+  color: var(--brand-primary);
+}
+
+.strip-dot {
+  opacity: 0.5;
+}
+
+/* Mobile Responsive */
+@media (max-width: 860px) {
+  .link-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .link-group {
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 0;
+  }
+
+  .group-header-btn {
+    cursor: pointer;
+  }
+
+  .group-title {
+    margin-bottom: 0;
+  }
+
+  .accordion-icon {
+    display: block;
+  }
+
+  .link-group.expanded .accordion-icon {
+    transform: rotate(180deg);
+  }
+
+  .link-list {
+    display: none;
+    padding-top: 10px;
+  }
+
+  .link-group.expanded .link-list {
+    display: flex;
+  }
+
+  .company-block-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .legal-strip {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}

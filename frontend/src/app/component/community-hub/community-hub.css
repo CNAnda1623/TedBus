@@ -1,1148 +1,926 @@
-/* Community Hub Main Container */
-.community-hub-container {
+/* Community Page Layout */
+.community-page-layout {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 20px 80px 20px;
-  background-color: var(--bg-page);
-  color: var(--text-primary);
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
-/* Header Section */
-.community-header {
-  text-align: center;
-  margin-bottom: 36px;
-  padding: 40px 24px;
-  background: var(--surface-card);
+/* Toast */
+.toast-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background-color: var(--surface-raised);
   border: 1px solid var(--border-subtle);
-  border-radius: 28px;
-  box-shadow: var(--shadow-sm);
-  color: var(--text-primary);
-}
-
-.main-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--text-primary);
-}
-
-.community-icon {
-  font-size: 2.2rem !important;
-  width: 2.2rem !important;
-  height: 2.2rem !important;
-  color: var(--brand-primary);
-}
-
-.subtitle {
-  font-size: 1.05rem;
-  margin: 10px 0 0 0;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-/* Create Post Section */
-.create-post-section {
-  margin-bottom: 40px;
-}
-
-/* Add these styles for custom labels above fields */
-
-.custom-field {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.custom-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
-  margin-bottom: 8px;
-  margin-left: 4px;
-}
-
-/* Remove the mat-label since we're using custom labels above */
-.custom-field .mat-form-field .mat-form-field-label {
-  display: none;
-}
-
-/* Adjust field spacing since we removed floating labels */
-.custom-field .mat-form-field {
-  margin-bottom: 0;
-}
-
-/* Avatar styles */
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Comments section */
-.comments-section {
-  padding: 16px;
-  border-top: 1px solid #eee;
-}
-
-.comment {
-  margin-bottom: 16px;
-}
-
-.comment-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.comment-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.comment-author {
-  font-weight: 500;
-  margin-right: 8px;
-}
-
-.comment-date {
-  color: #666;
-  font-size: 0.8em;
-}
-
-.comment-input {
-  margin-top: 16px;
-  display: flex;
-  gap: 8px;
-}
-
-/* Form row for side-by-side fields */
-.form-row {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.form-row .custom-field.half-width {
-  flex: 1;
-}
-
-/* Make sure the mat-form-field takes full width within its container */
-.custom-field .mat-form-field {
-  width: 100%;
-}
-
-/* Style the input fields to look clean */
-.custom-field .mat-input-element {
-  background-color: white;
-  color: #333;
-  font-size: 14px;
-  padding: 12px 16px;
-}
-
-.custom-field .mat-input-element::placeholder {
-  color: #999;
-  opacity: 1;
-}
-
-/* Focus state for custom labeled fields */
-.custom-field .mat-form-field.mat-focused .mat-form-field-outline-thick {
-  color: #2196F3;
-}
-
-/* Responsive design for custom fields */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
-  
-  .form-row .custom-field.half-width {
-    width: 100%;
-  }
-}
-
-/* Custom styles for travel story form */
-.post-form {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Make form fields look like the third image - clean white background with subtle border */
-.post-form .mat-form-field {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.post-form .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: white;
-  border-radius: 14px;
-}
-
-.post-form .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-  color: #e0e0e0;
-}
-
-.post-form .mat-form-field-appearance-outline .mat-form-field-outline-start,
-.post-form .mat-form-field-appearance-outline .mat-form-field-outline-gap,
-.post-form .mat-form-field-appearance-outline .mat-form-field-outline-end {
-  border-color: #e0e0e0;
-  border-width: 1px;
-}
-
-.post-form .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
-  color: #ccc;
-}
-
-.post-form .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: #2196F3;
-}
-
-/* Input field styling to match third image */
-.post-form .mat-input-element {
-  background-color: white;
-  color: #333;
-  font-size: 14px;
-  padding: 12px 16px;
-}
-
-.post-form .mat-input-element::placeholder {
-  color: #999;
-  opacity: 1;
-}
-
-/* Label styling */
-.post-form .mat-form-field-label {
-  color: #666;
-  font-size: 14px;
-  max-width: calc(100% - 32px); /* Account for padding and icons */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.post-form .mat-form-field.mat-focused .mat-form-field-label {
-  color: #2196F3;
-}
-
-.post-form .mat-form-field-appearance-outline .mat-form-field-label {
-  max-width: calc(100% - 40px); /* More space for outline appearance */
-}
-
-/* For half-width fields, ensure labels fit properly */
-.half-width .mat-form-field-label {
-  max-width: calc(100% - 50px); /* Extra space for icons in smaller fields */
-}
-
-/* Form layout */
-.full-width {
-  width: 100%;
-}
-
-.form-row {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.half-width {
-  flex: 1;
-}
-
-/* Photo upload section styling */
-.photo-upload-section {
-  margin: 20px 0;
-  padding: 20px;
-  border: 2px dashed #e0e0e0;
-  border-radius: 22px;
-  background-color: #fafafa;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.photo-upload-section:hover {
-  border-color: #2196F3;
-  background-color: #f5f5f5;
-}
-
-.photo-upload-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: #666;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.photo-upload-label mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #999;
-}
-
-.photo-input {
-  display: none;
-}
-
-/* Selected photos preview */
-.selected-photos {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-.photo-preview {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-}
-
-.photo-name {
-  margin-right: 8px;
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.photo-preview button {
-  width: 20px;
-  height: 20px;
-  line-height: 1;
-}
-
-.photo-preview button mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
-}
-
-/* Form actions */
-.form-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-.submit-btn, .reset-btn {
+  border-radius: var(--radius-pill);
   padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 9999px;
+  box-shadow: var(--shadow-lg);
   display: flex;
   align-items: center;
-  gap: 8px;
+  z-index: 100;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  animation: slideIn 200ms ease;
 }
 
-.submit-btn {
-  min-width: 180px;
+@keyframes slideIn {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.reset-btn {
-  min-width: 120px;
+/* Slim Page Header */
+.community-page-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
-  
-  .half-width {
-    width: 100%;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .submit-btn, .reset-btn {
-    width: 100%;
-    max-width: 280px;
-  }
-}
-
-.create-post-btn {
-  border-radius: 9999px !important;
-  padding: 10px 24px !important;
-  font-weight: 600 !important;
-}
-
-.login-prompt button {
-  border-radius: 9999px !important;
-}
-
-.post-form-card {
-  border-radius: 26px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-
-.post-form-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-.post-icon {
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-  color: white;
-}
-
-.post-form {
+.header-content {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 20px;
-}
-
-.form-row {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.half-width {
-  flex: 1;
-}
-
-/* Photo Upload Section */
-.photo-upload-section {
-  padding: 20px;
-  border: 2px dashed #e2e8f0;
-  border-radius: 22px;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.photo-upload-section:hover {
-  border-color: #667eea;
-  background-color: #f8faff;
-}
-
-.photo-upload-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 500;
-  color: #4a5568;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.photo-input {
-  display: none;
-}
-
-.selected-photos {
-  margin-top: 16px;
-  display: flex;
   flex-wrap: wrap;
-  gap: 12px;
 }
 
-.photo-preview {
+.page-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: #e2e8f0;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  font-size: 0.9rem;
 }
 
-.photo-name {
-  color: #4a5568;
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-/* Form Actions */
-.form-actions {
+.create-story-cta {
+  height: 44px;
+  padding: 0 24px;
+}
+
+/* Community Toolbar */
+.community-toolbar {
   display: flex;
+  flex-direction: column;
   gap: 16px;
-  justify-content: flex-end;
-  margin-top: 20px;
+  margin-bottom: 28px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
 }
 
-.submit-btn {
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  color: white;
-  padding: 12px 24px;
+.toolbar-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.search-field-box {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.toolbar-search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 16px 0 38px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.toolbar-search-input:focus {
+  border-color: var(--brand-primary);
+  background-color: var(--surface-card);
+}
+
+.sort-segmented-control {
+  display: flex;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+}
+
+.sort-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
   font-weight: 600;
-  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.sort-btn.active {
+  background-color: var(--surface-card);
+  color: var(--brand-text);
+  box-shadow: var(--shadow-sm);
 }
 
-.reset-btn {
-  border: 2px solid #e2e8f0;
-  color: #4a5568;
-  padding: 12px 24px;
-  border-radius: 9999px;
+/* Template Filter Tabs */
+.template-tabs-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
 }
 
-/* Posts Feed Section */
-.posts-feed-section {
-  margin-top: 60px;
+.template-tab {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.template-tab:hover {
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+}
+.template-tab.active {
+  background-color: var(--brand-subtle);
+  border-color: var(--brand-border);
+  color: var(--brand-text);
 }
 
-.feed-header {
-  text-align: center;
+/* Destination Chips */
+.destination-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chips-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.chips-wrapper {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ======================================================================
+   EQUAL-HEIGHT 2-COLUMN CARDS GRID (Part 7)
+   ====================================================================== */
+.cards-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
   margin-bottom: 40px;
 }
 
-.feed-header h2 {
-  font-size: 2rem;
-  color: #2d3748;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 0;
-  font-weight: 600;
-}
-
-.feed-header p {
-  color: #718096;
-  font-size: 1.1rem;
-  margin: 8px 0 0 0;
-}
-
-/* Posts Grid */
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 30px;
-}
-
-.post-card, .post-form-card {
-  border-radius: var(--radius-card);
+.community-post-card {
   background-color: var(--surface-card);
-  color: var(--text-primary);
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
-
-.post-card:hover {
+.community-post-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--border-strong);
 }
 
-/* In community-hub.css */
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-}
-
-.post-header mat-card-title {
-  margin-left: 10px;
-}
-
-.timestamp {
-  color: #a0aec0;
-  font-size: 0.9rem;
-}
-
-.route {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #667eea;
-  font-weight: 500;
-  margin-left: 12px;
-}
-
-.small-icon {
-  font-size: 1rem !important;
-  width: 1rem !important;
-  height: 1rem !important;
-}
-
-/* Post Content */
-.post-content {
-  padding: 16px 20px 0 20px;
-}
-
-.post-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #2d3748;
-  margin: 0 0 16px 0;
-  line-height: 1.4;
-}
-
-/* Photos Grid */
-.photos-grid {
-  display: grid;
-  gap: 8px;
-  margin-bottom: 20px;
-  border-radius: 22px;
-  overflow: hidden;
-}
-
-.photos-grid.single-photo {
-  grid-template-columns: 1fr;
-}
-
-.photos-grid.two-photos {
-  grid-template-columns: 1fr 1fr;
-}
-
-.photos-grid.multiple-photos {
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
-.photo-item {
+/* 16:9 Cover Image */
+.card-cover-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   position: relative;
   overflow: hidden;
-  border-radius: 18px;
-  cursor: pointer;
+  background-color: var(--surface-sunken);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.photo-item.multiple-photos:first-child {
-  grid-row: span 2;
-}
-
-.post-photo {
+.post-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.3s ease;
-  min-height: 200px;
+  transition: transform var(--transition-normal);
+}
+.community-post-card:hover .post-cover-img {
+  transform: scale(1.03);
 }
 
-.photo-item.single-photo .post-photo {
-  max-height: 300px;
+.cover-overlay-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.photo-item.multiple-photos .post-photo {
-  height: 150px;
+.cover-dest-name {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
-.photo-item.multiple-photos:first-child .post-photo {
-  height: 308px;
-}
-
-.post-photo:hover {
-  transform: scale(1.05);
-}
-
-.photo-overlay {
+.post-template-badge {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.6);
+  top: 12px;
+  left: 12px;
+  background-color: rgba(27, 31, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.photos-count-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(27, 31, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* Card Body Content (Equal-height flex: 1) */
+.card-body-content {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.author-meta-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.author-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--surface-sunken);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-/* Post Story */
-.post-story p {
-  line-height: 1.6;
-  color: #4a5568;
-  margin: 0 0 20px 0;
-  font-size: 1rem;
-}
-
-/* Travel Tips Pro Tip Box */
-.travel-tips {
-  background: var(--surface-raised);
-  padding: 18px;
-  border-radius: 20px;
-  margin: 16px 0;
-  border-left: 4px solid var(--semantic-warning);
-}
-
-.travel-tips h4 {
-  color: var(--text-primary);
-  margin: 0 0 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
   font-size: 14px;
 }
 
-.tips-icon {
-  color: var(--semantic-warning);
+.author-names {
+  display: flex;
+  flex-direction: column;
 }
 
-.tips-content {
-  font-family: inherit;
+.author-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.relative-time {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.destination-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--surface-sunken);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+}
+
+.post-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.route-chip-banner {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-text);
+  background-color: var(--brand-subtle);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+/* 3-Line Clamped Excerpt */
+.post-story-excerpt {
+  font-size: 13px;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin: 0;
-  white-space: pre-line;
-  font-size: 13px;
+  margin: 0 0 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* City Tags */
-.city-tags {
-  margin: 20px 0;
-}
-
-.city-chip {
-  background: linear-gradient(45deg, #74b9ff, #0984e3);
-  color: white;
-  border-radius: 9999px;
-  margin: 4px;
-}
-
-/* Post Actions */
-.post-actions {
-  padding: 16px 20px 20px 20px;
-  border-top: 1px solid #e2e8f0;
+/* Template Highlights */
+.travel-tip-callout {
   display: flex;
-  justify-content: space-around;
+  align-items: flex-start;
+  gap: 8px;
+  background-color: var(--surface-sunken);
+  border-left: 3px solid var(--semantic-warning);
+  padding: 8px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-top: auto;
+}
+
+.tip-icon {
+  margin-top: 2px;
+}
+
+.itinerary-meta-pills {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.meta-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--surface-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.review-specs-box {
+  margin-top: auto;
+}
+
+.review-stars-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mode-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background-color: var(--brand-subtle);
+  color: var(--brand-text);
+}
+
+.operator-name-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stars-rating {
+  font-size: 11px;
+}
+
+.pro-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Card Fixed Footer Actions */
+.card-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  padding: 12px 20px;
+  background-color: var(--surface-card);
 }
 
 .action-btn {
-  color: #718096;
-  font-weight: 500;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
 }
-
 .action-btn:hover {
-  color: #667eea;
-  background-color: #f7faff;
+  color: var(--brand-primary);
+}
+.action-btn.liked {
+  color: var(--semantic-danger);
 }
 
-/* Image Modal */
-.image-modal-overlay {
+/* Numbered Pagination */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 32px 0;
+}
+
+.page-nav-btn {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.page-nav-btn:hover:not(:disabled) {
+  background-color: var(--surface-sunken);
+  border-color: var(--border-strong);
+}
+.page-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-numbers-list {
+  display: flex;
+  gap: 4px;
+}
+
+.page-num-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+.page-num-btn:hover {
+  border-color: var(--border-strong);
+}
+.page-num-btn.active {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #FFFFFF;
+}
+
+/* Skeletons & Empty State */
+.skeleton-card {
+  height: 380px;
+  background-color: var(--surface-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.skeleton-cover {
+  width: 100%;
+  height: 200px;
+  background-color: var(--surface-sunken);
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-line {
+  height: 14px;
+  background-color: var(--surface-sunken);
+  border-radius: var(--radius-xs);
+  animation: pulse 1.5s infinite;
+}
+.w-40 { width: 40%; }
+.w-80 { width: 80%; }
+.w-60 { width: 60%; }
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.empty-state-box {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.empty-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--brand-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.empty-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Modals & Backdrop */
+.modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
+  z-index: 100;
 }
 
-.image-modal {
-  position: relative;
-  max-width: 90vw;
+.detail-modal-panel, .create-post-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 680px;
   max-height: 90vh;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-modal);
+  box-shadow: var(--shadow-lg);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.detail-header, .create-modal-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.create-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.close-modal-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.detail-scroll-body, .create-modal-form {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.detail-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.gallery-photo {
+  height: 180px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.detail-story-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  white-space: pre-line;
+}
+
+/* Comments Thread Section */
+.comments-thread-section {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.thread-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 14px 0;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.comment-item {
+  background-color: var(--surface-sunken);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.comment-author-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.c-author-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.c-date {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.c-content {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.no-comments-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.comment-input-box {
+  display: flex;
+  gap: 10px;
+}
+
+.comment-field {
+  flex: 1;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+}
+.comment-field:focus {
+  border-color: var(--brand-primary);
+}
+
+/* Create Modal Form Elements */
+.template-choice-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--surface-sunken);
+}
+
+.choice-tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.choice-tab.active {
+  background-color: var(--surface-card);
+  color: var(--brand-primary);
+  border-bottom: 2px solid var(--brand-primary);
+}
+
+.form-error-banner {
+  background-color: rgba(198, 40, 40, 0.12);
+  color: var(--semantic-danger);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.custom-textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  outline: none;
+}
+.custom-textarea:focus {
+  border-color: var(--brand-primary);
+  background-color: var(--surface-card);
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.photo-upload-box {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+}
+
+.upload-trigger-btn {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-text);
+}
+
+.uploaded-previews-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
   justify-content: center;
 }
 
-.modal-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+.preview-thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+.preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.close-modal {
+.remove-thumb {
   position: absolute;
-  top: -50px;
-  right: 0;
+  top: 2px;
+  right: 2px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #FFFFFF;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  backdrop-filter: blur(10px);
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  backdrop-filter: blur(10px);
+.modal-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
 }
 
-.prev-btn {
-  left: -60px;
-}
-
-.next-btn {
-  right: -60px;
-}
-
-.image-counter {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 8px 16px;
-  border-radius: 9999px;
-  font-size: 0.9rem;
-}
-
-/* Responsive Design for Community Hub */
-
-/* Tablet Styles */
-@media (max-width: 768px) {
-  .community-hub-container {
-    padding: 15px;
-  }
-
-  .main-title {
-    font-size: 2rem;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .community-icon {
-    font-size: 2rem !important;
-    width: 2rem !important;
-    height: 2rem !important;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .posts-grid {
+/* Responsive */
+@media (max-width: 860px) {
+  .cards-grid-layout {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
-
-  .form-row {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .half-width {
-    width: 100%;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .submit-btn, .reset-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .feed-header h2 {
-    font-size: 1.6rem;
-  }
-
-  .nav-btn {
-    display: none;
-  }
-
-  .close-modal {
-    top: -40px;
-    right: 10px;
-  }
-
-  .image-counter {
-    bottom: -30px;
-  }
-}
-
-/* Mobile Styles */
-@media (max-width: 480px) {
-  .community-hub-container {
-    padding: 10px;
-  }
-
-  .community-header {
-    padding: 30px 15px;
-    margin-bottom: 25px;
-  }
-
-  .main-title {
-    font-size: 1.8rem;
-  }
-
-  .subtitle {
-    font-size: 0.95rem;
-  }
-
-  .post-form-card, .post-card {
-    margin: 0 -5px;
-    border-radius: 12px;
-  }
-
-  .posts-grid {
-    gap: 15px;
-  }
-
-  .post-title {
-    font-size: 1.2rem;
-  }
-
-  .post-content {
-    padding: 12px 16px 0 16px;
-  }
-
-  .post-header {
-    padding: 16px 16px 0 16px;
-  }
-
-  .post-actions {
-    padding: 12px 16px 16px 16px;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .action-btn {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .travel-tips {
-    padding: 15px;
-    margin: 15px 0;
-  }
-
-  .photos-grid.multiple-photos {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-  }
-
-  .photo-item.multiple-photos:first-child {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-
-  .photo-item.multiple-photos .post-photo {
-    height: 120px;
-  }
-
-  .photo-item.multiple-photos:first-child .post-photo {
-    height: 180px;
-  }
-
-  .selected-photos {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .photo-preview {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .image-modal {
-    max-width: 95vw;
-    max-height: 85vh;
-  }
-
-  .close-modal {
-    top: -35px;
-    right: 5px;
-  }
-
-  .image-counter {
-    bottom: -25px;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-  }
-}
-
-/* Large Desktop Styles */
-@media (min-width: 1200px) {
-  .community-hub-container {
-    max-width: 1400px;
-  }
-
-  .posts-grid {
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 35px;
-  }
-
-  .main-title {
-    font-size: 3rem;
-  }
-
-  .community-icon {
-    font-size: 3rem !important;
-    width: 3rem !important;
-    height: 3rem !important;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .feed-header h2 {
-    font-size: 2.2rem;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .community-hub-container {
-    background-color: white;
-  }
-
-  .create-post-section,
-  .post-actions,
-  .image-modal-overlay {
-    display: none;
-  }
-
-  .post-card {
-    break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid #e2e8f0;
-  }
-
-  .community-header {
-    background: white;
-    color: black;
-    border: 1px solid #e2e8f0;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .community-hub-container {
-    background-color: #1a202c;
-    color: #e2e8f0;
-  }
-
-  .post-card, .post-form-card {
-    background-color: #2d3748;
-    color: #e2e8f0;
-  }
-
-  .post-title, .feed-header h2 {
-    color: #e2e8f0;
-  }
-
-  .post-story p {
-    color: #cbd5e0;
-  }
-
-  .travel-tips {
-    background: linear-gradient(135deg, #2d3748, #4a5568);
-    border-left-color: #ed8936;
-  }
-
-  .tips-content {
-    color: #90cdf4;
-  }
-
-  .post-actions {
-    border-top-color: #4a5568;
-  }
-
-  .action-btn {
-    color: #a0aec0;
-  }
-
-  .action-btn:hover {
-    color: #90cdf4;
-    background-color: #2d3748;
-  }
-
-  .photo-upload-section {
-    border-color: #4a5568;
-    background-color: #2d3748;
-  }
-
-  .photo-upload-section:hover {
-    border-color: #667eea;
-    background-color: #374151;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .community-hub-container {
-    background-color: white;
-    color: black;
-  }
-
-  .post-card, .post-form-card {
-    border: 2px solid black;
-    background-color: white;
-  }
-
-  .community-header {
-    background: black;
-    color: white;
-    border: 2px solid white;
-  }
-
-  .submit-btn {
-    background: black;
-    color: white;
-    border: 2px solid white;
-  }
-
-  .action-btn:hover {
-    background-color: black;
-    color: white;
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .post-card:hover, .post-form-card:hover {
-    transform: none;
-  }
-
-  .post-photo:hover {
-    transform: none;
+  .form-row-2, .form-row-3 {
+    grid-template-columns: 1fr;
   }
 }

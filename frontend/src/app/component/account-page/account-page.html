@@ -1,0 +1,564 @@
+<div class="account-container">
+  <!-- Profile Header Hero -->
+  <header class="account-header-hero">
+    <div class="header-inner">
+      <div class="user-profile-info">
+        <div class="avatar-wrapper">
+          <img [src]="user.avatar" alt="Avatar" class="user-avatar" />
+          <span class="online-indicator"></span>
+        </div>
+        <div class="user-identity">
+          <div class="name-row">
+            <h1 class="user-name">{{ user.name }}</h1>
+            <span class="member-tag"><i class="fa-solid fa-crown"></i> Ted Gold Member</span>
+          </div>
+          <div class="contact-strip">
+            <span><i class="fa-regular fa-envelope"></i> {{ user.email }}</span>
+            <span><i class="fa-solid fa-phone"></i> {{ user.phone }}</span>
+            <span><i class="fa-regular fa-calendar-check"></i> Member since {{ user.memberSince }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme Switcher Selector -->
+      <div class="theme-picker-widget">
+        <span class="theme-label"><i class="fa-solid fa-palette"></i> Theme</span>
+        <div class="theme-switch-pill">
+          <button
+            class="theme-opt"
+            [class.active]="themeService.currentPreference() === 'light'"
+            (click)="setTheme('light')"
+            aria-label="Light mode"
+          >
+            <i class="fa-solid fa-sun"></i>
+            <span>Light</span>
+          </button>
+          <button
+            class="theme-opt"
+            [class.active]="themeService.currentPreference() === 'dark'"
+            (click)="setTheme('dark')"
+            aria-label="Dark mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+            <span>Dark</span>
+          </button>
+          <button
+            class="theme-opt"
+            [class.active]="themeService.currentPreference() === 'system'"
+            (click)="setTheme('system')"
+            aria-label="System mode"
+          >
+            <i class="fa-solid fa-circle-half-stroke"></i>
+            <span>Auto</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats Metrics Row -->
+  <section class="stats-metrics-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-pill bg-brand-subtle text-brand">
+          <i class="fa-solid fa-ticket"></i>
+        </div>
+        <div class="stat-numbers">
+          <span class="stat-val num-tabular">{{ upcomingCount }}</span>
+          <span class="stat-label">Upcoming Trips</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-pill bg-success-subtle text-success">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="stat-numbers">
+          <span class="stat-val num-tabular">{{ completedCount }}</span>
+          <span class="stat-label">Completed Journeys</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-pill bg-danger-subtle text-danger">
+          <i class="fa-solid fa-ban"></i>
+        </div>
+        <div class="stat-numbers">
+          <span class="stat-val num-tabular">{{ cancelledCount }}</span>
+          <span class="stat-label">Cancelled Bookings</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-pill bg-info-subtle text-info">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+        </div>
+        <div class="stat-numbers">
+          <span class="stat-val num-tabular">₹{{ totalSpent | number }}</span>
+          <span class="stat-label">Total Transit Spent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Tabs -->
+  <main class="account-main-content">
+    <div class="nav-tabs-bar">
+      <button
+        class="main-tab-btn"
+        [class.active]="currentTab === 'bookings'"
+        (click)="currentTab = 'bookings'"
+      >
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>My Bookings</span>
+      </button>
+
+      <button
+        class="main-tab-btn"
+        [class.active]="currentTab === 'passengers'"
+        (click)="currentTab = 'passengers'"
+      >
+        <i class="fa-solid fa-users"></i>
+        <span>Saved Co-Travellers</span>
+      </button>
+
+      <button
+        class="main-tab-btn"
+        [class.active]="currentTab === 'wallet'"
+        (click)="currentTab = 'wallet'"
+      >
+        <i class="fa-solid fa-wallet"></i>
+        <span>Ted Wallet & Rewards</span>
+      </button>
+    </div>
+
+    <!-- BOOKINGS TAB -->
+    <div *ngIf="currentTab === 'bookings'" class="tab-pane">
+      <!-- Controls Bar: Product Tabs, Status Filter, Search Filter -->
+      <div class="booking-controls-bar">
+        <div class="product-filters">
+          <button
+            *ngFor="let p of ['All', 'Bus', 'Train', 'Cab', 'Custom Bus']"
+            class="filter-pill"
+            [class.active]="selectedProduct === p"
+            (click)="selectedProduct = p"
+          >
+            {{ p }}
+          </button>
+        </div>
+
+        <div class="right-filters">
+          <div class="status-filters">
+            <button
+              *ngFor="let s of ['All', 'Confirmed', 'Completed', 'Cancelled']"
+              class="status-pill"
+              [class.active]="selectedStatus === s"
+              (click)="selectedStatus = s"
+            >
+              {{ s }}
+            </button>
+          </div>
+
+          <div class="search-input-pill">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              placeholder="Search PNR, city, operator..."
+              [(ngModel)]="searchFilter"
+              aria-label="Filter bookings"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bookings List -->
+      <div class="bookings-stream">
+        <div *ngFor="let b of filteredBookings" class="booking-card">
+          <!-- Top Row -->
+          <div class="card-top-line">
+            <div class="product-meta">
+              <span class="product-badge">
+                <i [class]="b.productIcon"></i>
+                <span>{{ b.product }}</span>
+              </span>
+              <span class="pnr-badge">PNR: <strong>{{ b.pnr }}</strong></span>
+              <span class="date-booked">Booked on {{ b.bookingDate }}</span>
+            </div>
+
+            <span
+              class="status-pill"
+              [class.status-confirmed]="b.status === 'Confirmed'"
+              [class.status-completed]="b.status === 'Completed'"
+              [class.status-cancelled]="b.status === 'Cancelled'"
+            >
+              <i
+                class="fa-solid"
+                [class.fa-circle-check]="b.status === 'Confirmed'"
+                [class.fa-flag-checkered]="b.status === 'Completed'"
+                [class.fa-ban]="b.status === 'Cancelled'"
+              ></i>
+              {{ b.status }}
+            </span>
+          </div>
+
+          <!-- Route Journey Row -->
+          <div class="route-journey-grid">
+            <div class="origin-station">
+              <span class="time-text num-tabular">{{ b.departureTime }}</span>
+              <span class="city-name">{{ b.from }}</span>
+              <span class="stop-point">{{ b.pickupPoint }}</span>
+            </div>
+
+            <div class="duration-transit">
+              <span class="duration-label num-tabular">{{ b.duration }}</span>
+              <div class="transit-line">
+                <span class="dot origin"></span>
+                <span class="line-bar"></span>
+                <span class="dot dest"></span>
+              </div>
+              <span class="service-type">{{ b.operator }}</span>
+            </div>
+
+            <div class="dest-station">
+              <span class="time-text num-tabular">{{ b.arrivalTime }}</span>
+              <span class="city-name">{{ b.to }}</span>
+              <span class="stop-point">{{ b.dropPoint }}</span>
+            </div>
+
+            <div class="fare-seat-summary">
+              <div class="fare-tag">
+                <span class="fare-label">Total Paid</span>
+                <span class="fare-num num-tabular">₹{{ b.fare }}</span>
+              </div>
+              <div class="seats-tag">
+                <span class="seats-label">Seats:</span>
+                <span class="seats-list">{{ b.seats.join(', ') }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions Strip -->
+          <div class="card-bottom-actions">
+            <div class="action-left">
+              <button class="btn-cta-view" (click)="openTicketDrawer(b)">
+                <i class="fa-solid fa-receipt"></i> View Ticket
+              </button>
+            </div>
+
+            <div class="action-right">
+              <!-- If Confirmed -->
+              <ng-container *ngIf="b.status === 'Confirmed'">
+                <button class="btn-action-outline" (click)="openTicketDrawer(b)">
+                  <i class="fa-solid fa-location-crosshairs text-success"></i> Live Tracking
+                </button>
+                <button class="btn-action-outline" routerLink="/selectbus-page">
+                  <i class="fa-solid fa-calendar-day text-warning"></i> Reschedule
+                </button>
+                <button class="btn-action-danger" (click)="promptCancel(b)">
+                  <i class="fa-solid fa-ban"></i> Cancel Booking
+                </button>
+              </ng-container>
+
+              <!-- If Completed -->
+              <ng-container *ngIf="b.status === 'Completed'">
+                <button class="btn-action-outline" (click)="printTicket()">
+                  <i class="fa-solid fa-download"></i> Download E-Ticket
+                </button>
+                <button class="btn-action-outline" routerLink="/community">
+                  <i class="fa-regular fa-star text-warning"></i> Rate & Review
+                </button>
+              </ng-container>
+
+              <!-- If Cancelled -->
+              <ng-container *ngIf="b.status === 'Cancelled'">
+                <div class="refund-stamp">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Refund of <strong>₹{{ b.refundAmount }}</strong> Credited (UTR: {{ b.utrNumber || 'HDFC9821034' }})</span>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="filteredBookings.length === 0" class="empty-state-box">
+          <i class="fa-solid fa-ticket-simple empty-icon"></i>
+          <h3 class="empty-title">No bookings found</h3>
+          <p class="empty-desc">You don't have any bookings matching the current filters.</p>
+          <a routerLink="/landing-page" class="book-now-cta">Explore Destinations</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAVED PASSENGERS TAB -->
+    <div *ngIf="currentTab === 'passengers'" class="tab-pane">
+      <div class="passenger-header-row">
+        <div>
+          <h2 class="section-title">Saved Travellers</h2>
+          <p class="section-sub">Quickly autofill passenger details during bus, cab, and train bookings</p>
+        </div>
+        <button class="btn-add-pax" (click)="showAddPassengerModal = true">
+          <i class="fa-solid fa-plus"></i> Add New Traveller
+        </button>
+      </div>
+
+      <div class="passengers-grid">
+        <div *ngFor="let pax of savedPassengers" class="pax-card">
+          <div class="pax-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="pax-info">
+            <h4 class="pax-name">{{ pax.name }}</h4>
+            <div class="pax-meta">
+              <span>{{ pax.age }} yrs</span> •
+              <span>{{ pax.gender }}</span> •
+              <span>Berth: {{ pax.berthPreference || 'No Preference' }}</span>
+            </div>
+          </div>
+          <button class="pax-delete-btn" (click)="deletePassenger(pax.id)" title="Remove Traveller">
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WALLET & REWARDS TAB -->
+    <div *ngIf="currentTab === 'wallet'" class="tab-pane">
+      <div class="wallet-layout-grid">
+        <div class="wallet-balance-card">
+          <span class="wallet-tag"><i class="fa-solid fa-shield-halved"></i> TedBus Secure Wallet</span>
+          <span class="balance-title">Available Credits</span>
+          <div class="balance-display num-tabular">₹{{ walletBalance }}</div>
+          <p class="balance-sub">Usable instantly on bus, cab, and train tickets with 100% redemption</p>
+          <div class="wallet-card-actions">
+            <button class="btn-add-money"><i class="fa-solid fa-plus"></i> Add Money</button>
+            <button class="btn-transfer"><i class="fa-solid fa-arrow-right-arrow-left"></i> Transfer to Bank</button>
+          </div>
+        </div>
+
+        <div class="wallet-offers-card">
+          <h3 class="offers-title"><i class="fa-solid fa-tags"></i> Active Promo Rewards</h3>
+          <div class="promos-stream">
+            <div class="promo-box">
+              <span class="promo-code">FIRST</span>
+              <p class="promo-desc">Save up to ₹250 on your first bus booking. Valid across all RTCs.</p>
+            </div>
+            <div class="promo-box">
+              <span class="promo-code">SUPERHIT</span>
+              <p class="promo-desc">Flat ₹150 off on intercity cab rentals above ₹2,000.</p>
+            </div>
+            <div class="promo-box">
+              <span class="promo-code">RAILFREE</span>
+              <p class="promo-desc">Zero payment gateway convenience fee on all tedRail train tickets.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CANCEL CONFIRMATION MODAL -->
+  <div *ngIf="showCancelModal" class="modal-overlay" (click)="showCancelModal = false">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Cancel Booking</h3>
+        <button class="close-x-btn" (click)="showCancelModal = false"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body" *ngIf="bookingToCancel">
+        <p class="warning-text">Are you sure you want to cancel PNR <strong>{{ bookingToCancel.pnr }}</strong> ({{ bookingToCancel.from }} to {{ bookingToCancel.to }})?</p>
+
+        <div class="refund-breakdown-box">
+          <div class="breakdown-row">
+            <span>Total Ticket Fare:</span>
+            <span class="num-tabular">₹{{ bookingToCancel.fare }}</span>
+          </div>
+          <div class="breakdown-row text-danger">
+            <span>Operator Cancellation Fee (10%):</span>
+            <span class="num-tabular">- ₹{{ bookingToCancel.fare - (bookingToCancel.refundAmount || 0) }}</span>
+          </div>
+          <div class="breakdown-row total-refund">
+            <span>Net Refundable Amount:</span>
+            <span class="num-tabular text-success font-bold">₹{{ bookingToCancel.refundAmount }}</span>
+          </div>
+        </div>
+
+        <p class="refund-timeline-note">Refund will be credited to original payment source within 2-4 hours for UPI.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel-action" (click)="showCancelModal = false">Keep Booking</button>
+        <button class="btn-confirm-cancel" (click)="confirmCancel()">Yes, Cancel & Refund</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW TICKET SLIDE-OUT DRAWER / MODAL -->
+  <div *ngIf="showTicketDrawer && selectedBooking" class="modal-overlay" (click)="closeTicketDrawer()">
+    <div class="ticket-drawer-card" (click)="$event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <span class="ticket-pnr-badge">PNR: {{ selectedBooking.pnr }}</span>
+          <h3 class="drawer-title">Digital Travel Pass</h3>
+        </div>
+        <button class="close-x-btn" (click)="closeTicketDrawer()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="ticket-printable-content">
+        <!-- Ticket Header -->
+        <div class="ticket-top-banner">
+          <div class="brand-line">
+            <span class="ted-logo">ted<strong>bus</strong></span>
+            <span class="pass-type">{{ selectedBooking.product }} Verified E-Ticket</span>
+          </div>
+          <span class="status-stamp" [class.confirmed]="selectedBooking.status === 'Confirmed'">{{ selectedBooking.status }}</span>
+        </div>
+
+        <!-- Journey Route Details -->
+        <div class="ticket-route-box">
+          <div class="station-side">
+            <span class="side-lbl">FROM</span>
+            <h4 class="stn-name">{{ selectedBooking.from }}</h4>
+            <span class="stn-time num-tabular">{{ selectedBooking.departureTime }}</span>
+            <p class="stn-point"><i class="fa-solid fa-location-dot"></i> {{ selectedBooking.pickupPoint }}</p>
+          </div>
+
+          <div class="middle-arrow">
+            <span class="dur-badge">{{ selectedBooking.duration }}</span>
+            <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+          </div>
+
+          <div class="station-side dest">
+            <span class="side-lbl">TO</span>
+            <h4 class="stn-name">{{ selectedBooking.to }}</h4>
+            <span class="stn-time num-tabular">{{ selectedBooking.arrivalTime }}</span>
+            <p class="stn-point"><i class="fa-solid fa-location-dot"></i> {{ selectedBooking.dropPoint }}</p>
+          </div>
+        </div>
+
+        <!-- Vehicle & Operator Info -->
+        <div class="ticket-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Operator</span>
+            <span class="meta-val">{{ selectedBooking.operator }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Vehicle</span>
+            <span class="meta-val">{{ selectedBooking.vehicleType }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Allocated Seats</span>
+            <span class="meta-val highlight-val">{{ selectedBooking.seats.join(', ') }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Journey Date</span>
+            <span class="meta-val">{{ selectedBooking.bookingDate }}</span>
+          </div>
+        </div>
+
+        <!-- Passenger Table -->
+        <div class="passengers-table-wrapper">
+          <h5 class="table-heading">Passenger Details</h5>
+          <table class="passengers-table">
+            <thead>
+              <tr>
+                <th>Passenger Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Seat / Berth</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of selectedBooking.passengers">
+                <td><strong>{{ p.name }}</strong></td>
+                <td>{{ p.age }}</td>
+                <td>{{ p.gender }}</td>
+                <td><span class="seat-badge">{{ p.seat || 'Reserved' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Code & Helpline Footer -->
+        <div class="ticket-qr-section">
+          <div class="qr-box">
+            <i class="fa-solid fa-qrcode fake-qr"></i>
+            <span class="qr-caption">Scan for Boarding Pass</span>
+          </div>
+          <div class="fare-total-block">
+            <span class="fare-total-lbl">Total Fare Paid:</span>
+            <span class="fare-total-amt num-tabular">₹{{ selectedBooking.fare }}</span>
+            <span class="gst-inclusive">Inclusive of all taxes & insurance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer Actions -->
+      <div class="drawer-actions-bar">
+        <button class="btn-print-ticket" (click)="printTicket()">
+          <i class="fa-solid fa-print"></i> Print / Save PDF
+        </button>
+        <button class="btn-share-whatsapp" (click)="closeTicketDrawer()">
+          <i class="fa-brands fa-whatsapp"></i> Send to WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST ALERT -->
+  <div *ngIf="cancelSuccessToast" class="toast-notification">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <div class="toast-text">
+      <strong>Booking Cancelled Successfully</strong>
+      <p>Refund has been processed to your source account.</p>
+    </div>
+  </div>
+
+  <!-- ADD TRAVELLER MODAL -->
+  <div *ngIf="showAddPassengerModal" class="modal-overlay" (click)="showAddPassengerModal = false">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-user-plus text-brand"></i> Add Co-Traveller</h3>
+        <button class="close-x-btn" (click)="showAddPassengerModal = false"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="paxName">Full Legal Name</label>
+          <input id="paxName" type="text" class="form-control" [(ngModel)]="newPassenger.name" placeholder="As per Aadhaar / Passport" />
+        </div>
+
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label class="form-label" for="paxAge">Age</label>
+            <input id="paxAge" type="number" class="form-control" [(ngModel)]="newPassenger.age" placeholder="28" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="paxGender">Gender</label>
+            <select id="paxGender" class="form-control" [(ngModel)]="newPassenger.gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="paxBerth">Berth / Seat Preference</label>
+          <select id="paxBerth" class="form-control" [(ngModel)]="newPassenger.berthPreference">
+            <option value="No Preference">No Preference</option>
+            <option value="Lower">Lower Berth / Pushback</option>
+            <option value="Upper">Upper Berth</option>
+            <option value="Window">Window Seat</option>
+            <option value="Aisle">Aisle Seat</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel-action" (click)="showAddPassengerModal = false">Cancel</button>
+        <button class="btn-confirm-action" (click)="savePassenger()">Save Traveller</button>
+      </div>
+    </div>
+  </div>
+</div>

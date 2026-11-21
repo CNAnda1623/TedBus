@@ -46,7 +46,11 @@ import { CommunityHub } from './component/community-hub/community-hub';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { Forum } from './component/forum/forum';
+import { CustomBookingPage } from './component/shared/custom-booking-page/custom-booking-page';
+import { SearchBar } from './component/shared/search-bar/search-bar';
+import { TrainPage } from './component/train-page/train-page';
+import { HelpPage } from './component/help-page/help-page';
+import { AccountPage } from './component/account-page/account-page';
 
 
 @NgModule({
@@ -58,7 +62,6 @@ import { Forum } from './component/forum/forum';
     SelectbusPage,
     SortingBar,
     BusBookingForm,
-    Header,
     Right,
     BusBox,
     FormDrawer,
@@ -73,7 +76,6 @@ import { Forum } from './component/forum/forum';
     CabBookingForm,
     Chatbot,
     CommunityHub,
-    Forum,
   ],
   imports: [
     BrowserModule,
@@ -89,17 +91,22 @@ import { Forum } from './component/forum/forum';
     MatButtonModule,
     MatDialogModule,
     Navbar,
-    BrowserAnimationsModule,
     MatDrawerContainer,
     HttpClientModule,
     ReactiveFormsModule,
     MatTableModule,
     LeftComponent,
+    Header,
     FormsModule,
     MatIconModule,
     CommonModule,
     MatSidenavModule,
-    MatDividerModule
+    MatDividerModule,
+    CustomBookingPage,
+    SearchBar,
+    TrainPage,
+    HelpPage,
+    AccountPage
   ],
   exports: [
     FormDrawer

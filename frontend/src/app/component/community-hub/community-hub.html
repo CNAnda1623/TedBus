@@ -1,323 +1,454 @@
-<div class="community-hub-container">
-  <!-- Header -->
-  <div class="community-header">
-    <h1 class="main-title">
-      <mat-icon class="community-icon">groups</mat-icon>
-      Travel Community
-    </h1>
-    <p class="subtitle">Share your travel stories, tips, and inspire fellow travelers</p>
+<div class="community-page-layout">
+  <!-- Toast Feedback Message -->
+  <div class="toast-notification" *ngIf="toastMessage">
+    <i class="fa-solid fa-circle-check text-green-500 mr-2"></i>
+    <span>{{ toastMessage }}</span>
   </div>
 
-  <!-- Create Post Section -->
-  <div class="create-post-section">
-    <button mat-raised-button 
-        color="primary" 
-        (click)="showCreateForm = true"
-        *ngIf="!showCreateForm && isloggedIn"
-        class="create-post-btn">
-      <mat-icon>create</mat-icon>
-      Create Post
-    </button>
-    <button mat-raised-button 
-            color="accent" 
-            [routerLink]="['/community/forum']"
-            *ngIf="loggedInUser"
-            class="create-post-btn">
-      <mat-icon>forum</mat-icon>
-      Create Forum
-    </button>
-    <div *ngIf="loggedInUser">
-      Logged in as: {{ loggedInUser.name }}
+  <!-- Slim Page Header -->
+  <header class="community-page-header">
+    <div class="header-content">
+      <div class="header-titles">
+        <h1 class="page-title">
+          <i class="fa-solid fa-earth-americas text-brand mr-2"></i>
+          <span>Tedbus Travel Community</span>
+        </h1>
+        <p class="page-subtitle">Real transit stories, verified itineraries, route tips and reviews from fellow Indian travellers</p>
+      </div>
+
+      <button class="btn-primary create-story-cta" (click)="openCreateModal()">
+        <i class="fa-solid fa-pen-to-square mr-2"></i>
+        <span>Share Travel Story</span>
+      </button>
     </div>
+  </header>
 
-    <div *ngIf="!isloggedIn" class="login-prompt">
-      <p>Please login to create a post</p>
-      <button mat-raised-button color="primary" routerLink="/login">Login</button>
-    </div>
-    <mat-card class="post-form-card" *ngIf="showCreateForm">
-      <mat-card-header>
-        <mat-icon mat-card-avatar class="post-icon">create</mat-icon>
-        <mat-card-title>Share Your Travel Story</mat-card-title>
-        <mat-card-subtitle>Tell the community about your amazing journey</mat-card-subtitle>
-      </mat-card-header>
+  <!-- Community Toolbar (Search, Template Tabs, Sort, Destination Chips) -->
+  <div class="community-toolbar">
+    <div class="toolbar-top-row">
+      <!-- Search Input -->
+      <div class="search-field-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" 
+               class="toolbar-search-input" 
+               [(ngModel)]="searchQuery" 
+               (keyup.enter)="onFilterChange()" 
+               placeholder="Search by route, city, tips (e.g. Delhi to Manali, Goa beaches)" />
+      </div>
 
-      <mat-card-content>
-        <form class="post-form" (ngSubmit)="submitPost()">
-          <!-- Title with custom label above -->
-          <div class="custom-field">
-            <label class="custom-label">Journey Title</label>
-            <mat-form-field appearance="outline" class="full-width">
-              <input matInput 
-                    [(ngModel)]="newPost.title" 
-                    name="title"
-                    placeholder="e.g., Amazing weekend in Goa"
-                    required>
-              <mat-icon matSuffix>title</mat-icon>
-            </mat-form-field>
-          </div>
-
-          <!-- Route and City with custom labels -->
-          <div class="form-row">
-            <div class="custom-field half-width">
-              <label class="custom-label">Route</label>
-              <mat-form-field appearance="outline">
-                <input matInput 
-                      [(ngModel)]="newPost.route" 
-                      name="route"
-                      placeholder="e.g., Mumbai to Goa">
-                <mat-icon matSuffix>route</mat-icon>
-              </mat-form-field>
-            </div>
-
-            <div class="custom-field half-width">
-              <label class="custom-label">Destination</label>
-              <mat-form-field appearance="outline">
-                <input matInput 
-                      [(ngModel)]="newPost.city" 
-                      name="city"
-                      placeholder="e.g., Goa, Kerala">
-                <mat-icon matSuffix>location_on</mat-icon>
-              </mat-form-field>
-            </div>
-          </div>
-
-          <!-- Travel Story with custom label -->
-          <div class="custom-field">
-            <label class="custom-label">Your Travel Story</label>
-            <mat-form-field appearance="outline" class="full-width">
-              <textarea matInput 
-                        cdkTextareaAutosize
-                        cdkAutosizeMinRows="3"
-                        cdkAutosizeMaxRows="8"
-                        [(ngModel)]="newPost.story"
-                        name="story"
-                        placeholder="Share your travel experience, what made it special..."
-                        required></textarea>
-              <mat-icon matSuffix>auto_stories</mat-icon>
-            </mat-form-field>
-          </div>
-
-          <!-- Travel Tips with custom label -->
-          <div class="custom-field">
-            <label class="custom-label">Travel Tips & Advice</label>
-            <mat-form-field appearance="outline" class="full-width">
-              <textarea matInput 
-                        cdkTextareaAutosize
-                        cdkAutosizeMinRows="2"
-                        cdkAutosizeMaxRows="6"
-                        [(ngModel)]="newPost.tips"
-                        name="tips"
-                        placeholder="Share helpful tips for other travelers..."></textarea>
-              <mat-icon matSuffix>tips_and_updates</mat-icon>
-            </mat-form-field>
-          </div>
-
-          <!-- Photo Upload -->
-          <div class="photo-upload-section" (click)="fileInput.click()">
-            <label class="photo-upload-label">
-              <mat-icon>add_photo_alternate</mat-icon>
-              Add Photos
-            </label>
-            <input #fileInput
-                  type="file" 
-                  multiple 
-                  accept="image/*"
-                  (change)="onFileSelect($event)"
-                  class="photo-input">
-            
-            <!-- Selected Photos Preview -->
-            <div class="selected-photos" *ngIf="newPost.photos.length > 0">
-              <div class="photo-preview" *ngFor="let photo of newPost.photos; let i = index">
-                <span class="photo-name">{{ photo.name }}</span>
-                <button type="button" 
-                        mat-icon-button 
-                        color="warn" 
-                        (click)="removePhoto(i); $event.stopPropagation();">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="form-actions">
-            <button mat-raised-button 
-                    color="primary" 
-                    type="submit"
-                    [disabled]="!newPost.title || !newPost.story"
-                    class="submit-btn">
-              <mat-icon>share</mat-icon>
-              Share My Story
-            </button>
-            <button mat-stroked-button 
-                    type="button" 
-                    (click)="resetForm()"
-                    class="reset-btn">
-              <mat-icon>refresh</mat-icon>
-              Reset
-            </button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  
-
-
-
-  <!-- Posts Feed Section -->
-  <div class="posts-feed-section">
-    <div class="feed-header">
-      <h2>
-        <mat-icon>explore</mat-icon>
-        Travel Stories from Our Community
-      </h2>
-      <p>Discover amazing travel experiences from fellow travelers</p>
-    </div>
-
-    <!-- Posts Grid -->
-    <div class="posts-grid">
-      <mat-card class="post-card" *ngFor="let post of travelPosts">
-        <!-- Post Header -->
-        <mat-card-header class="post-header">
-          <img *ngIf="post.posterPhoto" [src]="post.posterPhoto" mat-card-avatar class="avatar" alt="Profile picture">
-          <mat-icon *ngIf="!post.posterPhoto" mat-card-avatar class="avatar">account_circle</mat-icon>
-          <mat-card-title>{{ post.posterName || 'Annonymous' }}</mat-card-title>
-          <mat-card-subtitle>
-            <span class="timestamp">{{ formatTimestamp(post) }}</span>
-            <span class="route" *ngIf="post.route">
-            <mat-icon class="small-icon">route</mat-icon>
-            {{ post.route }}
-          </span>
-          </mat-card-subtitle>
-        </mat-card-header>
-
-        <!-- Post Content -->
-        <mat-card-content class="post-content">
-          <h3 class="post-title">{{ post.title }}</h3>
-          <span class="timestamp">{{ formatTimestamp(post) }}</span>
-          <span class="route" *ngIf="post.route">
-            <mat-icon class="small-icon">route</mat-icon>
-            {{ post.route }}
-          </span>
-
-          <div class="city-info" *ngIf="post.city">
-            <strong>Destination:</strong> {{ post.city }}
-          </div>
-
-          
-          <!-- Photos Grid -->
-          <div class="photos-grid" *ngIf="post.photos && post.photos.length > 0">
-            <div class="photo-item" 
-                *ngFor="let photo of post.photos; let i = index"
-                [class.single-photo]="post.photos.length === 1"
-                [class.two-photos]="post.photos.length === 2"
-                [class.multiple-photos]="post.photos.length > 2">
-              <img [src]="photo"
-                  alt="Travel Photo"
-                  (click)="openImageModal(post.photos, i)"
-                  class="post-photo">
-              <div class="photo-overlay" *ngIf="i === 2 && post.photos.length > 3">
-                <span class="more-photos">+{{ post.photos.length - 3 }}</span>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="post-story">
-            <p>{{ post.story }}</p>
-          </div>
-
-          <!-- Travel Tips -->
-          <div class="travel-tips" *ngIf="post.tips">
-            <h4>
-              <mat-icon class="tips-icon">lightbulb</mat-icon>
-              Travel Tips
-            </h4>
-            <pre class="tips-content">{{ post.tips }}</pre>
-          </div>
-
-          <!-- City Tags -->
-          <div class="city-tags" *ngIf="post.city">
-            <mat-chip-listbox>
-              <mat-chip *ngFor="let city of post.city.split(',')" class="city-chip">
-                <mat-icon matChipAvatar>location_on</mat-icon>
-                {{ city.trim() }}
-              </mat-chip>
-            </mat-chip-listbox>
-          </div>
-        </mat-card-content>
-
-        <!-- Post Actions -->
-        <mat-card-actions class="post-actions">
-          <button mat-button (click)="likePost(post.id)" class="action-btn">
-            <mat-icon>favorite_border</mat-icon>
-            Like ({{ post.likes }})
-          </button>
-          <button mat-button class="action-btn">
-            <mat-icon>comment</mat-icon>
-            Comment
-          </button>
-          <button mat-button class="action-btn">
-            <mat-icon>share</mat-icon>
-            Share
-          </button>
-        </mat-card-actions>
-        <!-- Comments Section -->
-        <div *ngIf="currentPostId === post.id" class="comments-section">
-          <div *ngFor="let comment of post.comments" class="comment">
-            <div class="comment-header">
-              <img *ngIf="comment.authorPhoto" [src]="comment.authorPhoto" class="comment-avatar">
-              <mat-icon *ngIf="!comment.authorPhoto" class="comment-avatar">account_circle</mat-icon>
-              <span class="comment-author">{{ comment.author }}</span>
-              <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
-            </div>
-            <div class="comment-content">{{ comment.content }}</div>
-          </div>
-
-          <div class="comment-input">
-            <mat-form-field appearance="outline" class="full-width">
-              <textarea matInput [(ngModel)]="newComment" placeholder="Write a comment..."></textarea>
-            </mat-form-field>
-            <button mat-raised-button color="primary" (click)="addComment(post.id!)">Post</button>
-          </div>
-        </div>
-        <!-- Modify the comment button in post-actions -->
-        <button mat-button (click)="toggleComments(post.id)" class="action-btn" *ngIf="post.id">
-          <mat-icon>comment</mat-icon>
-          Comment ({{ post.comments ? post.comments.length : 0 }})
+      <!-- Sort Segmented Control -->
+      <div class="sort-segmented-control">
+        <button class="sort-btn" [class.active]="sortOrder === 'newest'" (click)="sortOrder = 'newest'; onFilterChange()">
+          <i class="fa-solid fa-clock mr-1"></i> Newest
         </button>
-      </mat-card>
-    </div>
-  </div>
-
-  <!-- Image Modal -->
-  <div class="image-modal-overlay" *ngIf="showImageModal" (click)="closeImageModal()">
-    <div class="image-modal" (click)="$event.stopPropagation()">
-      <button mat-icon-button class="close-modal" (click)="closeImageModal()">
-        <mat-icon>close</mat-icon>
-      </button>
-      
-      <button mat-icon-button 
-              class="nav-btn prev-btn" 
-              (click)="prevImage()"
-              *ngIf="currentImageIndex > 0">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      
-      <img [src]="selectedPhotos[currentImageIndex]" class="modal-image">
-      
-      <button mat-icon-button 
-              class="nav-btn next-btn" 
-              (click)="nextImage()"
-              *ngIf="currentImageIndex < selectedPhotos.length - 1">
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-      
-      <div class="image-counter">
-        {{ currentImageIndex + 1 }} / {{ selectedPhotos.length }}
+        <button class="sort-btn" [class.active]="sortOrder === 'likes'" (click)="sortOrder = 'likes'; onFilterChange()">
+          <i class="fa-solid fa-heart mr-1"></i> Most Liked
+        </button>
       </div>
     </div>
+
+    <!-- Template Filter Tabs (All | Trip stories | Itineraries | Tips | Route reviews) -->
+    <div class="template-tabs-row">
+      <button class="template-tab" [class.active]="selectedTemplate === 'all'" (click)="setTemplateTab('all')">
+        <span>All Posts</span>
+      </button>
+      <button class="template-tab" [class.active]="selectedTemplate === 'story'" (click)="setTemplateTab('story')">
+        <i class="fa-solid fa-book-open mr-1"></i> Trip Stories
+      </button>
+      <button class="template-tab" [class.active]="selectedTemplate === 'itinerary'" (click)="setTemplateTab('itinerary')">
+        <i class="fa-solid fa-calendar-days mr-1"></i> Itineraries
+      </button>
+      <button class="template-tab" [class.active]="selectedTemplate === 'tip'" (click)="setTemplateTab('tip')">
+        <i class="fa-solid fa-lightbulb mr-1"></i> Quick Tips
+      </button>
+      <button class="template-tab" [class.active]="selectedTemplate === 'review'" (click)="setTemplateTab('review')">
+        <i class="fa-solid fa-star-half-stroke mr-1"></i> Route Reviews
+      </button>
+    </div>
+
+    <!-- Popular Destination Chips -->
+    <div class="destination-chips-row">
+      <span class="chips-label">Destinations:</span>
+      <div class="chips-wrapper">
+        <button class="pill-chip" 
+                *ngFor="let c of popularDestinations" 
+                [class.selected]="selectedCity === c"
+                (click)="setCity(c)">
+          {{ c }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Skeletons -->
+  <div class="cards-grid-layout" *ngIf="isLoading">
+    <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="skeleton-cover"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line w-40"></div>
+        <div class="skeleton-line w-80"></div>
+        <div class="skeleton-line w-60"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state-box" *ngIf="!isLoading && posts.length === 0">
+    <div class="empty-icon-circle">
+      <i class="fa-solid fa-compass text-3xl text-brand"></i>
+    </div>
+    <h3 class="empty-heading">No Travel Posts Found</h3>
+    <p class="empty-desc">There are no posts matching your selected filters or search terms. Try clearing filters or be the first to share an itinerary!</p>
+    <button class="btn-secondary" (click)="selectedTemplate = 'all'; selectedCity = 'All'; searchQuery = ''; onFilterChange()">
+      Reset All Filters
+    </button>
+  </div>
+
+  <!-- Equal-Height 2-Column Cards Grid (Part 7) -->
+  <div class="cards-grid-layout" *ngIf="!isLoading && posts.length > 0">
+    <article class="community-post-card" 
+             *ngFor="let post of posts" 
+             (click)="openPostDetail(post)">
+      
+      <!-- 16:9 Fixed Cover Image with Fallback Gradient -->
+      <div class="card-cover-container" 
+           [style.background]="getGradientForDestination(post.city || post.title)">
+        <img *ngIf="post.photos && post.photos.length > 0" 
+             [src]="post.photos[0]" 
+             class="post-cover-img" 
+             loading="lazy"
+             (error)="onImageError($event)" 
+             alt="{{ post.title }}" />
+        
+        <div class="cover-overlay-info" *ngIf="!post.photos || post.photos.length === 0">
+          <i class="fa-solid fa-mountain-sun text-4xl opacity-50 mb-2"></i>
+          <span class="cover-dest-name">{{ post.city || 'India Exploration' }}</span>
+        </div>
+
+        <!-- Template Badge On Top Left -->
+        <span class="post-template-badge" [attr.data-template]="post.template">
+          <span *ngIf="post.template === 'story'"><i class="fa-solid fa-book-open mr-1"></i> Trip Story</span>
+          <span *ngIf="post.template === 'itinerary'"><i class="fa-solid fa-calendar-days mr-1"></i> Itinerary</span>
+          <span *ngIf="post.template === 'tip'"><i class="fa-solid fa-lightbulb mr-1"></i> Quick Tip</span>
+          <span *ngIf="post.template === 'review'"><i class="fa-solid fa-star-half-stroke mr-1"></i> Route Review</span>
+        </span>
+
+        <!-- Photos count pill if multiple -->
+        <span class="photos-count-badge" *ngIf="post.photos && post.photos.length > 1">
+          <i class="fa-solid fa-images mr-1"></i> {{ post.photos.length }}
+        </span>
+      </div>
+
+      <!-- Card Main Body -->
+      <div class="card-body-content">
+        <!-- Author strip with ONE relative timestamp -->
+        <div class="author-meta-strip">
+          <div class="author-left">
+            <img *ngIf="post.posterPhoto" [src]="post.posterPhoto" class="author-avatar" alt="Avatar"/>
+            <div *ngIf="!post.posterPhoto" class="author-avatar-fallback">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="author-names">
+              <span class="author-name">{{ post.posterName || post.author || 'Traveller' }}</span>
+              <span class="relative-time">{{ getRelativeTime(post.timestamp || post.createdAt) }}</span>
+            </div>
+          </div>
+
+          <span class="destination-chip" *ngIf="post.city">
+            <i class="fa-solid fa-location-dot mr-1 text-brand"></i> {{ post.city }}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h3 class="post-title">{{ post.title }}</h3>
+
+        <!-- Route Indicator if present -->
+        <div class="route-chip-banner" *ngIf="post.route">
+          <i class="fa-solid fa-route text-brand mr-1"></i>
+          <span>{{ post.route }}</span>
+        </div>
+
+        <!-- 3-Line Clamped Excerpt -->
+        <p class="post-story-excerpt">{{ post.story }}</p>
+
+        <!-- Template Specific Highlights -->
+        <!-- Template 1: Trip Story Travel Tip Callout -->
+        <div class="travel-tip-callout" *ngIf="post.template === 'story' && post.tips">
+          <i class="fa-solid fa-lightbulb tip-icon text-amber-500"></i>
+          <span class="tip-text"><strong>Pro Tip:</strong> {{ post.tips }}</span>
+        </div>
+
+        <!-- Template 2: Itinerary Outline -->
+        <div class="itinerary-meta-pills" *ngIf="post.template === 'itinerary'">
+          <span class="meta-pill"><i class="fa-regular fa-clock mr-1"></i> {{ post.itineraryDays || 3 }} Days</span>
+          <span class="meta-pill"><i class="fa-solid fa-wallet mr-1"></i> {{ post.budgetRange || '₹5K - ₹10K' }}</span>
+          <span class="meta-pill"><i class="fa-regular fa-sun mr-1"></i> Best: {{ post.bestSeason || 'Oct - Mar' }}</span>
+        </div>
+
+        <!-- Template 4: Route Review Specs -->
+        <div class="review-specs-box" *ngIf="post.template === 'review'">
+          <div class="review-stars-row">
+            <span class="mode-tag uppercase">{{ post.reviewMode || 'Bus' }}</span>
+            <span class="operator-name-tag" *ngIf="post.operator">{{ post.operator }}</span>
+            <div class="stars-rating">
+              <i class="fa-solid fa-star text-amber-400" *ngFor="let s of [1,2,3,4,5]"></i>
+            </div>
+          </div>
+          <div class="pros-cons-compact" *ngIf="post.pros || post.cons">
+            <span class="pro-text" *ngIf="post.pros"><i class="fa-solid fa-circle-check text-green-500 mr-1"></i>{{ post.pros }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Fixed Footer (Like / Comment / Share counts) -->
+      <div class="card-footer-actions">
+        <button type="button" class="action-btn" [class.liked]="post.isLiked" (click)="handleLike(post, $event)">
+          <i class="fa-solid fa-heart" [class.text-red-500]="post.isLiked"></i>
+          <span>{{ post.likes || 0 }} Likes</span>
+        </button>
+
+        <button type="button" class="action-btn">
+          <i class="fa-regular fa-comment"></i>
+          <span>{{ post.comments?.length || 0 }} Comments</span>
+        </button>
+
+        <button type="button" class="action-btn" (click)="sharePost(post, $event)">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>Share</span>
+        </button>
+      </div>
+
+    </article>
+  </div>
+
+  <!-- Numbered Pagination (9 Posts Per Page) -->
+  <nav class="pagination-container" *ngIf="totalPages > 1">
+    <button class="page-nav-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+      <i class="fa-solid fa-chevron-left mr-1"></i> Prev
+    </button>
+
+    <div class="page-numbers-list">
+      <button class="page-num-btn" 
+              *ngFor="let p of pagesArray" 
+              [class.active]="p === currentPage"
+              (click)="goToPage(p)">
+        {{ p }}
+      </button>
+    </div>
+
+    <button class="page-nav-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+      Next <i class="fa-solid fa-chevron-right ml-1"></i>
+    </button>
+  </nav>
+
+  <!-- ======================================================================
+       MODAL: POST DETAIL & COMMENT THREAD
+       ====================================================================== -->
+  <div class="modal-backdrop" *ngIf="activeDetailPost" (click)="closePostDetail()"></div>
+  <div class="detail-modal-panel" *ngIf="activeDetailPost">
+    <div class="detail-header">
+      <div class="author-meta-strip">
+        <img *ngIf="activeDetailPost.posterPhoto" [src]="activeDetailPost.posterPhoto" class="author-avatar" alt="Avatar"/>
+        <div *ngIf="!activeDetailPost.posterPhoto" class="author-avatar-fallback"><i class="fa-solid fa-user"></i></div>
+        <div>
+          <span class="author-name font-bold">{{ activeDetailPost.posterName || activeDetailPost.author || 'Traveller' }}</span>
+          <span class="relative-time block text-xs">{{ getRelativeTime(activeDetailPost.timestamp || activeDetailPost.createdAt) }}</span>
+        </div>
+      </div>
+      <button class="close-modal-btn" (click)="closePostDetail()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="detail-scroll-body">
+      <h2 class="detail-title">{{ activeDetailPost.title }}</h2>
+
+      <div class="route-chip-banner mb-3" *ngIf="activeDetailPost.route">
+        <i class="fa-solid fa-route text-brand mr-1"></i>
+        <span>{{ activeDetailPost.route }}</span>
+      </div>
+
+      <!-- Photo Gallery -->
+      <div class="detail-gallery" *ngIf="activeDetailPost.photos && activeDetailPost.photos.length > 0">
+        <img *ngFor="let photo of activeDetailPost.photos" [src]="photo" class="gallery-photo" alt="Photo" />
+      </div>
+
+      <div class="detail-story-text">{{ activeDetailPost.story }}</div>
+
+      <div class="travel-tip-callout mt-4" *ngIf="activeDetailPost.tips">
+        <i class="fa-solid fa-lightbulb tip-icon text-amber-500"></i>
+        <span><strong>Pro Tip:</strong> {{ activeDetailPost.tips }}</span>
+      </div>
+
+      <!-- Comments Thread Section -->
+      <div class="comments-thread-section">
+        <h3 class="thread-heading">
+          <i class="fa-regular fa-comments mr-2 text-brand"></i>
+          <span>Comments ({{ activeDetailPost.comments?.length || 0 }})</span>
+        </h3>
+
+        <!-- Comments List -->
+        <div class="comments-list">
+          <div class="comment-item" *ngFor="let c of activeDetailPost.comments">
+            <div class="comment-author-row">
+              <span class="c-author-name">{{ c.author || 'Traveller' }}</span>
+              <span class="c-date">{{ getRelativeTime(c.createdAt) }}</span>
+            </div>
+            <p class="c-content">{{ c.content }}</p>
+          </div>
+          <div class="no-comments-hint" *ngIf="!activeDetailPost.comments || activeDetailPost.comments.length === 0">
+            No comments yet. Be the first to start the discussion!
+          </div>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div class="comment-input-box">
+          <input type="text" 
+                 class="comment-field" 
+                 [(ngModel)]="newCommentText" 
+                 (keyup.enter)="submitComment()" 
+                 placeholder="Write a helpful reply or question..." />
+          <button class="btn-primary btn-compact" (click)="submitComment()">
+            <i class="fa-solid fa-paper-plane mr-1"></i> Post
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: CREATE POST WIZARD (4 TEMPLATES)
+       ====================================================================== -->
+  <div class="modal-backdrop" *ngIf="showCreateModal" (click)="closeCreateModal()"></div>
+  <div class="create-post-modal" *ngIf="showCreateModal">
+    <div class="create-modal-header">
+      <h2 class="create-heading">Share with Travel Community</h2>
+      <button class="close-modal-btn" (click)="closeCreateModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Template Selector Tabs -->
+    <div class="template-choice-tabs">
+      <button type="button" class="choice-tab" [class.active]="createTemplate === 'story'" (click)="createTemplate = 'story'">
+        <i class="fa-solid fa-book-open mr-1"></i> Trip Story
+      </button>
+      <button type="button" class="choice-tab" [class.active]="createTemplate === 'itinerary'" (click)="createTemplate = 'itinerary'">
+        <i class="fa-solid fa-calendar-days mr-1"></i> Itinerary
+      </button>
+      <button type="button" class="choice-tab" [class.active]="createTemplate === 'tip'" (click)="createTemplate = 'tip'">
+        <i class="fa-solid fa-lightbulb mr-1"></i> Quick Tip
+      </button>
+      <button type="button" class="choice-tab" [class.active]="createTemplate === 'review'" (click)="createTemplate = 'review'">
+        <i class="fa-solid fa-star-half-stroke mr-1"></i> Route Review
+      </button>
+    </div>
+
+    <form class="create-modal-form" (ngSubmit)="submitNewPost()">
+      <div class="form-error-banner" *ngIf="formError">
+        <i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ formError }}
+      </div>
+
+      <!-- Title Input -->
+      <div class="form-group">
+        <label class="form-label">Journey Title * (min 8 chars)</label>
+        <input type="text" class="custom-input" [(ngModel)]="newPost.title" name="title" placeholder="e.g. Scenic overnight bus ride from Delhi to Manali" required />
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Route (Origin → Destination)</label>
+          <input type="text" class="custom-input" [(ngModel)]="newPost.route" name="route" placeholder="e.g. Delhi → Chandigarh → Manali" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destination City *</label>
+          <input type="text" class="custom-input" [(ngModel)]="newPost.city" name="city" placeholder="e.g. Manali, Goa, Jaipur" required />
+        </div>
+      </div>
+
+      <!-- Template-Specific Fields -->
+      <div class="template-extra-fields" *ngIf="createTemplate === 'itinerary'">
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">Duration (Days)</label>
+            <input type="number" class="custom-input" [(ngModel)]="newPost.itineraryDays" name="itineraryDays" min="1" max="30" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget Range</label>
+            <input type="text" class="custom-input" [(ngModel)]="newPost.budgetRange" name="budgetRange" placeholder="e.g. ₹6,000 - ₹9,000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Best Season</label>
+            <input type="text" class="custom-input" [(ngModel)]="newPost.bestSeason" name="bestSeason" placeholder="e.g. Oct - Mar" />
+          </div>
+        </div>
+      </div>
+
+      <div class="template-extra-fields" *ngIf="createTemplate === 'review'">
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">Mode</label>
+            <select class="custom-input" [(ngModel)]="newPost.reviewMode" name="reviewMode">
+              <option value="bus">Bus Journey</option>
+              <option value="train">Train Journey</option>
+              <option value="cab">Cab Rental</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Operator / Train Name</label>
+            <input type="text" class="custom-input" [(ngModel)]="newPost.operator" name="operator" placeholder="e.g. Zingbus / Vande Bharat" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rating (1 to 5)</label>
+            <input type="number" class="custom-input" [(ngModel)]="newPost.rating" name="rating" min="1" max="5" />
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Pros</label>
+            <input type="text" class="custom-input" [(ngModel)]="newPost.pros" name="pros" placeholder="Punctual, clean blankets" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cons</label>
+            <input type="text" class="custom-input" [(ngModel)]="newPost.cons" name="cons" placeholder="AC was slightly cold" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Story / Body -->
+      <div class="form-group">
+        <label class="form-label">
+          <span>{{ createTemplate === 'tip' ? 'Travel Tip Body * (min 20 chars)' : 'Your Travel Story & Experience * (min 50 chars)' }}</span>
+        </label>
+        <textarea class="custom-textarea" [(ngModel)]="newPost.story" name="story" rows="4" placeholder="Describe the road condition, stops, cleanliness, food breaks..."></textarea>
+      </div>
+
+      <!-- Pro Tip Callout (for stories) -->
+      <div class="form-group" *ngIf="createTemplate === 'story'">
+        <label class="form-label">One Key Tip for Future Travellers</label>
+        <input type="text" class="custom-input" [(ngModel)]="newPost.tips" name="tips" placeholder="e.g. Book lower sleeper berths for lesser bumps near curves" />
+      </div>
+
+      <!-- Photos Upload Preview (Up to 5) -->
+      <div class="photo-upload-box">
+        <div class="upload-trigger-btn" (click)="fileInp.click()">
+          <i class="fa-solid fa-camera text-brand mr-2"></i>
+          <span>Add Photos (Max 5)</span>
+          <input #fileInp type="file" multiple accept="image/*" (change)="onPhotoSelected($event)" class="hidden" />
+        </div>
+
+        <div class="uploaded-previews-row" *ngIf="newPost.photos.length > 0">
+          <div class="preview-thumb" *ngFor="let p of newPost.photos; let idx = index">
+            <img [src]="p" alt="Thumb" />
+            <i class="fa-solid fa-xmark remove-thumb" (click)="removePhoto(idx)"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Action -->
+      <div class="modal-form-actions">
+        <button type="button" class="btn-secondary" (click)="closeCreateModal()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">Publish Story</span>
+          <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Publishing...</span>
+        </button>
+      </div>
+    </form>
   </div>
 </div>

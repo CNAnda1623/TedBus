@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { ThemeService } from '../../service/theme.service';
+import { ThemeService, ThemePreference } from '../../service/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,25 +19,18 @@ import { ThemeService } from '../../service/theme.service';
   styleUrls: ['./navbar.css']
 })
 export class Navbar implements OnInit, AfterViewInit {
-  // Template uses "isloggedIn" (lowercase) — keep that name to avoid changing templates.
   public isloggedIn = false;
   public user: { name?: string; picture?: string; email?: string } | null = null;
-
-  // Mobile menu state used by template bindings
   public showMobileMenu = false;
 
   constructor(
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-    private router: Router,
+    public router: Router,
     public themeService: ThemeService
-  ) { }
+  ) {}
 
-  // ------------------------
-  // Lifecycle
-  // ------------------------
   ngOnInit(): void {
-    // Preserve prior safe initialization logic
     const stored = sessionStorage.getItem('Loggedinuser');
     if (stored) {
       try {
@@ -49,24 +42,21 @@ export class Navbar implements OnInit, AfterViewInit {
         this.isloggedIn = false;
       }
     } else {
+      // Demo fallback user if needed for testing profile
       this.user = null;
       this.isloggedIn = false;
     }
   }
 
   ngAfterViewInit(): void {
-    // Load Google Identity script then initialize + render; defensive guards included.
     this.loadGoogleScript()
       .then(() => {
         try {
           const google = (window as any).google;
-          if (!google || !google.accounts) {
-            console.warn('Google Identity SDK loaded but google.accounts missing.');
-            return;
-          }
+          if (!google || !google.accounts) return;
 
           google.accounts.id.initialize({
-            client_id: '381733711473-4h9t4u8852ekot3pr3ucekjha6u6gb73.apps.googleusercontent.com', // TODO: replace
+            client_id: '381733711473-4h9t4u8852ekot3pr3ucekjha6u6gb73.apps.googleusercontent.com',
             callback: (response: any) => {
               this.ngZone.run(() => this.handleCredentialResponse(response));
             }
@@ -82,16 +72,12 @@ export class Navbar implements OnInit, AfterViewInit {
       });
   }
 
-  // ------------------------
-  // Google loader & render
-  // ------------------------
   private loadGoogleScript(): Promise<void> {
     return new Promise((resolve, reject) => {
       if ((window as any).google && (window as any).google.accounts) return resolve();
 
       const existing = document.getElementById('gsi-client');
       if (existing) {
-        // poll until ready
         let waited = 0;
         const t = setInterval(() => {
           if ((window as any).google && (window as any).google.accounts) {
@@ -101,7 +87,7 @@ export class Navbar implements OnInit, AfterViewInit {
             waited += 100;
             if (waited > 10000) {
               clearInterval(t);
-              reject(new Error('Google script present but SDK did not initialize in time'));
+              reject(new Error('Google script timeout'));
             }
           }
         }, 100);
@@ -114,11 +100,8 @@ export class Navbar implements OnInit, AfterViewInit {
       s.async = true;
       s.defer = true;
       s.onload = () => {
-        // small tick to allow global to appear
         setTimeout(() => {
           if ((window as any).google && (window as any).google.accounts) return resolve();
-
-          // fallback poll
           let waited = 0;
           const t2 = setInterval(() => {
             if ((window as any).google && (window as any).google.accounts) {
@@ -128,7 +111,7 @@ export class Navbar implements OnInit, AfterViewInit {
               waited += 100;
               if (waited > 5000) {
                 clearInterval(t2);
-                reject(new Error('Google script loaded but google.accounts never appeared.'));
+                reject(new Error('Google accounts SDK missing'));
               }
             }
           }, 100);
@@ -139,23 +122,17 @@ export class Navbar implements OnInit, AfterViewInit {
     });
   }
 
-  private renderGoogleButton(): void {
+  public renderGoogleButton(): void {
     try {
       const google = (window as any).google;
-      if (!google || !google.accounts) {
-        console.warn('Google SDK not available for rendering button.');
-        return;
-      }
+      if (!google || !google.accounts) return;
 
       const btn = document.getElementById('google-btn') || document.getElementById('googleButton');
-      if (!btn) {
-        console.warn('Google button container not found (#google-btn or #googleButton).');
-        return;
-      }
+      if (!btn) return;
 
       google.accounts.id.renderButton(btn, {
-        theme: 'outline',
-        size: 'medium', // corrected typo from 'meduim'
+        theme: this.themeService.isDarkMode() ? 'filled_black' : 'outline',
+        size: 'medium',
         shape: 'pill',
         width: 150
       });
@@ -164,21 +141,14 @@ export class Navbar implements OnInit, AfterViewInit {
     }
   }
 
-  // ------------------------
-  // Credential handling (Google)
-  // ------------------------
   private handleCredentialResponse(response: any): void {
     try {
       const credential = response?.credential;
-      if (!credential) {
-        console.warn('No credential from Google response.');
-        return;
-      }
+      if (!credential) return;
 
       const payload = this.decodeJwt(credential) || {};
-
       const sessionObj = {
-        name: payload?.name || '',
+        name: payload?.name || 'User',
         picture: payload?.picture || '',
         email: payload?.email || '',
         sub: payload?.sub || ''
@@ -188,8 +158,6 @@ export class Navbar implements OnInit, AfterViewInit {
       this.user = { name: sessionObj.name, picture: sessionObj.picture, email: sessionObj.email };
       this.isloggedIn = true;
       this.cdRef.detectChanges();
-
-      // TODO: Exchange token with backend to create/verify server session if needed.
     } catch (err) {
       console.error('Error handling credential response:', err);
     }
@@ -207,62 +175,35 @@ export class Navbar implements OnInit, AfterViewInit {
     }
   }
 
-  // ------------------------
-  // Sign-out
-  // ------------------------
-  public handlelogout(): void {
-    // Keep previous server sign-out logic if you had any — this is a client-side clear.
-    try {
-      // If you had a backend logout endpoint, call it here.
-      this.signOut();
-    } catch (err) {
-      console.error('Logout error', err);
-    }
-  }
-
   public signOut(): void {
-    try {
-      sessionStorage.removeItem('Loggedinuser');
-      this.isloggedIn = false;
-      this.user = null;
-      this.cdRef.detectChanges();
+    sessionStorage.removeItem('Loggedinuser');
+    this.isloggedIn = false;
+    this.user = null;
+    this.cdRef.detectChanges();
 
-      const google = (window as any).google;
-      if (google && google.accounts && google.accounts.id) {
-        try {
-          google.accounts.id.disableAutoSelect();
-        } catch {
-          // ignore
-        }
-      }
-
-      // Re-render Google Sign-in button onto the newly rendered container
-      setTimeout(() => {
-        this.renderGoogleButton();
-      }, 100);
-    } catch (err) {
-      console.error('Error during sign out', err);
+    const google = (window as any).google;
+    if (google && google.accounts && google.accounts.id) {
+      try {
+        google.accounts.id.disableAutoSelect();
+      } catch {}
     }
+
+    setTimeout(() => {
+      this.renderGoogleButton();
+    }, 100);
   }
 
-  // ------------------------
-  // Template helper methods (missing earlier)
-  // ------------------------
+  public setSpecificTheme(pref: ThemePreference): void {
+    this.themeService.setPreference(pref);
+    setTimeout(() => this.renderGoogleButton(), 100);
+  }
+
   public toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
   }
 
-  public openHelpChatbot(): void {
-    // TODO: open your chatbot UI. Right now we just log and could route / open a modal.
-    console.log('openHelpChatbot clicked');
-    // Example: this.router.navigate(['/help-chat']);
-  }
-
   public navigate(path: string): void {
-    try {
-      this.router.navigate([path]);
-    } catch (err) {
-      console.error('Navigation error to', path, err);
-    }
+    this.router.navigate([path]);
+    this.showMobileMenu = false;
   }
 }

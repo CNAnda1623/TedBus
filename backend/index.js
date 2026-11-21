@@ -40,6 +40,7 @@ app.use('/api', require('./routes/customer'));
 app.use('/api', require('./routes/route'));
 app.use('/api', require('./routes/busRoutes'));
 app.use('/api/community', communityRoutes);
+app.use('/api/support', require('./routes/supportRoutes'));
 
 // Compatibility endpoints
 app.use('/cabpayment', (req, res) => res.status(200).json({ message: 'Cab payment processed' }));

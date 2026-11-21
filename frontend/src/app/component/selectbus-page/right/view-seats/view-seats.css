@@ -1,67 +1,148 @@
-/* ===========================================
-   BUS INTERIOR & SEAT SELECTOR (CSS TOKENS)
-   =========================================== */
-
-.view-seats-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 10px 0;
-  width: 100%;
+/* Inline Expansion Wrapper */
+.inline-expansion-wrapper {
+  padding: 24px;
+  background-color: var(--surface-card);
+  border-top: 1px solid var(--border-subtle);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  transition: all var(--transition-fast);
 }
 
-@media (min-width: 900px) {
-  .view-seats-wrapper {
-    grid-template-columns: 1.5fr 1fr;
-    align-items: start;
-  }
+/* Stepper Header */
+.stepper-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
-/* Bus Chassis Deck */
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+.step-item.active {
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+.step-item.completed {
+  color: var(--semantic-success);
+}
+
+.step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: var(--surface-sunken);
+}
+.step-item.active .step-num {
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
+  border-color: var(--brand-primary);
+}
+.step-item.completed .step-num {
+  background-color: var(--semantic-success);
+  color: #FFFFFF;
+  border-color: var(--semantic-success);
+}
+
+.step-label {
+  font-size: 13px;
+}
+
+.step-divider {
+  width: 40px;
+  height: 2px;
+  background-color: var(--border-subtle);
+}
+.step-divider.active {
+  background-color: var(--brand-primary);
+}
+
+/* Hold Timer Strip */
+.hold-timer-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--brand-subtle);
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  color: var(--brand-text);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.timer-icon {
+  font-size: 14px;
+}
+
+/* STEP 1: 2-COLUMN LAYOUT */
+.step-1-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Bus Deck Chassis (Left, Flex 1) */
 .bus-deck-chassis {
+  flex: 1;
   background-color: var(--surface-sunken);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
+  border-radius: var(--radius-card);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  min-width: 0;
 }
 
-.chassis-header {
+.chassis-toolbar {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
   gap: 12px;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 12px;
 }
 
-@media (min-width: 600px) {
-  .chassis-header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+.deck-segmented-control {
+  display: flex;
+  background-color: var(--surface-card);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
 }
 
-.deck-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-right: 8px;
-}
-
-.deck-type-tag {
-  font-size: 12px;
+.deck-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
   color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.deck-btn.active {
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
 }
 
 .seat-legend {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 12px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
@@ -71,173 +152,586 @@
   gap: 6px;
 }
 
-.legend-box {
+.legend-tile {
   width: 14px;
   height: 14px;
-  border-radius: 3px;
+  border-radius: 4px;
   border: 1px solid var(--border-strong);
 }
+.legend-tile.available { background-color: var(--seat-available); }
+.legend-tile.selected { background-color: var(--brand-primary); border-color: var(--brand-primary); }
+.legend-tile.booked { background-color: var(--seat-booked); }
+.legend-tile.ladies { background-color: var(--seat-female); border-color: #F472B6; }
 
-.legend-box.available { background-color: var(--surface-card); }
-.legend-box.selected { background-color: var(--brand-primary); border-color: var(--brand-primary); }
-.legend-box.booked { background-color: var(--surface-sunken); opacity: 0.6; }
-.legend-box.ladies { background-color: var(--seat-female); border-color: #f472b6; }
-
-/* Bus Interior Floor Plan */
-.bus-floor-plan {
+/* Bus Chassis Body */
+.bus-chassis-body {
   background-color: var(--surface-card);
   border: 2px solid var(--border-strong);
-  border-radius: 20px;
-  padding: 16px;
+  border-radius: 28px 28px 16px 16px;
+  padding: 20px;
   display: flex;
-  align-items: center;
-  gap: 16px;
-  overflow-x: auto;
+  flex-direction: column;
 }
 
 .driver-cabin {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding-right: 14px;
-  border-right: 2px dashed var(--border-subtle);
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.cabin-indicator {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.steering-icon {
+  font-size: 24px;
   color: var(--text-secondary);
 }
 
-.cabin-label {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
+/* Seats Grid Layout (4 Columns of 40px tiles + central aisle) */
+.seats-grid-layout {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
-.seats-matrix {
+.seat-col {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex: 1;
 }
 
-.seat-row-col {
-  display: flex;
-  gap: 8px;
-}
-
-.bus-central-aisle {
-  height: 20px;
+.central-aisle {
+  width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--surface-sunken);
-  border-radius: 9999px;
 }
 
-.aisle-label {
+.aisle-text {
+  writing-mode: vertical-lr;
   font-size: 10px;
   font-weight: 700;
-  color: var(--text-disabled);
   letter-spacing: 4px;
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
-/* Right Summary Side */
-.seats-summary-side {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+/* Right: Sticky 360px Summary Panel */
+.sticky-summary-sidebar {
+  width: 360px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 130px;
+  min-width: 0;
 }
 
-.seat-side-card {
+.summary-card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
+  border-radius: var(--radius-card);
   padding: 20px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: var(--shadow-sm);
+  gap: 16px;
 }
 
-.side-card-title {
-  font-size: 15px;
+.summary-heading {
+  font-size: 16px;
   font-weight: 700;
-  margin: 0;
   color: var(--text-primary);
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 10px;
+  margin: 0;
 }
 
-.boarding-dropping-summary {
+/* Route Strip */
+.route-strip {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: var(--surface-sunken);
+  padding: 12px;
+  border-radius: var(--radius-md);
 }
 
-.summary-point {
+.strip-point {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.point-badge {
+.point-tag {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: var(--surface-sunken);
-  color: var(--text-secondary);
-  padding: 3px 10px;
-  border-radius: 9999px;
+  color: var(--brand-text);
+  background-color: var(--brand-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
 }
 
-.selected-seats-section {
+.point-meta {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.point-city {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.point-clock {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.route-direction-icon {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: 14px;
+}
+
+/* Boarding Points Box */
+.boarding-points-box {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+}
+
+.bp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bp-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.seat-chips-row {
+.bp-type {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.bp-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.btn-change-point {
+  background: transparent;
+  border: none;
+  color: var(--brand-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.point-changer-dropdown {
+  margin-top: 8px;
+}
+
+.point-label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.point-select {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  outline: none;
+}
+
+/* Selected Seats Section */
+.selected-seats-section {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+}
+
+.section-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.seat-chips-list {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.seat-chip {
-  background-color: var(--brand-subtle);
-  color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  border: 1px solid var(--brand-border);
+.seat-pill-chip {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--brand-subtle);
+  color: var(--brand-text);
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.no-seat-hint {
+.remove-seat-icon {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.remove-seat-icon:hover {
+  opacity: 1;
+}
+
+.no-seat-warning {
   font-size: 12px;
   color: var(--semantic-warning);
 }
 
-.fare-total-box {
-  background-color: var(--surface-sunken);
-  border-radius: 18px;
-  padding: 14px;
+/* Fare Breakdown Box */
+.fare-breakdown-box {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-.total-price-display {
+.fare-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.fare-divider {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 6px 0;
+}
+
+.fare-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.total-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.total-amount {
   font-size: 22px;
   font-weight: 800;
   color: var(--brand-primary);
 }
 
-.tax-note {
+.continue-action-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.continue-btn {
+  height: 44px;
+}
+
+.disabled-hint {
   font-size: 11px;
+  color: var(--semantic-warning);
+  text-align: center;
+}
+
+/* ======================================================================
+   STEP 2: FULL-WIDTH PASSENGER DETAILS FORM
+   ====================================================================== */
+.step-2-full-layout {
+  width: 100%;
+}
+
+.passenger-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.banner-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.banner-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 2px 0 0 0;
+}
+
+.passenger-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.passenger-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-p-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.p-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.p-badge {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.seat-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: var(--brand-subtle);
+  color: var(--brand-text);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.p-fields-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-size: 12px;
+  font-weight: 600;
   color: var(--text-secondary);
 }
 
-.proceed-drawer-container {
-  width: 100%;
+.custom-input {
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.custom-input:focus {
+  border-color: var(--brand-primary);
+  background-color: var(--surface-card);
+}
+
+.gender-segmented-control {
+  display: flex;
+  height: 40px;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 4px;
+}
+
+.gender-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: calc(var(--radius-sm) - 2px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.gender-btn.active {
+  background-color: var(--surface-card);
+  color: var(--brand-text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Contact Card */
+.contact-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.phone-input-group {
+  display: flex;
+}
+
+.phone-prefix {
+  height: 40px;
+  padding: 0 12px;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.phone-field {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  flex: 1;
+}
+
+/* Insurance Add-on */
+.insurance-add-on-box {
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.insurance-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.insurance-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.ins-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ins-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ins-recommended-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--semantic-success);
+  background-color: rgba(18, 128, 75, 0.12);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.ins-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0 0 0;
+}
+
+/* Step 2 Actions Bar */
+.step-2-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.proceed-payment-btn {
+  height: 48px;
+  padding: 0 36px;
+  font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .step-1-layout {
+    flex-direction: column;
+  }
+  .sticky-summary-sidebar {
+    width: 100%;
+    position: static;
+  }
+  .p-fields-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
 }

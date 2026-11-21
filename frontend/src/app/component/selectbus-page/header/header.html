@@ -1,52 +1,10 @@
-<div class="search-summary-bar">
-  <div class="search-summary-container">
-    <!-- Route section -->
-    <div class="route-block">
-      <div class="city-node">
-        <span class="city-role">FROM</span>
-        <span class="city-name">{{ departure || 'Departure' }}</span>
-      </div>
-
-      <button class="swap-action" (click)="swapRoutes()" title="Swap cities">
-        <mat-icon>swap_horiz</mat-icon>
-      </button>
-
-      <div class="city-node">
-        <span class="city-role">TO</span>
-        <span class="city-name">{{ arrival || 'Destination' }}</span>
-      </div>
-    </div>
-
-    <!-- Date selector & quick date switcher -->
-    <div class="date-block">
-      <button class="date-arrow-btn" (click)="shiftDate(-1)" title="Previous day">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-
-      <div class="date-current">
-        <mat-icon class="calendar-icon">calendar_today</mat-icon>
-        <div class="date-meta">
-          <span class="date-label">DATE OF JOURNEY</span>
-          <span class="date-value">{{ date || 'Select Date' }}</span>
-        </div>
-      </div>
-
-      <button class="date-arrow-btn" (click)="shiftDate(1)" title="Next day">
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
-
-    <!-- Actions & Secondary CTA -->
-    <div class="actions-block">
-      <button class="btn-modify" (click)="modifySearch()">
-        <mat-icon>tune</mat-icon>
-        <span>Modify</span>
-      </button>
-
-      <button class="btn-custom-bus" (click)="onCustomBusClick()" title="Charter or customize an entire bus for groups">
-        <mat-icon>directions_bus</mat-icon>
-        <span>Custom Bus</span>
-      </button>
-    </div>
-  </div>
+<div class="results-header-wrapper">
+  <app-search-bar 
+    [product]="'bus'" 
+    [compact]="true" 
+    [resultCount]="resultCount" 
+    [showProductTabs]="true"
+    [initialParams]="{ from: departure, to: arrival, date: date }"
+    (search)="handleSearch($event)">
+  </app-search-bar>
 </div>

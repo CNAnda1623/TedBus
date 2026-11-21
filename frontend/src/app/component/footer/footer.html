@@ -1,126 +1,164 @@
-<footer class="flex flex-col bg-white-100 py-16 items-center">
-    <div class="flex flex-col-reverse md:text-base text-sm md:flex-col w-full px-6 md:px-0 md:w-[80%] max-w-[1300px]">
+<footer class="app-global-footer">
+  <div class="footer-inner">
+    <!-- Top Link Groups (RTCs, Routes, Cities, Trains) -->
+    <div class="link-grid">
+      <!-- Group 1: Top RTCs -->
+      <div class="link-group" [class.expanded]="isExpanded('rtcs')">
+        <button class="group-header-btn" (click)="toggleSection('rtcs')">
+          <span class="group-title">Top RTCs</span>
+          <i class="fa-solid fa-chevron-down accordion-icon"></i>
+        </button>
+        <ul class="link-list">
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'APSRTC'}">APSRTC</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'GSRTC'}">GSRTC</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'MSRTC'}">MSRTC</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'TNSTC'}">TNSTC</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'UPSRTC'}">UPSRTC</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{rtc: 'RSRTC'}">RSRTC</a></li>
+        </ul>
+      </div>
 
-        <!-- footer upper part starts here  -->
-        <div class="flex justify-between flex-col md:flex-row gap-6">
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Top RTCs</li>
-                <li><a href="">APSRTC</a></li>
-                <li><a href="">GSRTC</a></li>
-                <li><a href="">MSRTC</a></li>
-                <li><a href="">TNSTC</a></li>
-                <li><a href="">View All</a></li>
-            </ul>
+      <!-- Group 2: Top Bus Routes -->
+      <div class="link-group" [class.expanded]="isExpanded('routes')">
+        <button class="group-header-btn" (click)="toggleSection('routes')">
+          <span class="group-title">Popular Bus Routes</span>
+          <i class="fa-solid fa-chevron-down accordion-icon"></i>
+        </button>
+        <ul class="link-list">
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Delhi', to: 'Jaipur'}">Delhi to Jaipur Bus</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Mumbai', to: 'Pune'}">Mumbai to Pune Bus</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Bangalore', to: 'Chennai'}">Bangalore to Chennai Bus</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Hyderabad', to: 'Bangalore'}">Hyderabad to Bangalore Bus</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Delhi', to: 'Shimla'}">Delhi to Shimla Bus</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{from: 'Pune', to: 'Goa'}">Pune to Goa Bus</a></li>
+        </ul>
+      </div>
 
+      <!-- Group 3: Top Cities -->
+      <div class="link-group" [class.expanded]="isExpanded('cities')">
+        <button class="group-header-btn" (click)="toggleSection('cities')">
+          <span class="group-title">Top Cities</span>
+          <i class="fa-solid fa-chevron-down accordion-icon"></i>
+        </button>
+        <ul class="link-list">
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Hyderabad'}">Hyderabad Bus Tickets</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Bangalore'}">Bangalore Bus Tickets</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Chennai'}">Chennai Bus Tickets</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Pune'}">Pune Bus Tickets</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Delhi'}">Delhi Bus Tickets</a></li>
+          <li><a routerLink="/selectbus-page" [queryParams]="{to: 'Mumbai'}">Mumbai Bus Tickets</a></li>
+        </ul>
+      </div>
 
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Others</li>
-                <li><a href="">TSRTC</a></li>
-                <li><a href="">SBSTC</a></li>
-                <li><a href="">RSRTC</a></li>
-                <li><a href="">Kerala RTC</a></li>
-                <li><a href="">View All</a></li>
-            </ul>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Top bus routes</li>
-                <li><a href="">Hyderabad to Bangalore Bus</a></li>
-                <li><a href="">Bangalore to Chennai Bus</a></li>
-                <li><a href="">Pune to Bangalore Bus</a></li>
-                <li><a href="">Mumbai to Bangalore Bus</a></li>
-                <li><a href="">View All</a></li>
-            </ul>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Top cities</li>
-                <li><a href="">Hyderabad Bus Tickets</a></li>
-                <li><a href="">Bangalore Bus Tickets</a></li>
-                <li><a href="">Chennai Bus Tickets</a></li>
-                <li><a href="">Pune Bus Tickets</a></li>
-                <li><a href="">View All</a></li>
-            </ul>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">redRail</li>
-                <li><a href="">Book Train Tickets</a></li>
-                <li><a href="">PNR Status</a></li>
-                <li><a href="">Live Train Status</a></li>
-                <li><a href="">Train Seat Availability</a></li>
-                <li><a href="">Trains between Stations</a></li>
-            </ul>
-
-
-        </div>
-        <!-- footer upper part ends here  -->
-
-        <hr class="my-8">
-        <!-- footer bottom part starts here  -->
-        <div class="flex justify-between flex-col md:flex-row gap-6">
-
-            <div class="flex flex-col gap-2 md:w-[25%]">
-                <div>
-                    <img class="w-28" src="../../../assets/red-bus-with-word-bus-it_600323-482.avif" alt="">
-                </div>
-                <p>tedbus is the world's largest online bus ticket booking service trusted by over 25 million happy customers globally. tedbus offers bus ticket booking through its website, iOS and Android mobile apps for all major routes.</p>
-            </div>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">About tedbus</li>
-                <li><a href="">About us</a></li>
-                <li><a href="">Investor Relations</a></li>
-                <li><a href="">Contact us</a></li>
-                <li><a href="">Mobile version</a></li>
-                <li><a href="">tedbus on mobile</a></li>
-                <li><a href="">Sitemap</a></li>
-                <li><a href="">Offers</a></li>
-                <li><a href="">Careers</a></li>
-                <li><a href="">Values</a></li>
-            </ul>
-
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Info</li>
-                <li><a href="">T&C</a></li>
-                <li><a href="">Privacy policy</a></li>
-                <li><a href="">FAQ</a></li>
-                <li><a href="">Blog</a></li>
-                <li><a href="">Bus operator registration</a></li>
-                <li><a href="">Agent registration</a></li>
-                <li><a href="">Insurance partner</a></li>
-                <li><a href="">User agreement</a></li>
-            </ul>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Global Sites</li>
-                <li><a href="">India</a></li>
-                <li><a href="">Singapore</a></li>
-                <li><a href="">Malaysia</a></li>
-                <li><a href="">Indonesia</a></li>
-                <li><a href="">Peru</a></li>
-                <li><a href="">Colombia</a></li>
-            </ul>
-
-
-            <ul class="flex flex-col gap-2">
-                <li class="text-xl font-bold">Our Partners</li>
-                <li><a href="">Goibibo Bus</a></li>
-                <li><a href="">Goibibo Hotels</a></li>
-                <li><a href="">Makemytrip Bus</a></li>
-                <li><a href="">Makemytrip Hotels</a></li>
-            </ul>
-
-
-        </div>
-        <!-- footer bottom part ends here  -->
-
-
-
+      <!-- Group 4: tedRail & Trains -->
+      <div class="link-group" [class.expanded]="isExpanded('trains')">
+        <button class="group-header-btn" (click)="toggleSection('trains')">
+          <span class="group-title">tedRail & Trains</span>
+          <i class="fa-solid fa-chevron-down accordion-icon"></i>
+        </button>
+        <ul class="link-list">
+          <li><a routerLink="/trains">Book Train Tickets</a></li>
+          <li><a routerLink="/trains/pnr">PNR Status</a></li>
+          <li><a routerLink="/trains/live">Live Train Status</a></li>
+          <li><a routerLink="/trains" [queryParams]="{quota: 'Tatkal'}">Tatkal Train Booking</a></li>
+          <li><a routerLink="/trains" [queryParams]="{class: '1A'}">Vande Bharat Express</a></li>
+        </ul>
+      </div>
     </div>
+
+    <div class="footer-divider"></div>
+
+    <!-- Middle Block: Company info, About & App Download -->
+    <div class="company-block-grid">
+      <!-- Brand & Mission -->
+      <div class="brand-column">
+        <div class="brand-header">
+          <img class="footer-logo" src="assets/bus-logo.avif" alt="Tedbus Logo"/>
+          <span class="footer-brand-title">tedbus</span>
+        </div>
+        <p class="brand-desc">
+          tedbus is India's premier multi-modal travel platform, providing seamless online ticket booking for buses, trains, and outstation cab rentals across major Indian transit corridors.
+        </p>
+
+        <!-- Social Media Icons -->
+        <div class="social-links">
+          <a href="#" aria-label="Facebook" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter / X" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="Instagram" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- About Tedbus Links -->
+      <div class="link-column">
+        <h4 class="col-heading">About tedbus</h4>
+        <ul class="col-links">
+          <li><a routerLink="/help">About Us</a></li>
+          <li><a routerLink="/help">Contact & Support</a></li>
+          <li><a routerLink="/community">Community Stories</a></li>
+          <li><a routerLink="/custom-bus">Custom Bus Hire</a></li>
+          <li><a routerLink="/cab-book">Airport & Outstation Cabs</a></li>
+        </ul>
+      </div>
+
+      <!-- Info & Legal Links -->
+      <div class="link-column">
+        <h4 class="col-heading">Info & Policies</h4>
+        <ul class="col-links">
+          <li><a routerLink="/help" [queryParams]="{category: 'Payments'}">Terms & Conditions</a></li>
+          <li><a routerLink="/help" [queryParams]="{category: 'Account'}">Privacy Policy</a></li>
+          <li><a routerLink="/help" [queryParams]="{tab: 'faq'}">Frequently Asked Questions</a></li>
+          <li><a routerLink="/help" [queryParams]="{tab: 'contact'}">Grievance Officer</a></li>
+          <li><a routerLink="/help">User Agreement</a></li>
+        </ul>
+      </div>
+
+      <!-- App Download Badges & Security Badges -->
+      <div class="download-column">
+        <h4 class="col-heading">Experience tedbus App</h4>
+        <p class="download-note">Get exclusive mobile discounts and instant live track notifications.</p>
+        
+        <div class="app-badges">
+          <div class="app-badge">
+            <i class="fa-brands fa-google-play badge-icon"></i>
+            <div class="badge-text">
+              <span class="badge-sub">GET IT ON</span>
+              <span class="badge-title">Google Play</span>
+            </div>
+          </div>
+          <div class="app-badge">
+            <i class="fa-brands fa-apple badge-icon"></i>
+            <div class="badge-text">
+              <span class="badge-sub">Download on the</span>
+              <span class="badge-title">App Store</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-guarantee-line">
+          <i class="fa-solid fa-shield-halved text-brand mr-1"></i>
+          <span>100% Secure Payments via PCI-DSS Certified Gateway</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <!-- Bottom Legal Strip (Copyright, Terms, Privacy, Grievance, Sitemap) -->
+    <div class="legal-strip">
+      <div class="copyright-text">
+        © {{ currentYear }} tedbus India Pvt. Ltd. All rights reserved.
+      </div>
+
+      <div class="legal-links">
+        <a routerLink="/help">Terms of Use</a>
+        <span class="strip-dot">·</span>
+        <a routerLink="/help">Privacy Policy</a>
+        <span class="strip-dot">·</span>
+        <a routerLink="/help">Grievance Redressal</a>
+        <span class="strip-dot">·</span>
+        <a routerLink="/help">Sitemap</a>
+      </div>
+    </div>
+  </div>
 </footer>

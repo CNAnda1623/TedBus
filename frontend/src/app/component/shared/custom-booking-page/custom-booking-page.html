@@ -1,0 +1,133 @@
+<div class="custom-booking-layout">
+  <!-- Top Search Bar Container -->
+  <div class="search-section">
+    <app-search-bar [product]="config.product" (search)="handleSearch($event)"></app-search-bar>
+  </div>
+
+  <!-- Page Header -->
+  <div class="booking-page-header">
+    <h1 class="page-main-title">{{ config.title }}</h1>
+    <p class="page-subtitle">{{ config.subtitle }}</p>
+  </div>
+
+  <!-- 2x2 Clean White Option Cards Grid -->
+  <div class="options-grid-2x2">
+    <div class="option-card" *ngFor="let group of config.groups">
+      <!-- Card Section Header -->
+      <div class="card-header">
+        <div class="header-icon-box">
+          <i [class]="group.icon + ' text-brand'"></i>
+        </div>
+        <div class="header-text">
+          <h3 class="group-title">{{ group.title }}</h3>
+          <p class="group-helper">{{ group.helper }}</p>
+        </div>
+      </div>
+
+      <!-- Tile Options List (Single-Select or Multi-Select Tiles) -->
+      <div class="tiles-container">
+        <!-- SINGLE SELECT TILES -->
+        <ng-container *ngIf="!group.multiSelect">
+          <div class="selectable-tile" 
+               *ngFor="let opt of group.options"
+               [class.selected]="isSingleSelected(group.id, opt.id)"
+               (click)="toggleSingleSelect(group.id, opt.id)">
+            <div class="tile-left">
+              <div class="tile-check-circle" [class.checked]="isSingleSelected(group.id, opt.id)">
+                <i class="fa-solid fa-check check-icon" *ngIf="isSingleSelected(group.id, opt.id)"></i>
+              </div>
+              <div class="tile-info">
+                <span class="tile-title">{{ opt.title }}</span>
+                <span class="tile-desc" *ngIf="opt.desc">{{ opt.desc }}</span>
+              </div>
+            </div>
+
+            <div class="tile-right">
+              <span class="tile-capacity-pill" *ngIf="opt.capacity">
+                <i class="fa-solid fa-user-group text-xs mr-1 opacity-70"></i>{{ opt.capacity }}
+              </span>
+              <span class="tile-fare-rate" *ngIf="opt.fareRate">{{ opt.fareRate }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- MULTI SELECT TILES / CHIPS (No Inner Scroll) -->
+        <ng-container *ngIf="group.multiSelect">
+          <div class="multi-tiles-grid">
+            <div class="multi-tile" 
+                 *ngFor="let opt of group.options"
+                 [class.selected]="isMultiSelected(group.id, opt.id)"
+                 (click)="toggleMultiSelect(group.id, opt.id)">
+              <div class="multi-check-box" [class.checked]="isMultiSelected(group.id, opt.id)">
+                <i class="fa-solid fa-check check-icon" *ngIf="isMultiSelected(group.id, opt.id)"></i>
+              </div>
+              <i [class]="opt.icon + ' multi-tile-icon text-brand'" *ngIf="opt.icon"></i>
+              <span class="multi-tile-name">{{ opt.title }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- MULTISELECT PICKER FOR CUSTOM STOPS (If enabled on Route/Trip Type) -->
+        <div class="stops-picker-box" *ngIf="group.hasStopsPicker">
+          <div class="picker-label">
+            <i class="fa-solid fa-route text-brand mr-1"></i>
+            <span>Add Intermediate En-route Stops (Optional):</span>
+          </div>
+
+          <!-- Removable Stop Chips -->
+          <div class="selected-stops-chips" *ngIf="selectedStops.length > 0">
+            <span class="stop-chip" *ngFor="let stop of selectedStops">
+              <i class="fa-solid fa-map-pin mr-1 text-brand"></i>
+              <span>{{ stop }}</span>
+              <i class="fa-solid fa-xmark remove-stop-btn" (click)="removeStop(stop)"></i>
+            </span>
+          </div>
+
+          <!-- Search Input for Stops -->
+          <div class="stop-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-stop-icon"></i>
+            <input type="text" 
+                   class="stop-search-input" 
+                   [(ngModel)]="stopSearchTerm" 
+                   (focus)="showStopsDropdown = true" 
+                   placeholder="Type city to add stop (e.g. Neemrana, Lonavala)" />
+
+            <!-- Autocomplete suggestions -->
+            <div class="stops-dropdown" *ngIf="showStopsDropdown && filteredCities.length > 0">
+              <div class="stop-dropdown-item" *ngFor="let city of filteredCities" (click)="addStop(city)">
+                <i class="fa-solid fa-plus mr-2 text-brand"></i>
+                <span>{{ city }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY BOTTOM SUMMARY & ESTIMATE BAR -->
+  <div class="sticky-estimate-bar">
+    <div class="estimate-bar-inner">
+      <div class="estimate-left">
+        <div class="estimate-fare-group">
+          <span class="estimate-label">Estimated Total Fare</span>
+          <span class="estimate-amount">₹{{ calculatedEstimate }}</span>
+        </div>
+        <div class="estimate-subtext">
+          <span class="summary-selection-text">{{ selectedSummaryString }}</span>
+          <span class="fare-note">· Includes fuel, driver allowance & GST</span>
+        </div>
+      </div>
+
+      <div class="estimate-right">
+        <button class="btn-primary proceed-btn" 
+                [disabled]="!isProceedReady" 
+                (click)="proceedToCheckout()">
+          <span>Proceed to Book</span>
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

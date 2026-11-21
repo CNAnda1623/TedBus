@@ -1,0 +1,313 @@
+<div class="train-page-layout">
+  <!-- Unified Search Bar Component for Trains -->
+  <div class="train-search-container" *ngIf="subMode === 'search'">
+    <app-search-bar [product]="'train'" (search)="handleSearch($event)"></app-search-bar>
+  </div>
+
+  <!-- Sub-Navigation (All Trains | PNR Status | Live Running Status) -->
+  <div class="train-subnav-bar">
+    <a routerLink="/trains" class="subnav-chip" [class.active]="subMode === 'search'">
+      <i class="fa-solid fa-train-subway mr-1"></i> Book Train Tickets
+    </a>
+    <a routerLink="/trains/pnr" class="subnav-chip" [class.active]="subMode === 'pnr'">
+      <i class="fa-solid fa-ticket mr-1"></i> PNR Status Check
+    </a>
+    <a routerLink="/trains/live" class="subnav-chip" [class.active]="subMode === 'live'">
+      <i class="fa-solid fa-satellite-dish mr-1"></i> Live Train Running Status
+    </a>
+  </div>
+
+  <!-- ======================================================================
+       MODE 1: TRAIN SEARCH & RESULTS LIST
+       ====================================================================== -->
+  <div class="train-results-container" *ngIf="subMode === 'search'">
+    
+    <!-- Filter Sidebar (280px Sticky) -->
+    <aside class="train-filters-sidebar">
+      <div class="sidebar-header">
+        <h3 class="filter-main-title">
+          <i class="fa-solid fa-sliders text-brand mr-2"></i>
+          <span>Filter Trains</span>
+        </h3>
+      </div>
+
+      <!-- Quick Toggles -->
+      <div class="filter-section">
+        <label class="toggle-option-card" [class.active]="filterAvailableOnly">
+          <input type="checkbox" [(ngModel)]="filterAvailableOnly" class="hidden-check" />
+          <div class="toggle-info">
+            <span class="toggle-title">Available Only (AVL)</span>
+            <span class="toggle-desc">Hide Waiting List (WL) trains</span>
+          </div>
+          <div class="toggle-switch-ui"><span class="switch-dot"></span></div>
+        </label>
+
+        <label class="toggle-option-card" [class.active]="filterPantryOnly">
+          <input type="checkbox" [(ngModel)]="filterPantryOnly" class="hidden-check" />
+          <div class="toggle-info">
+            <span class="toggle-title">Pantry Car Available</span>
+            <span class="toggle-desc">Catering & food on-board</span>
+          </div>
+          <div class="toggle-switch-ui"><span class="switch-dot"></span></div>
+        </label>
+      </div>
+
+      <!-- Train Type Filter -->
+      <div class="filter-section">
+        <div class="section-title">TRAIN TYPE</div>
+        <div class="checks-list">
+          <label class="check-item" *ngFor="let type of ['Vande Bharat', 'Rajdhani', 'Shatabdi', 'Express']">
+            <input type="checkbox" [(ngModel)]="filterTrainTypes[type]" />
+            <span>{{ type }}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Class Filter -->
+      <div class="filter-section">
+        <div class="section-title">TRAVEL CLASS</div>
+        <div class="checks-list">
+          <label class="check-item" *ngFor="let cls of ['1A', '2A', '3A', 'SL', 'CC']">
+            <input type="checkbox" [(ngModel)]="filterClasses[cls]" />
+            <span>{{ cls }}</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Train Results Column -->
+    <main class="train-results-main">
+      <div class="results-header-bar">
+        <h2 class="results-count-heading">{{ filteredTrains.length }} Trains found between {{ fromStation }} & {{ toStation }}</h2>
+        <span class="quota-badge">Quota: {{ selectedQuota }}</span>
+      </div>
+
+      <!-- Train Cards List -->
+      <div class="train-cards-stack">
+        <div class="train-card" *ngFor="let train of filteredTrains">
+          
+          <!-- Card Header Zone: Train Name, Number, Running Days -->
+          <div class="train-card-header">
+            <div class="train-title-group">
+              <span class="train-number tabular-nums">#{{ train.trainNumber }}</span>
+              <h3 class="train-name">{{ train.trainName }}</h3>
+              <span class="train-type-tag" [class.vande-bharat]="train.trainType === 'Vande Bharat'">
+                {{ train.trainType }}
+              </span>
+            </div>
+
+            <!-- Run Day Chips (M T W T F S S) -->
+            <div class="run-days-row">
+              <span class="run-label">Runs On:</span>
+              <div class="days-chips">
+                <span class="day-chip" *ngFor="let d of train.runningDays" [class.runs]="d.runs">{{ d.day }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule Zone: Departure ── Duration ── Arrival -->
+          <div class="train-schedule-strip">
+            <div class="station-block departure">
+              <span class="train-time tabular-nums">{{ train.departureTime }}</span>
+              <span class="station-code">{{ train.fromStation.code }}</span>
+              <span class="station-name">{{ train.fromStation.name }}</span>
+            </div>
+
+            <div class="duration-block">
+              <span class="duration-val tabular-nums">{{ train.duration }}</span>
+              <div class="duration-line">
+                <span class="dot"></span>
+                <span class="line"></span>
+                <span class="dot"></span>
+              </div>
+              <span class="pantry-note" *ngIf="train.pantryAvailable">
+                <i class="fa-solid fa-utensils text-brand mr-1"></i> Pantry Available
+              </span>
+            </div>
+
+            <div class="station-block arrival">
+              <span class="train-time tabular-nums">{{ train.arrivalTime }}</span>
+              <span class="station-code">{{ train.toStation.code }}</span>
+              <span class="station-name">{{ train.toStation.name }}</span>
+            </div>
+          </div>
+
+          <!-- Class Availability Tiles Row (SL, 3A, 2A, 1A, CC) -->
+          <div class="class-tiles-row">
+            <div class="class-tile" 
+                 *ngFor="let cls of train.classes"
+                 [class.selected]="selectedTrain?.id === train.id && selectedClassTile?.classCode === cls.classCode"
+                 (click)="selectClassTile(train, cls)">
+              <div class="tile-top">
+                <span class="class-code">{{ cls.classCode }}</span>
+                <span class="class-fare tabular-nums">₹{{ cls.fare }}</span>
+              </div>
+              <div class="tile-status-badge" 
+                   [class.avl]="cls.status === 'AVL'"
+                   [class.rac]="cls.status === 'RAC'"
+                   [class.wl]="cls.status === 'WL'">
+                <span>{{ cls.status }} {{ cls.count }}</span>
+              </div>
+              <span class="tile-updated">{{ cls.updatedAt }}</span>
+            </div>
+          </div>
+
+          <!-- Card Footer Tabs (Schedule, Policies, Reviews) -->
+          <div class="train-card-footer">
+            <div class="footer-tabs">
+              <button class="footer-tab-btn" [class.active]="activeCardTabs[train.id] === 0" (click)="toggleCardTab(train.id, 0)">
+                <i class="fa-solid fa-clock-rotate-left mr-1"></i> Schedule
+              </button>
+              <button class="footer-tab-btn" [class.active]="activeCardTabs[train.id] === 1" (click)="toggleCardTab(train.id, 1)">
+                <i class="fa-solid fa-file-shield mr-1"></i> Cancellation Policy
+              </button>
+              <button class="footer-tab-btn" [class.active]="activeCardTabs[train.id] === 2" (click)="toggleCardTab(train.id, 2)">
+                <i class="fa-solid fa-star text-amber-400 mr-1"></i> Reviews
+              </button>
+            </div>
+
+            <div class="book-action-inline" *ngIf="selectedTrain?.id === train.id">
+              <button class="btn-primary btn-compact" (click)="proceedWithTrainBooking()">
+                <span>Book {{ selectedClassTile?.classCode }} - ₹{{ selectedClassTile?.fare }}</span>
+                <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Accordion Tab Content Inside Train Card -->
+          <div class="train-accordion-panel" *ngIf="activeCardTabs[train.id] !== undefined">
+            <div *ngIf="activeCardTabs[train.id] === 0" class="schedule-tab">
+              <h4 class="tab-title">Halts & Route Timeline</h4>
+              <div class="halts-timeline">
+                <div class="halt-stop">
+                  <span class="halt-time tabular-nums">{{ train.departureTime }}</span>
+                  <span class="halt-stn">{{ train.fromStation.name }} ({{ train.fromStation.code }}) - Origin</span>
+                </div>
+                <div class="halt-stop">
+                  <span class="halt-time tabular-nums">Inter-station halts</span>
+                  <span class="halt-stn">Gurgaon (GGN), Rewari (RE), Alwar (AWR)</span>
+                </div>
+                <div class="halt-stop">
+                  <span class="halt-time tabular-nums">{{ train.arrivalTime }}</span>
+                  <span class="halt-stn">{{ train.toStation.name }} ({{ train.toStation.code }}) - Destination</span>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="activeCardTabs[train.id] === 1" class="policy-tab">
+              <h4 class="tab-title">IRCTC Cancellation Rules</h4>
+              <p class="policy-note">Flat cancellation charges per passenger: 1A/EC: ₹240, 2A: ₹200, 3A/CC: ₹180, SL: ₹120. Full refund on RAC/WL if not confirmed before chart preparation.</p>
+            </div>
+
+            <div *ngIf="activeCardTabs[train.id] === 2" class="reviews-tab">
+              <h4 class="tab-title">Punctuality & Cleanliness Ratings</h4>
+              <p class="review-note">★ 4.4 / 5 based on 850 passenger reviews. 94% on-time record.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ======================================================================
+       MODE 2: PNR STATUS CHECK (/trains/pnr)
+       ====================================================================== -->
+  <div class="pnr-lookup-layout" *ngIf="subMode === 'pnr'">
+    <div class="lookup-card">
+      <div class="lookup-header">
+        <h2 class="lookup-title">Check Live IRCTC PNR Status</h2>
+        <p class="lookup-sub">Enter your 10-digit Passenger Name Record (PNR) printed on your train ticket</p>
+      </div>
+
+      <div class="pnr-input-box">
+        <input type="text" class="pnr-field" [(ngModel)]="pnrInput" placeholder="Enter 10-digit PNR" maxlength="10" />
+        <button class="btn-primary pnr-check-btn" (click)="checkPnr()">Get PNR Status</button>
+      </div>
+      <div class="pnr-error" *ngIf="pnrError">{{ pnrError }}</div>
+
+      <!-- PNR Result Card -->
+      <div class="pnr-result-box" *ngIf="pnrResult">
+        <div class="pnr-meta-bar">
+          <div>
+            <span class="pnr-label">PNR NUMBER</span>
+            <span class="pnr-number-val tabular-nums">{{ pnrResult.pnr }}</span>
+          </div>
+          <div class="chart-status-pill">{{ pnrResult.chartStatus }}</div>
+        </div>
+
+        <div class="pnr-journey-grid">
+          <div>
+            <span class="field-title">Train:</span>
+            <span class="field-val">{{ pnrResult.trainNumber }} - {{ pnrResult.trainName }}</span>
+          </div>
+          <div>
+            <span class="field-title">Route:</span>
+            <span class="field-val">{{ pnrResult.from }} → {{ pnrResult.to }}</span>
+          </div>
+          <div>
+            <span class="field-title">Class & Quota:</span>
+            <span class="field-val">{{ pnrResult.bookingClass }} ({{ pnrResult.quota }})</span>
+          </div>
+          <div>
+            <span class="field-title">Date of Journey:</span>
+            <span class="field-val">{{ pnrResult.boardingDate }}</span>
+          </div>
+        </div>
+
+        <div class="passenger-status-table">
+          <div class="table-header">
+            <span>Passenger</span>
+            <span>Booking Status</span>
+            <span>Current Status</span>
+          </div>
+          <div class="table-row" *ngFor="let p of pnrResult.passengers">
+            <span class="font-bold">Passenger {{ p.num }}</span>
+            <span class="tabular-nums">{{ p.bookingStatus }}</span>
+            <span class="text-green-600 font-bold">{{ p.currentStatus }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODE 3: LIVE TRAIN RUNNING STATUS (/trains/live)
+       ====================================================================== -->
+  <div class="live-running-layout" *ngIf="subMode === 'live'">
+    <div class="lookup-card">
+      <div class="lookup-header">
+        <h2 class="lookup-title">Live Train Running Status</h2>
+        <p class="lookup-sub">Track exact real-time GPS location and delay updates for your train</p>
+      </div>
+
+      <div class="pnr-input-box">
+        <input type="text" class="pnr-field" [(ngModel)]="liveTrainNumber" placeholder="Enter Train Number (e.g. 20978, 12958)" />
+        <button class="btn-primary pnr-check-btn" (click)="checkLiveStatus()">Track Train</button>
+      </div>
+
+      <!-- Live Result Status -->
+      <div class="pnr-result-box" *ngIf="liveStatusResult">
+        <div class="live-status-header">
+          <div>
+            <h3 class="train-live-title">{{ liveStatusResult.trainNumber }} - {{ liveStatusResult.trainName }}</h3>
+            <span class="live-station-tag">Current Station: <strong>{{ liveStatusResult.currentStation }}</strong></span>
+          </div>
+          <div class="on-time-badge">
+            <i class="fa-solid fa-circle-check mr-1"></i> {{ liveStatusResult.status }}
+          </div>
+        </div>
+
+        <h4 class="upcoming-heading">Upcoming Stations:</h4>
+        <div class="upcoming-stops-list">
+          <div class="stop-row" *ngFor="let s of liveStatusResult.upcomingStations">
+            <span class="stop-name">{{ s.name }}</span>
+            <span class="stop-eta tabular-nums">ETA: {{ s.eta }}</span>
+            <span class="stop-dist">{{ s.distance }} away</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

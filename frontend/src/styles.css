@@ -3,76 +3,110 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   PART 1: TEDBUS DESIGN SYSTEM TOKENS (LIGHT & BLUE-SLATE DARK THEMES)
+   ========================================================================== */
+
 :root {
+  /* Surface & Page Tokens (Light Mode) */
   --bg-page: #F5F6F8;
   --surface-card: #FFFFFF;
   --surface-raised: #FFFFFF;
-  --surface-sunken: #EAECEF;
-  --border-subtle: #E2E5EA;
-  --border-strong: #CCD1D9;
-  --text-primary: #1A1D24;
-  --text-secondary: #5A6271;
-  --text-disabled: #9AA2B1;
+  --surface-sunken: #EBEEF2;
+  --border-subtle: #E3E6EC;
+  --border-strong: #CED3DE;
+
+  /* Typography Colors */
+  --text-primary: #1B1F2A;
+  --text-secondary: #5B6475;
+  --text-muted: #8A93A5;
+  --text-disabled: #A6AFBF;
   --text-inverse: #FFFFFF;
+
+  /* Brand Accents */
   --brand-primary: #D63547;
-  --brand-hover: #BA2435;
-  --brand-subtle: #FDEDEF;
-  --brand-border: #F4A9B1;
-  --semantic-success: #0F8B54;
-  --semantic-warning: #D97706;
-  --semantic-danger: #DC2626;
-  --semantic-info: #2563EB;
+  --brand-hover: #BF2C3C;
+  --brand-text: #D63547;
+  --brand-subtle: #FDECEE;
+  --brand-border: #F7BAC2;
+
+  /* Semantic Feedback */
+  --semantic-success: #12804B;
+  --semantic-warning: #B7791F;
+  --semantic-danger: #C62828;
+  --semantic-info: #1D5FD1;
+
+  /* Seat States */
   --seat-available: #FFFFFF;
   --seat-booked: #E2E5EA;
   --seat-female: #FCE7F3;
-  --focus-ring: rgba(214, 53, 71, 0.35);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
-  --transition-fast: 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-normal: 250ms cubic-bezier(0.2, 0, 0, 1);
+  --seat-selected: #D63547;
 
-  /* Aesthetic Circular / Rounded Tokens */
+  /* Elevation Shadows */
+  --focus-ring: rgba(214, 53, 71, 0.35);
+  --shadow-sm: 0 1px 3px rgba(27, 31, 42, 0.05), 0 1px 2px rgba(27, 31, 42, 0.03);
+  --shadow-md: 0 4px 14px rgba(27, 31, 42, 0.07);
+  --shadow-lg: 0 12px 30px rgba(27, 31, 42, 0.12);
+
+  /* Radii & Geometric Shapes (Modern Pill & Rounded) */
   --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
-  --radius-card: 24px;
-  --radius-modal: 28px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-card: 20px;
+  --radius-modal: 24px;
   --radius-btn: 9999px;
-  --radius-input: 16px;
   --radius-pill: 9999px;
+  --radius-input: 14px;
   --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 220ms cubic-bezier(0.2, 0, 0, 1);
 }
 
+/* Lifted Blue-Slate Dark Palette (Never Pitch Black) */
 [data-theme="dark"], body.dark {
-  --bg-page: #0F1115;
-  --surface-card: #171A21;
-  --surface-raised: #1E222B;
-  --surface-sunken: #12141A;
-  --border-subtle: #222733;
-  --border-strong: #2E3545;
-  --text-primary: #ECEFF4;
-  --text-secondary: #A0A8B8;
-  --text-disabled: #586174;
-  --text-inverse: #0F1115;
-  --brand-primary: #FF5A66;
-  --brand-hover: #FF737D;
-  --brand-subtle: #2C1619;
-  --brand-border: #5A1E24;
-  --semantic-success: #2CD182;
-  --semantic-warning: #FBBF24;
-  --semantic-danger: #F87171;
-  --semantic-info: #60A5FA;
-  --seat-available: #1E222B;
-  --seat-booked: #232732;
-  --seat-female: #381E2C;
-  --focus-ring: rgba(255, 90, 102, 0.45);
-  --shadow-sm: 0 0 0 1px #222733;
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px #2E3545;
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px #3E4659;
+  --bg-page: #1B2030;
+  --surface-card: #242B3D;
+  --surface-raised: #2D3550;
+  --surface-sunken: #161A27;
+  --border-subtle: #3A435C;
+  --border-strong: #4B5675;
+
+  --text-primary: #F3F5FA;
+  --text-secondary: #B8C0D4;
+  --text-muted: #8892AB;
+  --text-disabled: #636D85;
+  --text-inverse: #1B2030;
+
+  --brand-primary: #D63547;
+  --brand-hover: #BF2C3C;
+  --brand-text: #FF6B78;
+  --brand-subtle: rgba(255, 107, 120, 0.14);
+  --brand-border: rgba(255, 107, 120, 0.3);
+
+  --semantic-success: #3DD68C;
+  --semantic-warning: #F5B544;
+  --semantic-danger: #FF6B6B;
+  --semantic-info: #6AA8FF;
+
+  --seat-available: #242B3D;
+  --seat-booked: #2E364A;
+  --seat-female: #3E2436;
+  --seat-selected: #D63547;
+
+  --focus-ring: rgba(255, 107, 120, 0.4);
+  --shadow-sm: 0 0 0 1px #3A435C;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px #3A435C;
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px #4B5675;
+}
+
+/* ==========================================================================
+   GLOBAL RESET & TYPOGRAPHY RULES
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 html, body {
@@ -84,9 +118,31 @@ body {
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: var(--bg-page);
   color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
+/* Tabular figures for fares, times and PNR numbers */
+.tabular-nums, .num, .fare, .time, .pnr {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Type Scale */
+.type-display { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type-h1      { font-size: 24px; line-height: 32px; font-weight: 700; }
+.type-h2      { font-size: 20px; line-height: 28px; font-weight: 600; }
+.type-h3      { font-size: 16px; line-height: 24px; font-weight: 500; }
+.type-body    { font-size: 14px; line-height: 22px; font-weight: 400; }
+.type-caption { font-size: 12px; line-height: 16px; font-weight: 400; }
+
+/* Flex/Grid Child rule: min-width: 0 prevents column clipping */
+.flex > *, .grid > * {
+  min-width: 0;
+}
+
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -102,13 +158,19 @@ body {
   background: var(--text-secondary);
 }
 
-/* Base Utility Classes */
+/* ==========================================================================
+   BUTTON & COMPONENT SPECIFICATIONS (PART 1.3)
+   ========================================================================== */
+
 .btn-primary {
   background-color: var(--brand-primary);
-  color: #ffffff;
+  color: #FFFFFF;
   border-radius: var(--radius-btn);
+  font-size: 14px;
   font-weight: 600;
-  padding: 10px 24px;
+  height: 44px;
+  padding: 0 24px;
+  white-space: nowrap;
   border: none;
   cursor: pointer;
   display: inline-flex;
@@ -116,6 +178,8 @@ body {
   justify-content: center;
   gap: 8px;
   transition: all var(--transition-fast);
+  user-select: none;
+  text-decoration: none;
 }
 .btn-primary:hover:not(:disabled) {
   background-color: var(--brand-hover);
@@ -133,43 +197,63 @@ body {
   transform: none;
   box-shadow: none;
 }
+.btn-primary.btn-compact {
+  height: 36px;
+  padding: 0 18px;
+  font-size: 13px;
+}
 
 .btn-secondary {
   background-color: var(--surface-card);
   color: var(--text-primary);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-btn);
+  font-size: 14px;
   font-weight: 500;
-  padding: 10px 22px;
+  height: 44px;
+  padding: 0 22px;
+  white-space: nowrap;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   transition: all var(--transition-fast);
+  text-decoration: none;
 }
 .btn-secondary:hover:not(:disabled) {
   background-color: var(--surface-sunken);
   border-color: var(--text-secondary);
 }
+.btn-secondary.btn-compact {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 13px;
+}
 
 .btn-ghost {
   background-color: transparent;
-  color: var(--brand-primary);
+  color: var(--brand-text);
   border: none;
   border-radius: var(--radius-btn);
+  font-size: 14px;
   font-weight: 600;
-  padding: 8px 16px;
+  height: 40px;
+  padding: 0 16px;
+  white-space: nowrap;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
   transition: all var(--transition-fast);
+  text-decoration: none;
 }
 .btn-ghost:hover {
   background-color: var(--brand-subtle);
 }
 
+/* Cards & Surfaces */
 .tedbus-card {
   background-color: var(--surface-card);
   border-radius: var(--radius-card);
@@ -181,11 +265,12 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* Pills & Chips */
 .pill-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 14px;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   font-size: 13px;
   font-weight: 500;
@@ -195,34 +280,211 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
+  white-space: nowrap;
+}
+.pill-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
 }
 .pill-chip.active, .pill-chip.selected {
   background-color: var(--brand-subtle);
   border-color: var(--brand-border);
-  color: var(--brand-primary);
+  color: var(--brand-text);
   font-weight: 600;
 }
 
-/* Material Components Rounded Aesthetic Overrides */
+/* Rating Pill Logic: >=4.0 green, 3.0-3.9 amber, <3.0 red */
+.rating-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+.rating-pill.high {
+  background-color: var(--semantic-success);
+}
+.rating-pill.medium {
+  background-color: var(--semantic-warning);
+}
+.rating-pill.low {
+  background-color: var(--semantic-danger);
+}
+
+/* Material Overrides */
 .mat-mdc-menu-panel, .mat-menu-panel {
   border-radius: 20px !important;
-  overflow: hidden !important;
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-subtle) !important;
   box-shadow: var(--shadow-lg) !important;
+  color: var(--text-primary) !important;
+  padding: 6px !important;
+}
+
+.mat-mdc-menu-item, .mat-menu-item {
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  color: var(--text-primary) !important;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: var(--radius-modal) !important;
-  overflow: hidden !important;
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-lg) !important;
 }
 
 .mat-mdc-card, .mat-card {
   border-radius: var(--radius-card) !important;
+  background-color: var(--surface-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
 }
 
-.mat-mdc-unelevated-button, .mat-mdc-raised-button {
-  border-radius: var(--radius-btn) !important;
+/* ==========================================================================
+   ANGULAR MATERIAL DATEPICKER COMPLETE OVERHAUL & POLISH
+   Fixes: Offboard Today button, ugly month dropdown, and theme styling
+   ========================================================================== */
+.mat-datepicker-content {
+  border-radius: 24px !important;
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2) !important;
+  color: var(--text-primary) !important;
+  overflow: visible !important;
+  padding: 12px 12px 18px !important;
 }
 
-.mat-mdc-chip, .mat-chip {
+.mat-datepicker-content-container {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: auto !important;
+  overflow: visible !important;
+}
+
+.mat-calendar {
+  width: 320px !important;
+  height: auto !important;
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+  font-family: inherit !important;
+}
+
+.mat-calendar-header {
+  padding: 8px 12px 14px !important;
+}
+
+.mat-calendar-controls {
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.mat-calendar-period-button {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em !important;
+  color: var(--text-primary) !important;
   border-radius: var(--radius-pill) !important;
+  padding: 6px 14px !important;
+  transition: background-color var(--transition-fast) !important;
+}
+
+.mat-calendar-period-button:hover {
+  background-color: var(--surface-sunken) !important;
+}
+
+.mat-calendar-previous-button,
+.mat-calendar-next-button {
+  border-radius: 50% !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-calendar-previous-button:hover,
+.mat-calendar-next-button:hover {
+  background-color: var(--surface-sunken) !important;
+}
+
+.mat-calendar-table-header th {
+  color: var(--text-muted) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding-bottom: 8px !important;
+}
+
+/* Day circular tiles */
+.mat-calendar-body-cell-content {
+  border-radius: 50% !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  border: none !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.mat-calendar-body-cell:hover .mat-calendar-body-cell-content {
+  background-color: var(--brand-subtle) !important;
+  color: var(--brand-text) !important;
+}
+
+.mat-calendar-body-selected {
+  background-color: var(--brand-primary) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 10px rgba(214, 53, 71, 0.4) !important;
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border: 2px solid var(--brand-primary) !important;
+  color: var(--brand-text) !important;
+  font-weight: 800 !important;
+}
+
+/* Bottom Today Action button container */
+.mat-datepicker-actions, .cdk-dialog-actions {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 12px 16px 6px !important;
+  margin-top: 8px !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  overflow: visible !important;
+}
+
+.mat-datepicker-actions .mat-button-base,
+.mat-datepicker-actions button {
+  border-radius: var(--radius-pill) !important;
+  padding: 8px 24px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  background-color: var(--brand-primary) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.mat-datepicker-actions button:hover {
+  background-color: var(--brand-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Universal rounded polish overrides */
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

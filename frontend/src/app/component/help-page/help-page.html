@@ -1,0 +1,300 @@
+<div class="help-page-container">
+  <!-- Hero Section -->
+  <header class="help-hero">
+    <div class="hero-content">
+      <span class="hero-tag"><i class="fa-solid fa-headset"></i> 24x7 Customer Support</span>
+      <h1 class="hero-title">How can we help your journey today?</h1>
+      <p class="hero-sub">Search our comprehensive travel knowledge base or connect directly with our support team</p>
+
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input
+          type="text"
+          class="faq-search-input"
+          placeholder="Search topics: 'cancel ticket', 'refund time', 'cab baggage policy'..."
+          [(ngModel)]="searchQuery"
+          aria-label="Search frequently asked questions"
+        />
+        <button *ngIf="searchQuery" class="clear-search-btn" (click)="searchQuery = ''" aria-label="Clear search">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quick Action Cards -->
+  <section class="quick-actions-section">
+    <h2 class="section-title">Instant Self-Service Actions</h2>
+    <div class="actions-grid">
+      <a routerLink="/account" class="action-card">
+        <div class="action-icon-pill bg-danger-subtle text-danger">
+          <i class="fa-solid fa-ban"></i>
+        </div>
+        <div class="action-text">
+          <h3 class="action-name">Cancel Ticket</h3>
+          <p class="action-desc">Instant refund calculation and immediate cancellation</p>
+        </div>
+        <i class="fa-solid fa-chevron-right chevron-icon"></i>
+      </a>
+
+      <a routerLink="/account" class="action-card">
+        <div class="action-icon-pill bg-warning-subtle text-warning">
+          <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <div class="action-text">
+          <h3 class="action-name">Reschedule Trip</h3>
+          <p class="action-desc">Change journey date or time with zero operator penalty</p>
+        </div>
+        <i class="fa-solid fa-chevron-right chevron-icon"></i>
+      </a>
+
+      <a routerLink="/account" class="action-card">
+        <div class="action-icon-pill bg-info-subtle text-info">
+          <i class="fa-solid fa-file-arrow-down"></i>
+        </div>
+        <div class="action-text">
+          <h3 class="action-name">Download E-Ticket</h3>
+          <p class="action-desc">Get PDF invoice and WhatsApp ticket copies</p>
+        </div>
+        <i class="fa-solid fa-chevron-right chevron-icon"></i>
+      </a>
+
+      <a routerLink="/account" class="action-card">
+        <div class="action-icon-pill bg-success-subtle text-success">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+        <div class="action-text">
+          <h3 class="action-name">Track Vehicle Live</h3>
+          <p class="action-desc">Real-time GPS coordinates of your bus or cab</p>
+        </div>
+        <i class="fa-solid fa-chevron-right chevron-icon"></i>
+      </a>
+
+      <a routerLink="/account" class="action-card">
+        <div class="action-icon-pill bg-brand-subtle text-brand">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+        </div>
+        <div class="action-text">
+          <h3 class="action-name">Refund Status</h3>
+          <p class="action-desc">Track bank transaction reference and UTR numbers</p>
+        </div>
+        <i class="fa-solid fa-chevron-right chevron-icon"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="faq-header">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Browse by category or search key terms</p>
+
+      <!-- Category Filter Chips -->
+      <div class="category-chips-row">
+        <button
+          *ngFor="let cat of categories"
+          class="cat-chip"
+          [class.active]="selectedCategory === cat.id"
+          (click)="filterCategory(cat.id)"
+        >
+          <i [class]="cat.icon"></i>
+          <span>{{ cat.label }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="faq-accordion-list">
+      <div
+        *ngFor="let item of filteredFaqs"
+        class="faq-accordion-card"
+        [class.open]="item.isOpen"
+      >
+        <button class="faq-question-btn" (click)="toggleFaq(item)" [attr.aria-expanded]="item.isOpen">
+          <span class="faq-question-text">{{ item.question }}</span>
+          <span class="faq-icon-pill">
+            <i class="fa-solid" [class.fa-plus]="!item.isOpen" [class.fa-minus]="item.isOpen"></i>
+          </span>
+        </button>
+        <div class="faq-answer-collapse" *ngIf="item.isOpen">
+          <p class="faq-answer-text">{{ item.answer }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="filteredFaqs.length === 0" class="empty-faq-state">
+        <i class="fa-solid fa-circle-question empty-icon"></i>
+        <h3 class="empty-title">No matching topics found</h3>
+        <p class="empty-desc">Try different keywords or submit a message below directly to our agents.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Ticket Section -->
+  <section class="contact-section">
+    <div class="contact-layout-grid">
+      <!-- Contact Direct Cards -->
+      <div class="contact-info-col">
+        <h2 class="section-title">Reach Our Support</h2>
+        <p class="section-sub">We are available round the clock to ensure your journeys are smooth.</p>
+
+        <div class="contact-channels">
+          <div class="channel-card">
+            <div class="channel-icon-pill">
+              <i class="fa-solid fa-phone-volume"></i>
+            </div>
+            <div class="channel-details">
+              <span class="channel-label">24x7 Toll Free Helpline</span>
+              <a href="tel:18001028332" class="channel-val">+91 1800 102 8332</a>
+              <span class="channel-note">Standard carrier rates apply outside India</span>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon-pill">
+              <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div class="channel-details">
+              <span class="channel-label">Priority Email Support</span>
+              <a href="mailto:support@tedbus.com" class="channel-val">support&#64;tedbus.com</a>
+              <span class="channel-note">Average response within 120 minutes</span>
+            </div>
+          </div>
+
+          <div class="channel-card">
+            <div class="channel-icon-pill">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div class="channel-details">
+              <span class="channel-label">Instant WhatsApp Updates</span>
+              <span class="channel-val">+91 98765 43210</span>
+              <span class="channel-note">Get live tracking links & driver contact</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corporate Registration Block -->
+        <div class="corporate-details-card">
+          <h3 class="corp-title"><i class="fa-solid fa-building-shield"></i> Registered Corporate Details</h3>
+          <ul class="corp-list">
+            <li><strong>Legal Entity:</strong> TedBus Transit Technologies Private Limited</li>
+            <li><strong>Corporate Identity Number (CIN):</strong> <code>[TO BE FILLED]</code></li>
+            <li><strong>GSTIN:</strong> <code>[TO BE FILLED]</code></li>
+            <li><strong>Registered Office:</strong> <code>[TO BE FILLED - e.g. Cyber City, DLF Phase 2, Gurugram, Haryana, India]</code></li>
+            <li><strong>Nodal Grievance Officer:</strong> grievance-officer&#64;tedbus.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Support Ticket Form -->
+      <div class="contact-form-col">
+        <div class="support-form-card">
+          <h3 class="form-title">Send Us a Direct Message</h3>
+          <p class="form-sub">Have a specific booking query? Drop your details and we will follow up promptly.</p>
+
+          <div *ngIf="ticketSubmitted" class="ticket-success-box">
+            <i class="fa-solid fa-circle-check success-check-icon"></i>
+            <h4 class="success-heading">Ticket Created Successfully!</h4>
+            <p class="success-msg">Your query has been assigned reference ID:</p>
+            <span class="ticket-id-badge">{{ submittedTicketId }}</span>
+            <p class="success-followup">Our customer support specialist will reply to your registered email shortly.</p>
+            <button class="reset-form-btn" (click)="resetTicketForm()">Submit Another Query</button>
+          </div>
+
+          <form *ngIf="!ticketSubmitted" (ngSubmit)="submitTicket()" class="ticket-form" #supportForm="ngForm">
+            <!-- Anti-bot honeypot (hidden from human users) -->
+            <input type="text" name="company_website_url" [(ngModel)]="ticket.hp" style="display:none !important;" tabindex="-1" autocomplete="off" />
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label class="form-label" for="ticketName">Your Name <span class="required">*</span></label>
+                <input
+                  id="ticketName"
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  placeholder="Rahul Sharma"
+                  [(ngModel)]="ticket.name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ticketEmail">Email Address <span class="required">*</span></label>
+                <input
+                  id="ticketEmail"
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  placeholder="rahul@example.com"
+                  [(ngModel)]="ticket.email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label class="form-label" for="ticketPhone">Phone Number</label>
+                <input
+                  id="ticketPhone"
+                  type="tel"
+                  name="phone"
+                  class="form-control"
+                  placeholder="+91 98765 43210"
+                  [(ngModel)]="ticket.phone"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ticketCategory">Product / Topic</label>
+                <select id="ticketCategory" name="category" class="form-control select-control" [(ngModel)]="ticket.category">
+                  <option value="bus">Bus Ticket Booking</option>
+                  <option value="cab">Cab Rental</option>
+                  <option value="charter">Custom Bus Charter</option>
+                  <option value="train">tedRail Trains</option>
+                  <option value="refund">Refund / Payment Issue</option>
+                  <option value="feedback">General Feedback</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ticketBookingId">PNR or Booking ID (Optional)</label>
+              <input
+                id="ticketBookingId"
+                type="text"
+                name="bookingId"
+                class="form-control"
+                placeholder="e.g. TED-BUS-98234 or PNR-49281"
+                [(ngModel)]="ticket.bookingId"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ticketMessage">Message Details <span class="required">*</span></label>
+              <textarea
+                id="ticketMessage"
+                name="message"
+                rows="4"
+                class="form-control textarea-control"
+                placeholder="Please describe your question or issue in detail..."
+                [(ngModel)]="ticket.message"
+                required
+              ></textarea>
+            </div>
+
+            <div *ngIf="errorMessage" class="error-banner">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>{{ errorMessage }}</span>
+            </div>
+
+            <button type="submit" class="submit-ticket-btn" [disabled]="isSubmittingTicket">
+              <span *ngIf="!isSubmittingTicket"><i class="fa-solid fa-paper-plane"></i> Submit Support Ticket</span>
+              <span *ngIf="isSubmittingTicket"><i class="fa-solid fa-spinner fa-spin"></i> Submitting...</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
