@@ -1,0 +1,67 @@
+<div class="time-picker-container">
+  <!-- Trigger Segment -->
+  <div class="time-trigger" (click)="toggleOpen()" [class.active]="isOpen" tabindex="0" (keydown.enter)="toggleOpen()">
+    <div class="trigger-label">
+      <i class="fa-regular fa-clock trigger-icon"></i>
+      <span>{{ label }}</span>
+    </div>
+    <div class="trigger-value">{{ selectedTime }}</div>
+  </div>
+
+  <!-- Popover -->
+  <div class="time-popover" *ngIf="isOpen" (click)="$event.stopPropagation()">
+    <div class="popover-header">
+      <span class="popover-title">Select Pickup Time</span>
+      <button type="button" class="stepper-toggle-btn" (click)="showCustomStepper = !showCustomStepper">
+        {{ showCustomStepper ? 'Standard Slots' : 'Custom Stepper' }}
+      </button>
+    </div>
+
+    <!-- Mode 1: 30-min Slot List -->
+    <div class="slots-list" #slotListContainer *ngIf="!showCustomStepper">
+      <button
+        *ngFor="let s of slots"
+        type="button"
+        class="slot-btn"
+        [class.active]="s.label === selectedTime"
+        [class.disabled]="s.isDisabled"
+        [disabled]="s.isDisabled"
+        (click)="selectSlot(s)"
+      >
+        <span>{{ s.label }}</span>
+        <i class="fa-solid fa-check check-icon" *ngIf="s.label === selectedTime"></i>
+      </button>
+    </div>
+
+    <!-- Mode 2: Custom Stepper -->
+    <div class="custom-stepper-view" *ngIf="showCustomStepper">
+      <div class="steppers-row">
+        <!-- Hour -->
+        <div class="stepper-col">
+          <button type="button" class="step-btn" (click)="adjustHour(1)"><i class="fa-solid fa-chevron-up"></i></button>
+          <span class="step-val tabular-nums">{{ customHour.toString().padStart(2, '0') }}</span>
+          <button type="button" class="step-btn" (click)="adjustHour(-1)"><i class="fa-solid fa-chevron-down"></i></button>
+          <span class="step-lbl">Hour</span>
+        </div>
+
+        <span class="step-colon">:</span>
+
+        <!-- Minute -->
+        <div class="stepper-col">
+          <button type="button" class="step-btn" (click)="adjustMinute(15)"><i class="fa-solid fa-chevron-up"></i></button>
+          <span class="step-val tabular-nums">{{ customMinute.toString().padStart(2, '0') }}</span>
+          <button type="button" class="step-btn" (click)="adjustMinute(-15)"><i class="fa-solid fa-chevron-down"></i></button>
+          <span class="step-lbl">Min</span>
+        </div>
+
+        <!-- AM/PM Toggle -->
+        <div class="stepper-col period-col">
+          <button type="button" class="period-toggle-btn" (click)="togglePeriod()">{{ customPeriod }}</button>
+          <span class="step-lbl">AM / PM</span>
+        </div>
+      </div>
+
+      <button type="button" class="apply-stepper-btn" (click)="applyCustomTime()">Apply Custom Time</button>
+    </div>
+  </div>
+</div>

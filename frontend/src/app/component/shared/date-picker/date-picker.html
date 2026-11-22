@@ -1,0 +1,61 @@
+<div class="date-picker-container" [class.compact]="compact">
+  <!-- Trigger Segment -->
+  <div class="date-trigger" (click)="toggleOpen()" [class.active]="isOpen" tabindex="0" (keydown.enter)="toggleOpen()">
+    <div class="trigger-label">
+      <i class="fa-regular fa-calendar trigger-icon"></i>
+      <span>{{ label }}</span>
+    </div>
+    <div class="trigger-value-row">
+      <span class="trigger-value">{{ formattedDisplayDate }}</span>
+      <span class="fare-hint-pill" *ngIf="fareHint">{{ fareHint }}</span>
+    </div>
+  </div>
+
+  <!-- Date Picker Popover Panel -->
+  <div class="date-popover" *ngIf="isOpen" (click)="$event.stopPropagation()">
+    <!-- Quick Picks Header Row -->
+    <div class="quick-picks-row">
+      <button type="button" class="quick-pick-btn" (click)="setQuickDate(0)">Today</button>
+      <button type="button" class="quick-pick-btn" (click)="setQuickDate(1)">Tomorrow</button>
+      <button type="button" class="quick-pick-btn" (click)="setQuickDate(2)">Day after</button>
+    </div>
+
+    <!-- Month Navigation Header -->
+    <div class="calendar-month-header">
+      <button type="button" class="month-nav-btn" (click)="prevMonth()" aria-label="Previous Month">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <span class="month-title">{{ monthYearTitle }}</span>
+      <button type="button" class="month-nav-btn" (click)="nextMonth()" aria-label="Next Month">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Weekday Headers -->
+    <div class="weekdays-grid">
+      <span *ngFor="let w of weekdays" class="weekday-cell">{{ w }}</span>
+    </div>
+
+    <!-- Days 7-Col Grid (40px cells) -->
+    <div class="days-grid">
+      <button
+        *ngFor="let day of calendarDays"
+        type="button"
+        class="day-cell"
+        [class.other-month]="!day.isCurrentMonth"
+        [class.disabled]="day.isDisabled"
+        [class.today]="day.isToday"
+        [class.selected]="day.isSelected"
+        [disabled]="day.isDisabled"
+        (click)="selectDate(day.dateStr, day.isDisabled)"
+      >
+        <span class="day-number">{{ day.dayNum }}</span>
+      </button>
+    </div>
+
+    <!-- Mobile Close Confirm Button -->
+    <div class="mobile-confirm-bar">
+      <button type="button" class="btn-confirm-date" (click)="close()">Done</button>
+    </div>
+  </div>
+</div>

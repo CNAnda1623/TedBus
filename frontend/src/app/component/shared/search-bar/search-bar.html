@@ -1,177 +1,189 @@
 <div class="search-bar-wrapper" [class.compact-mode]="compact">
-  <!-- STICKY COMPACT BAR (For Results Pages) -->
-  <div class="compact-bar" *ngIf="compact && !isExpanded">
+  <!-- ======================================================================
+       1. STICKY COMPACT BAR (56px for Results Pages)
+       ====================================================================== -->
+  <div class="compact-bar" *ngIf="compact">
     <div class="compact-left">
       <button class="back-btn" (click)="router.navigate(['/'])" aria-label="Back to home">
         <i class="fa-solid fa-arrow-left"></i>
       </button>
+
       <div class="compact-summary">
         <div class="summary-route">
           <span class="route-point">{{ from }}</span>
           <i class="fa-solid fa-arrow-right route-arrow"></i>
           <span class="route-point">{{ to }}</span>
         </div>
-        <div class="summary-meta">
-          <span class="summary-date">{{ date | date:'mediumDate' }}</span>
-          <span class="meta-dot">·</span>
-          <span class="summary-count" *ngIf="resultCount !== undefined">{{ resultCount }} {{ product === 'train' ? 'trains' : 'buses' }}</span>
+
+        <!-- Date Navigator Control [‹] [Sat, 22 Nov 2026 · from ₹320] [›] -->
+        <div class="date-navigator-control" *ngIf="product === 'bus'">
+          <button type="button" class="nav-arrow-btn" (click)="prevDay()" [disabled]="date <= minDate"
+            title="Previous day (Yesterday)" aria-label="Previous day">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <!-- Clicking the text opens the custom shared DatePicker popover -->
+          <div class="nav-date-trigger-wrapper">
+            <app-date-picker [selectedDate]="date" [minDate]="minDate" [label]="'JOURNEY DATE'" [compact]="true"
+              [fareHint]="displayLowestFare" (dateChange)="onDateChanged($event)">
+            </app-date-picker>
+          </div>
+
+          <button type="button" class="nav-arrow-btn" (click)="nextDay()" title="Next day (Tomorrow)"
+            aria-label="Next day">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Train / Cab Meta strip -->
+        <div class="summary-meta" *ngIf="product !== 'bus'">
+          <span class="summary-date">{{ formattedNavigatorDate }}</span>
           <span class="meta-dot" *ngIf="trainClass && product === 'train'">·</span>
           <span class="summary-extra" *ngIf="trainClass && product === 'train'">{{ trainClass }}</span>
+          <span class="meta-dot" *ngIf="pickupTime && product === 'cab'">·</span>
+          <span class="summary-extra" *ngIf="pickupTime && product === 'cab'">{{ pickupTime }}</span>
         </div>
       </div>
     </div>
 
     <div class="compact-right">
-      <div class="date-stepper-compact" *ngIf="product === 'bus'">
-        <button class="day-nav-btn" (click)="prevDay()" [disabled]="date <= minDate" title="Previous day">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <span class="day-fare-hint">From ₹450</span>
-        <button class="day-nav-btn" (click)="nextDay()" title="Next day">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
+      <span class="results-count-pill" *ngIf="resultCount !== undefined">
+        {{ resultCount }} {{ product === 'train' ? (resultCount === 1 ? 'train' : 'trains') : (resultCount === 1 ? 'bus'
+        : 'buses') }}
+      </span>
 
-      <button class="btn-secondary btn-compact modify-btn" (click)="toggleModify()">
+      <button type="button" class="btn-modify-toggle" (click)="toggleModify()" [class.active]="isExpanded"
+        aria-label="Modify search">
         <i class="fa-solid fa-sliders"></i>
-        <span>Modify</span>
+        <span>{{ isExpanded ? 'Close' : 'Modify' }}</span>
       </button>
     </div>
   </div>
 
-  <!-- FULL CONNECTED SEARCH BAR (Hero & Expanded Mode) -->
-  <div class="full-search-container" *ngIf="!compact || isExpanded">
-    <div class="connected-bar">
-      <!-- FROM & TO SEGMENT WITH CIRCLE SWAP DIVIDER -->
-      <div class="route-segment-group">
-        <!-- FROM FIELD -->
-        <div class="segment-cell from-cell" (click)="showFromDropdown = true; showToDropdown = false">
-          <div class="cell-label">
-            <i class="fa-solid fa-location-dot cell-icon text-brand"></i>
-            <span>{{ product === 'train' ? 'FROM STATION' : 'FROM' }}</span>
-          </div>
-          <input type="text" 
-                 class="cell-input" 
-                 [(ngModel)]="from" 
-                 (focus)="showFromDropdown = true" 
-                 placeholder="Enter city or station" />
-          
-          <!-- Dropdown Suggestions -->
-          <div class="autocomplete-dropdown" *ngIf="showFromDropdown" (click)="$event.stopPropagation()">
-            <div class="dropdown-header">Popular Suggestions</div>
-            <div class="dropdown-item" *ngFor="let city of popularCities" (click)="selectFrom(city)">
-              <i class="fa-solid fa-city mr-2 text-muted"></i>
-              <span>{{ city }}</span>
-            </div>
-          </div>
+  <!-- ======================================================================
+       2. FULL CONNECTED SEARCH BAR (Hero & Modify Expanded Mode)
+       ====================================================================== -->
+  <div class="full-search-container" *ngIf="!compact || isExpanded" [class.is-modify-inline]="compact && isExpanded">
+
+    <!-- Unified 72px Capsule Container -->
+    <div class="search-capsule" [ngClass]="'product-' + product">
+
+      <!-- SEGMENT 1: FROM FIELD -->
+      <div class="segment-cell segment-from" (click)="showFromDropdown = true; showToDropdown = false">
+        <div class="segment-label">
+          <i class="fa-solid fa-location-dot cell-icon text-brand"></i>
+          <span>{{ product === 'train' ? 'FROM STATION' : 'FROM' }}</span>
         </div>
+        <input type="text" class="segment-input" [(ngModel)]="from" (focus)="showFromDropdown = true"
+          placeholder="{{ product === 'train' ? 'Departure station or code' : 'Departure city' }}" />
 
-        <!-- CIRCULAR SWAP BUTTON SITTING ON DIVIDER -->
-        <button class="swap-divider-btn" (click)="swapFromTo()" aria-label="Swap from and to" title="Swap cities">
-          <i class="fa-solid fa-right-left"></i>
-        </button>
-
-        <!-- TO FIELD -->
-        <div class="segment-cell to-cell" (click)="showToDropdown = true; showFromDropdown = false">
-          <div class="cell-label">
-            <i class="fa-solid fa-location-crosshairs cell-icon text-brand"></i>
-            <span>{{ product === 'train' ? 'TO STATION' : 'TO' }}</span>
-          </div>
-          <input type="text" 
-                 class="cell-input" 
-                 [(ngModel)]="to" 
-                 (focus)="showToDropdown = true" 
-                 placeholder="Enter destination" />
-
-          <!-- Dropdown Suggestions -->
-          <div class="autocomplete-dropdown" *ngIf="showToDropdown" (click)="$event.stopPropagation()">
-            <div class="dropdown-header">Popular Suggestions</div>
-            <div class="dropdown-item" *ngFor="let city of popularCities" (click)="selectTo(city)">
-              <i class="fa-solid fa-city mr-2 text-muted"></i>
-              <span>{{ city }}</span>
-            </div>
+        <!-- Autocomplete Suggestions Dropdown -->
+        <div class="autocomplete-dropdown" *ngIf="showFromDropdown" (click)="$event.stopPropagation()">
+          <div class="dropdown-heading">POPULAR SUGGESTIONS</div>
+          <div class="suggestion-item" *ngFor="let city of popularCities" (click)="selectFrom(city)">
+            <i class="fa-solid fa-city suggestion-icon"></i>
+            <span>{{ city }}</span>
           </div>
         </div>
       </div>
 
-      <div class="cell-divider"></div>
+      <!-- 1px DIVIDER WITH ABSOLUTELY CENTERED SWAP BUTTON -->
+      <div class="divider-wrapper">
+        <div class="segment-divider"></div>
+        <button type="button" class="swap-btn" [class.rotated]="isSwapRotated"
+          (click)="swapFromTo(); $event.stopPropagation()" title="Swap origin and destination"
+          aria-label="Swap origin and destination">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </button>
+      </div>
 
-      <!-- DATE SEGMENT WITH TODAY/TOMORROW CHIPS -->
-      <div class="segment-cell date-cell">
-        <div class="cell-label">
-          <i class="fa-regular fa-calendar cell-icon text-brand"></i>
-          <span>DATE</span>
+      <!-- SEGMENT 2: TO FIELD -->
+      <div class="segment-cell segment-to" (click)="showToDropdown = true; showFromDropdown = false">
+        <div class="segment-label">
+          <i class="fa-solid fa-location-crosshairs cell-icon text-brand"></i>
+          <span>{{ product === 'train' ? 'TO STATION' : 'TO' }}</span>
         </div>
-        <div class="date-input-row">
-          <input type="date" 
-                 class="cell-input date-native" 
-                 [(ngModel)]="date" 
-                 [min]="minDate" />
-          <div class="quick-chips">
-            <button type="button" class="quick-chip" [class.active]="date === minDate" (click)="setToday()">Today</button>
-            <button type="button" class="quick-chip" (click)="setTomorrow()">Tomorrow</button>
+        <input type="text" class="segment-input" [(ngModel)]="to" (focus)="showToDropdown = true"
+          placeholder="{{ product === 'train' ? 'Destination station or code' : 'Destination city' }}" />
+
+        <!-- Autocomplete Suggestions Dropdown -->
+        <div class="autocomplete-dropdown" *ngIf="showToDropdown" (click)="$event.stopPropagation()">
+          <div class="dropdown-heading">POPULAR SUGGESTIONS</div>
+          <div class="suggestion-item" *ngFor="let city of popularCities" (click)="selectTo(city)">
+            <i class="fa-solid fa-city suggestion-icon"></i>
+            <span>{{ city }}</span>
           </div>
         </div>
+      </div>
+
+      <!-- 1px DIVIDER -->
+      <div class="segment-divider"></div>
+
+      <!-- SEGMENT 3: DATE PICKER -->
+      <div class="segment-cell segment-date">
+        <app-date-picker [selectedDate]="date" [minDate]="minDate" [label]="'DATE OF JOURNEY'"
+          (dateChange)="onDateChanged($event)">
+        </app-date-picker>
       </div>
 
       <!-- CAB SPECIFIC: PICKUP TIME -->
       <ng-container *ngIf="product === 'cab'">
-        <div class="cell-divider"></div>
-        <div class="segment-cell time-cell">
-          <div class="cell-label">
-            <i class="fa-regular fa-clock cell-icon text-brand"></i>
-            <span>PICKUP TIME</span>
-          </div>
-          <input type="time" class="cell-input time-native" [(ngModel)]="pickupTime" />
+        <div class="segment-divider"></div>
+        <div class="segment-cell segment-time">
+          <app-time-picker [selectedTime]="pickupTime" [label]="'PICK-UP TIME'" [isToday]="date === minDate"
+            (timeChange)="pickupTime = $event">
+          </app-time-picker>
         </div>
       </ng-container>
 
-      <!-- TRAIN SPECIFIC: CLASS & QUOTA -->
+      <!-- TRAIN SPECIFIC: CLASS & QUOTA (CUSTOM SELECT) -->
       <ng-container *ngIf="product === 'train'">
-        <div class="cell-divider"></div>
-        <div class="segment-cell select-cell">
-          <div class="cell-label">
-            <i class="fa-solid fa-chair cell-icon text-brand"></i>
-            <span>CLASS</span>
-          </div>
-          <select class="cell-select" [(ngModel)]="trainClass">
-            <option *ngFor="let c of trainClasses" [value]="c">{{ c }}</option>
-          </select>
+        <div class="segment-divider"></div>
+        <div class="segment-cell segment-class">
+          <app-custom-select [label]="'CLASS'" [icon]="'fa-solid fa-chair'" [options]="trainClasses"
+            [selectedCode]="trainClass" (selectChange)="trainClass = $event">
+          </app-custom-select>
         </div>
 
-        <div class="cell-divider"></div>
-        <div class="segment-cell select-cell">
-          <div class="cell-label">
-            <i class="fa-solid fa-shield-halved cell-icon text-brand"></i>
-            <span>QUOTA</span>
-          </div>
-          <select class="cell-select" [(ngModel)]="quota">
-            <option *ngFor="let q of trainQuotas" [value]="q">{{ q }}</option>
-          </select>
+        <div class="segment-divider"></div>
+        <div class="segment-cell segment-quota">
+          <app-custom-select [label]="'QUOTA'" [icon]="'fa-solid fa-shield-halved'" [options]="trainQuotas"
+            [selectedCode]="quota" (selectChange)="quota = $event">
+          </app-custom-select>
         </div>
       </ng-container>
 
-      <!-- SEARCH ACTION CTA BUTTON -->
-      <div class="action-segment">
-        <button class="btn-primary search-cta-btn" (click)="onSearch()">
-          <i class="fa-solid fa-magnifying-glass mr-2"></i>
-          <span>{{ compact ? 'Update Search' : 'SEARCH' }}</span>
+      <!-- SEGMENT 4: SEARCH / ACTION CTA -->
+      <div class="segment-action">
+        <button type="button" class="search-submit-btn" (click)="onSearch()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>{{ compact ? 'UPDATE' : 'SEARCH' }}</span>
+        </button>
+
+        <button *ngIf="compact && isExpanded" type="button" class="cancel-modify-btn" (click)="cancelModify()"
+          title="Close modify panel">
+          Cancel
         </button>
       </div>
     </div>
 
+    <!-- QUICK DATE CHIPS ROW UNDER BAR (Landing Page) -->
+    <div class="quick-chips-row" *ngIf="showQuickDateChips">
+      <span class="chips-label">Quick Depart:</span>
+      <button type="button" class="date-chip" [class.active]="date === minDate"
+        (click)="setQuickDateChip(0)">Today</button>
+      <button type="button" class="date-chip" (click)="setQuickDateChip(1)">Tomorrow</button>
+      <button type="button" class="date-chip" (click)="setQuickDateChip(2)">Day After</button>
+    </div>
+
     <!-- PRODUCT SWITCHING TABS BELOW BAR (Bus | Custom Bus) -->
     <div class="product-tabs-row" *ngIf="showProductTabs">
-      <button class="tab-chip" 
-              [class.active]="product === 'bus'" 
-              (click)="switchProduct('bus')">
+      <button type="button" class="tab-chip" [class.active]="product === 'bus'" (click)="switchProduct('bus')">
         <i class="fa-solid fa-bus"></i>
         <span>Bus Tickets</span>
       </button>
-
-      <button class="tab-chip" 
-              [class.active]="product === 'custom-bus'" 
-              (click)="switchProduct('custom-bus')">
+      <button type="button" class="tab-chip" [class.active]="product === 'custom-bus'"
+        (click)="switchProduct('custom-bus')">
         <i class="fa-solid fa-van-shuttle"></i>
         <span>Custom Bus (Hire Whole Bus)</span>
       </button>
@@ -181,11 +193,12 @@
     <div class="recent-searches-row" *ngIf="showRecentSearches && recentSearches.length > 0">
       <span class="recent-label">Recent Searches:</span>
       <div class="recent-chips">
-        <button class="recent-chip" *ngFor="let r of recentSearches" (click)="applyRecent(r)">
+        <button type="button" class="recent-chip" *ngFor="let r of recentSearches" (click)="applyRecent(r)">
           <i class="fa-solid fa-clock-rotate-left mr-1 opacity-70"></i>
           <span>{{ r.from }} → {{ r.to }} ({{ r.date | date:'dd MMM' }})</span>
         </button>
       </div>
     </div>
+
   </div>
 </div>

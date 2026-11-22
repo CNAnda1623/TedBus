@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
 import { SearchBar, SearchParams } from '../../shared/search-bar/search-bar';
+import { BusStateService } from '../../../service/bus-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,38 +11,40 @@ import { SearchBar, SearchParams } from '../../shared/search-bar/search-bar';
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
-export class Header implements OnInit {
-  @Input() resultCount: number = 0;
-  @Output() searchUpdated = new EventEmitter<SearchParams>();
-
+export class Header implements OnInit, OnDestroy {
   departure: string = 'Delhi';
   arrival: string = 'Jaipur';
   date: string = '';
+  resultCount: number = 0;
+  lowestFare: number | string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  private subs: Subscription[] = [];
+
+  constructor(public busState: BusStateService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params['departure']) this.departure = params['departure'];
-      if (params['arrival']) this.arrival = params['arrival'];
-      if (params['date']) this.date = params['date'];
-      if (!this.date) {
-        this.date = new Date().toISOString().split('T')[0];
-      }
-    });
+    this.subs.push(
+      this.busState.filteredBuses$.subscribe(buses => {
+        this.resultCount = buses.length;
+        const lowest = this.busState.lowestFare;
+        this.lowestFare = lowest !== undefined ? lowest : '—';
+      }),
+      this.busState.rawBuses$.subscribe(() => {
+        this.departure = this.busState.departure;
+        this.arrival = this.busState.arrival;
+        this.date = this.busState.date;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(s => s.unsubscribe());
   }
 
   handleSearch(params: SearchParams): void {
     this.departure = params.from;
     this.arrival = params.to;
     this.date = params.date;
-    this.router.navigate(['/selectbus-page'], {
-      queryParams: {
-        departure: params.from,
-        arrival: params.to,
-        date: params.date
-      }
-    });
-    this.searchUpdated.emit(params);
+    this.busState.fetchBuses(params.from, params.to, params.date);
   }
 }

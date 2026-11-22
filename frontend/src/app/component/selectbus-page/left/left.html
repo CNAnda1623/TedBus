@@ -3,33 +3,61 @@
     <div class="header-title">
       <mat-icon class="filter-icon">tune</mat-icon>
       <span class="title-text">Filters</span>
-      <span *ngIf="getActiveFilterCount() > 0" class="active-badge">{{ getActiveFilterCount() }}</span>
+      <span *ngIf="activeCount > 0" class="active-badge">{{ activeCount }}</span>
     </div>
-    <button *ngIf="getActiveFilterCount() > 0" class="clear-btn" (click)="clearAll()">
+    <button *ngIf="activeCount > 0" class="clear-btn" (click)="clearAll()">
       Clear All
     </button>
   </div>
 
-  <!-- Popular / Quick Features -->
+  <!-- Quick Preferences (Live Tracking & Reschedulable) -->
   <div class="filter-group">
     <div class="group-title">QUICK PREFERENCES</div>
-    <div class="toggle-card" [class.active]="sidefiltervalues.livetracking" (click)="handlelivetrackingclick()">
+    
+    <div class="toggle-card" [class.active]="busState.filters.livetracking" (click)="toggleLiveTracking()">
       <div class="toggle-left">
-        <mat-icon class="icon">gps_fixed</mat-icon>
+        <i class="fa-solid fa-location-crosshairs feature-icon text-brand"></i>
         <span class="label">Live Tracking</span>
+        <span class="count-tag" *ngIf="busState.getLiveCount('livetracking') > 0">({{ busState.getLiveCount('livetracking') }})</span>
       </div>
-      <div class="toggle-switch">
+      <div class="custom-switch-ui" [class.on]="busState.filters.livetracking">
         <span class="switch-ball"></span>
       </div>
     </div>
 
-    <div class="toggle-card" [class.active]="sidefiltervalues.reschedulable" (click)="handlerescheduleclick()">
+    <div class="toggle-card" [class.active]="busState.filters.reschedulable" (click)="toggleReschedulable()">
       <div class="toggle-left">
-        <mat-icon class="icon">update</mat-icon>
+        <i class="fa-solid fa-rotate-left feature-icon text-brand"></i>
         <span class="label">Reschedulable</span>
+        <span class="count-tag" *ngIf="busState.getLiveCount('reschedulable') > 0">({{ busState.getLiveCount('reschedulable') }})</span>
       </div>
-      <div class="toggle-switch">
+      <div class="custom-switch-ui" [class.on]="busState.filters.reschedulable">
         <span class="switch-ball"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Price Range Slider -->
+  <div class="filter-group">
+    <div class="group-title flex-between">
+      <span>MAX FARE</span>
+      <span class="price-val tabular-nums font-bold">₹{{ sliderPrice }}</span>
+    </div>
+    <div class="slider-wrapper">
+      <input
+        type="range"
+        class="custom-range"
+        [min]="busState.minAvailablePrice"
+        [max]="busState.maxAvailablePrice"
+        step="20"
+        [ngModel]="sliderPrice"
+        (ngModelChange)="onPriceChange($event)"
+      />
+      <div class="range-labels tabular-nums">
+        <span>₹{{ busState.minAvailablePrice }}</span>
+        <span>₹{{ busState.maxAvailablePrice }}</span>
       </div>
     </div>
   </div>
@@ -40,24 +68,50 @@
   <div class="filter-group">
     <div class="group-title">DEPARTURE TIME</div>
     <div class="options-list">
-      <label *ngFor="let key of getobjectkey(sidefiltervalues.departuretime)" class="checkbox-option" [class.selected]="sidefiltervalues.departuretime[key]">
-        <input type="checkbox" [checked]="sidefiltervalues.departuretime[key]" (change)="handledeparturetimeclick($event, key)">
-        <mat-icon class="option-icon">{{ timeIcons[key] || 'schedule' }}</mat-icon>
-        <span class="option-label">{{ getLabel(key) }}</span>
+      <label *ngFor="let slot of timeSlots" class="checkbox-option" [class.selected]="busState.filters.departuretime[slot.key]">
+        <div class="custom-checkbox">
+          <input
+            type="checkbox"
+            class="native-check-hidden"
+            [checked]="busState.filters.departuretime[slot.key]"
+            (change)="onDepartureTimeChange(slot.key, $event)"
+          />
+          <div class="checkbox-box">
+            <i class="fa-solid fa-check checkmark-icon"></i>
+          </div>
+        </div>
+        <mat-icon class="option-icon">{{ slot.icon }}</mat-icon>
+        <span class="option-label">{{ slot.label }}</span>
+        <span class="count-tag" *ngIf="busState.getLiveCount('departuretime', slot.key) > 0">
+          ({{ busState.getLiveCount('departuretime', slot.key) }})
+        </span>
       </label>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- Bus Types -->
+  <!-- Bus Type -->
   <div class="filter-group">
     <div class="group-title">BUS TYPE</div>
     <div class="options-list">
-      <label *ngFor="let key of getobjectkey(sidefiltervalues.bustype)" class="checkbox-option" [class.selected]="sidefiltervalues.bustype[key]">
-        <input type="checkbox" [checked]="sidefiltervalues.bustype[key]" (change)="handlebustypeclick($event, key)">
-        <mat-icon class="option-icon">directions_bus</mat-icon>
-        <span class="option-label">{{ getLabel(key) }}</span>
+      <label *ngFor="let bt of busTypes" class="checkbox-option" [class.selected]="busState.filters.bustype[bt.key]">
+        <div class="custom-checkbox">
+          <input
+            type="checkbox"
+            class="native-check-hidden"
+            [checked]="busState.filters.bustype[bt.key]"
+            (change)="onBusTypeChange(bt.key, $event)"
+          />
+          <div class="checkbox-box">
+            <i class="fa-solid fa-check checkmark-icon"></i>
+          </div>
+        </div>
+        <i class="fa-solid fa-bus-simple option-fa-icon"></i>
+        <span class="option-label">{{ bt.label }}</span>
+        <span class="count-tag" *ngIf="busState.getLiveCount('bustype', bt.key) > 0">
+          ({{ busState.getLiveCount('bustype', bt.key) }})
+        </span>
       </label>
     </div>
   </div>
@@ -68,10 +122,23 @@
   <div class="filter-group">
     <div class="group-title">ARRIVAL TIME</div>
     <div class="options-list">
-      <label *ngFor="let key of getobjectkey(sidefiltervalues.arrivaltime)" class="checkbox-option" [class.selected]="sidefiltervalues.arrivaltime[key]">
-        <input type="checkbox" [checked]="sidefiltervalues.arrivaltime[key]" (change)="handlearivaltimeclick($event, key)">
-        <mat-icon class="option-icon">{{ timeIcons[key] || 'schedule' }}</mat-icon>
-        <span class="option-label">{{ getLabel(key) }}</span>
+      <label *ngFor="let slot of timeSlots" class="checkbox-option" [class.selected]="busState.filters.arrivaltime[slot.key]">
+        <div class="custom-checkbox">
+          <input
+            type="checkbox"
+            class="native-check-hidden"
+            [checked]="busState.filters.arrivaltime[slot.key]"
+            (change)="onArrivalTimeChange(slot.key, $event)"
+          />
+          <div class="checkbox-box">
+            <i class="fa-solid fa-check checkmark-icon"></i>
+          </div>
+        </div>
+        <mat-icon class="option-icon">{{ slot.icon }}</mat-icon>
+        <span class="option-label">{{ slot.label }}</span>
+        <span class="count-tag" *ngIf="busState.getLiveCount('arrivaltime', slot.key) > 0">
+          ({{ busState.getLiveCount('arrivaltime', slot.key) }})
+        </span>
       </label>
     </div>
   </div>
@@ -82,10 +149,20 @@
   <div class="filter-group">
     <div class="group-title">AMENITIES</div>
     <div class="options-list">
-      <label *ngFor="let key of getobjectkey(sidefiltervalues.amenities)" class="checkbox-option" [class.selected]="sidefiltervalues.amenities[key]">
-        <input type="checkbox" [checked]="sidefiltervalues.amenities[key]" (change)="handleamenityclick($event, key)">
-        <i [class]="amenityIcons[key] || 'fa-solid fa-check'" class="option-fa-icon"></i>
-        <span class="option-label">{{ getLabel(key) }}</span>
+      <label *ngFor="let am of amenities" class="checkbox-option" [class.selected]="busState.filters.amenities[am.key]">
+        <div class="custom-checkbox">
+          <input
+            type="checkbox"
+            class="native-check-hidden"
+            [checked]="busState.filters.amenities[am.key]"
+            (change)="onAmenityChange(am.key, $event)"
+          />
+          <div class="checkbox-box">
+            <i class="fa-solid fa-check checkmark-icon"></i>
+          </div>
+        </div>
+        <i [class]="am.icon" class="option-fa-icon"></i>
+        <span class="option-label">{{ am.label }}</span>
       </label>
     </div>
   </div>

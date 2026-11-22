@@ -1,5 +1,11 @@
 <div class="results-header-wrapper">
-  <app-search-bar [product]="'bus'" [compact]="true" [resultCount]="resultCount" [showProductTabs]="true"
-    [initialParams]="{ from: departure, to: arrival, date: date }" (search)="handleSearch($event)">
+  <app-search-bar
+    [product]="'bus'"
+    [compact]="true"
+    [resultCount]="resultCount"
+    [lowestFare]="lowestFare"
+    [showProductTabs]="true"
+    [initialParams]="{ from: departure, to: arrival, date: date }"
+    (search)="handleSearch($event)">
   </app-search-bar>
 </div>

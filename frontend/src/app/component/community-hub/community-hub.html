@@ -209,7 +209,7 @@
 
         <button type="button" class="action-btn">
           <i class="fa-regular fa-comment"></i>
-          <span>{{ post.comments?.length || 0 }} Comments</span>
+          <span>{{ post.comments.length || 0 }} Comments</span>
         </button>
 
         <button type="button" class="action-btn" (click)="sharePost(post, $event)">
@@ -282,7 +282,7 @@
       <div class="comments-thread-section">
         <h3 class="thread-heading">
           <i class="fa-regular fa-comments mr-2 text-brand"></i>
-          <span>Comments ({{ activeDetailPost.comments?.length || 0 }})</span>
+          <span>Comments ({{ activeDetailPost.comments.length || 0 }})</span>
         </h3>
 
         <!-- Comments List -->

@@ -20,17 +20,19 @@
 .SelectBus_MAINCONTENT app-left {
   flex: 0 0 280px;
   position: sticky;
-  top: 80px;
+  top: 136px;
+  max-height: calc(100vh - 152px);
+  overflow-y: auto;
 }
 
 .SelectBus_MAINCONTENT app-right {
   flex: 1;
   min-width: 0;
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-sm);
-  padding: 20px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 .SelectBus_MAINCONTENT app-custom-bus {

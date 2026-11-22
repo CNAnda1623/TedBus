@@ -1,36 +1,91 @@
 <div class="right-container">
-  <app-sorting-bar 
-    [busCount]="matchedbus.length"
-    [departure]="departurevar"
-    [arrival]="arrival"
-    [activeSort]="activeSort"
-    (sortChange)="handleSortChange($event)">
+  <!-- Active filter chips row above sorting bar -->
+  <div class="active-chips-bar" *ngIf="activeFilterChips.length > 0">
+    <div class="chips-left">
+      <span class="chips-label">ACTIVE FILTERS:</span>
+      <div class="chip-item" *ngFor="let chip of activeFilterChips">
+        <span>{{ chip.label }}</span>
+        <button type="button" class="remove-chip-btn" (click)="removeFilter(chip)" aria-label="Remove filter">
+          <mat-icon class="close-icon">close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button type="button" class="clear-all-chips-btn" (click)="clearAllFilters()">
+      Clear all
+    </button>
+  </div>
+
+  <!-- Sorting Bar (Single source of truth for count and sort) -->
+  <app-sorting-bar [busCount]="buses.length" [departure]="departurevar" [arrival]="arrival"
+    [activeSort]="busState.activeSort" (sortChange)="handleSortChange($event)">
   </app-sorting-bar>
 
-  <div class="buses-list">
-    <ng-container *ngFor="let bus of matchedbus">
-      <app-bus-box *ngIf="bus._id" 
-        [rating]='bus.rating' 
-        [busid]="bus._id" 
-        [operatorname]="bus.operatorName" 
-        [bustype]="bus.busType"
-        [departuretime]="bus.departureTime" 
-        [livetracking]="bus.liveTracking" 
-        [reschedulable]="bus.reschedulable" 
-        [filledseats]="getFilledSeats(bus._id)"
-        [routedetails]="routes">
+  <!-- Skeletons when loading (never showing 0 buses prematurely) -->
+  <div class="buses-list skeleton-list" *ngIf="isLoading">
+    <div class="bus-skeleton-card" *ngFor="let s of [1, 2, 3]">
+      <div class="skeleton-zone-op">
+        <div class="skeleton-line line-title"></div>
+        <div class="skeleton-line line-subtitle"></div>
+        <div class="skeleton-line line-badge"></div>
+      </div>
+      <div class="skeleton-zone-time">
+        <div class="skeleton-line line-time"></div>
+        <div class="skeleton-line line-duration"></div>
+        <div class="skeleton-line line-time"></div>
+      </div>
+      <div class="skeleton-zone-act">
+        <div class="skeleton-line line-price"></div>
+        <div class="skeleton-line line-seats"></div>
+        <div class="skeleton-line line-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Buses List -->
+  <div class="buses-list" *ngIf="!isLoading">
+    <ng-container *ngFor="let bus of buses">
+      <app-bus-box *ngIf="bus._id" [bus]="bus" [rating]="bus.rating" [busid]="bus._id" [operatorname]="bus.operatorName"
+        [bustype]="bus.busType" [departuretime]="bus.departureTime" [livetracking]="bus.liveTracking"
+        [reschedulable]="bus.reschedulable" [filledseats]="getFilledSeats(bus._id)"
+        [routedetails]="busState.routeDetails$ | async">
       </app-bus-box>
     </ng-container>
 
-    <!-- Empty state -->
-    <div *ngIf="matchedbus.length === 0" class="empty-state-card">
+    <!-- Empty state: Filters produced 0 matches -->
+    <div *ngIf="buses.length === 0 && activeFilterChips.length > 0" class="empty-state-card">
+      <div class="empty-icon-wrap">
+        <mat-icon class="empty-bus-icon">filter_alt_off</mat-icon>
+      </div>
+      <h3 class="empty-title">No Buses Match Your Filters</h3>
+      <p class="empty-desc">
+        We found buses on this route, but none matched all of your selected filters (time, bus type, amenities, or
+        price).
+      </p>
+      <div class="empty-actions">
+        <button type="button" class="btn-clear-filters" (click)="clearAllFilters()">
+          <mat-icon class="btn-icon">refresh</mat-icon>
+          <span>Clear All Filters</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty state: Route/Date has 0 buses in database -->
+    <div *ngIf="buses.length === 0 && activeFilterChips.length === 0" class="empty-state-card">
       <div class="empty-icon-wrap">
         <mat-icon class="empty-bus-icon">directions_bus</mat-icon>
       </div>
       <h3 class="empty-title">No Buses Available</h3>
       <p class="empty-desc">
-        We couldn't find any direct buses between <strong>{{ departurevar || 'selected origin' }}</strong> and <strong>{{ arrival || 'destination' }}</strong> for this date.
+        We couldn't find any direct buses between <strong>{{ departurevar || 'selected origin' }}</strong> and
+        <strong>{{ arrival || 'destination' }}</strong> on this date.
       </p>
+      <div class="nearby-dates-suggestions">
+        <span class="nearby-label">Try searching nearby dates:</span>
+        <div class="nearby-buttons">
+          <button type="button" class="btn-nearby-date" (click)="selectQuickDate(1)">Tomorrow</button>
+          <button type="button" class="btn-nearby-date" (click)="selectQuickDate(2)">Day after tomorrow</button>
+        </div>
+      </div>
       <div class="empty-actions">
         <a routerLink="/" class="btn-search-again">Change Route or Date</a>
       </div>

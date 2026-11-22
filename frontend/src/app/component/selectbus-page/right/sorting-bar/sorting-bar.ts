@@ -23,4 +23,10 @@ export class SortingBar {
     this.activeSort = key;
     this.sortChange.emit(key);
   }
+
+  isOptionActive(key: string): boolean {
+    if (this.activeSort === key) return true;
+    if ((this.activeSort === 'fare' || this.activeSort === 'cheapest') && (key === 'fare' || key === 'cheapest')) return true;
+    return false;
+  }
 }

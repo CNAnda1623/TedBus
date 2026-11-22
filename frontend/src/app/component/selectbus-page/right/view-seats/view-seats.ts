@@ -20,9 +20,25 @@ export class ViewSeats implements OnInit, OnDestroy {
   @Input() seatprice: number = 0;
   @Input() routedetails: any;
   @Input() busid: string = '';
-  @Input() busarrivaltime: number = 0;
-  @Input() busdeparturetime: number = 0;
+  @Input() busarrivaltime: number | string = 0;
+  @Input() busdeparturetime: number | string = 0;
   @Input() operatorname: string = '';
+
+  get formattedDepTime(): string {
+    if (typeof this.busdeparturetime === 'string' && this.busdeparturetime.includes(':')) {
+      return this.busdeparturetime;
+    }
+    const n = Number(this.busdeparturetime) || 8;
+    return `${n < 10 ? '0' + n : n}:00`;
+  }
+
+  get formattedArrTime(): string {
+    if (typeof this.busarrivaltime === 'string' && this.busarrivaltime.includes(':')) {
+      return this.busarrivaltime;
+    }
+    const n = Number(this.busarrivaltime) || 13;
+    return `${n < 10 ? '0' + n : n}:00`;
+  }
 
   selectedseats: number[] = [];
   currentStep: number = 1; // 1: Seat Selection, 2: Passenger Details

@@ -4,63 +4,9 @@
     <h1 class="hero-title">India's No. 1 Online Bus & Cab Booking Platform</h1>
     <p class="hero-subtitle">Fast, secure bookings with real-time tracking and verified bus operators</p>
 
-    <!-- Travel search bar -->
-    <div class="search-box">
-      <!-- From Field -->
-      <div class="search-cell" [matMenuTriggerFor]="fromMenu">
-        <i class="fa-solid fa-bus-simple cell-icon"></i>
-        <div class="cell-text">
-          <label class="cell-label">From</label>
-          <input class="cell-input" type="text" placeholder="Departure City" [(ngModel)]="fromoption" readonly>
-        </div>
-        <mat-menu #fromMenu="matMenu">
-          <button mat-menu-item (click)="fromEvent('Delhi')">Delhi</button>
-          <button mat-menu-item (click)="fromEvent('Mumbai')">Mumbai</button>
-          <button mat-menu-item (click)="fromEvent('Bangalore')">Bangalore</button>
-          <button mat-menu-item (click)="fromEvent('Kolkata')">Kolkata</button>
-          <button mat-menu-item (click)="fromEvent('Chennai')">Chennai</button>
-        </mat-menu>
-      </div>
-
-      <!-- Swap Pin -->
-      <div class="swap-pin" (click)="fromoption && tooption ? selectPopularRoute(tooption, fromoption) : null">
-        <i class="fa-solid fa-arrows-turn-to-dots"></i>
-      </div>
-
-      <!-- To Field -->
-      <div class="search-cell" [matMenuTriggerFor]="toMenu">
-        <i class="fa-solid fa-location-dot cell-icon"></i>
-        <div class="cell-text">
-          <label class="cell-label">To</label>
-          <input class="cell-input" type="text" placeholder="Destination City" [(ngModel)]="tooption" readonly>
-        </div>
-        <mat-menu #toMenu="matMenu">
-          <button mat-menu-item (click)="toEvent('Jaipur')">Jaipur</button>
-          <button mat-menu-item (click)="toEvent('Goa')">Goa</button>
-          <button mat-menu-item (click)="toEvent('Mysore')">Mysore</button>
-          <button mat-menu-item (click)="toEvent('Darjeeling')">Darjeeling</button>
-          <button mat-menu-item (click)="toEvent('Pondicherry')">Pondicherry</button>
-        </mat-menu>
-      </div>
-
-      <!-- Date Field -->
-      <div class="search-cell date-cell" (click)="picker.open()">
-        <i class="fa-solid fa-calendar-days cell-icon"></i>
-        <div class="cell-text">
-          <label class="cell-label">Date of Journey</label>
-          <span class="cell-date-val" [class.has-date]="date && date !== 'null'">
-            {{ (date && date !== 'null') ? date : 'Select Date' }}
-          </span>
-        </div>
-        <input matInput class="hidden-date-input" [matDatepicker]="picker" (dateChange)="matchDate($event)">
-        <mat-datepicker #picker></mat-datepicker>
-      </div>
-
-      <!-- Submit CTA -->
-      <button class="search-cta-btn" (click)="submit()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>SEARCH BUSES</span>
-      </button>
+    <!-- Unified Single Search Bar Component -->
+    <div class="hero-search-wrapper">
+      <app-search-bar [product]="'bus'" [showProductTabs]="true" [showRecentSearches]="true" [showQuickDateChips]="true"></app-search-bar>
     </div>
   </div>
 </section>

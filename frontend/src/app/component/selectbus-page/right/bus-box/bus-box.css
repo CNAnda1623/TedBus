@@ -99,6 +99,21 @@
   text-align: right;
 }
 
+.arrival-time-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.next-day-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--brand-primary);
+  background: var(--brand-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
 .journey-time {
   font-size: 20px;
   font-weight: 700;
@@ -149,7 +164,8 @@
 
 .stops-count {
   font-size: 11px;
-  color: var(--text-disabled);
+  color: var(--text-secondary);
+  font-weight: 500;
   margin-top: 4px;
 }
 
@@ -282,7 +298,14 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .footer-tabs-group {
+    gap: 16px;
+    margin-top: 6px;
+  }
 }
 
 .tab-link-btn {

@@ -43,8 +43,6 @@ export class TrainPage implements OnInit {
   selectedClass: string = 'All Classes';
   selectedQuota: string = 'General';
 
-  subMode: 'search' | 'pnr' | 'live' = 'search';
-
   // Filters state
   filterTrainTypes: { [key: string]: boolean } = {
     'Vande Bharat': false,
@@ -69,15 +67,6 @@ export class TrainPage implements OnInit {
   // Active Accordion Tab in train cards (trainId -> active tab index)
   activeCardTabs: { [trainId: string]: number } = {};
 
-  // PNR Search State
-  pnrInput: string = '';
-  pnrResult: any = null;
-  pnrError: string = '';
-
-  // Live Status State
-  liveTrainNumber: string = '';
-  liveStatusResult: any = null;
-
   // Mock / Loaded Trains
   trainsList: TrainItem[] = [];
 
@@ -86,18 +75,6 @@ export class TrainPage implements OnInit {
   ngOnInit(): void {
     const today = new Date();
     this.travelDate = today.toISOString().split('T')[0];
-
-    // Check subroute if user navigated to /trains/pnr or /trains/live
-    this.route.url.subscribe(segments => {
-      const path = segments.map(s => s.path).join('/');
-      if (path.includes('pnr')) {
-        this.subMode = 'pnr';
-      } else if (path.includes('live')) {
-        this.subMode = 'live';
-      } else {
-        this.subMode = 'search';
-      }
-    });
 
     this.route.queryParams.subscribe(params => {
       if (params['from']) this.fromStation = params['from'];
@@ -264,50 +241,5 @@ export class TrainPage implements OnInit {
 
     sessionStorage.setItem('current_train_booking', JSON.stringify(bookingPayload));
     this.router.navigate(['/payment']);
-  }
-
-  // PNR Status Search
-  checkPnr(): void {
-    this.pnrError = '';
-    this.pnrResult = null;
-    if (!this.pnrInput || this.pnrInput.length < 10) {
-      this.pnrError = 'Please enter a valid 10-digit PNR number.';
-      return;
-    }
-
-    // Mock realistic PNR lookup result
-    this.pnrResult = {
-      pnr: this.pnrInput,
-      trainNumber: '12958',
-      trainName: 'Swarna Jayanti Rajdhani',
-      from: 'NDLS - New Delhi',
-      to: 'JP - Jaipur Jn',
-      boardingDate: this.travelDate,
-      bookingClass: '3A',
-      quota: 'GN',
-      chartStatus: 'CHART NOT PREPARED',
-      passengers: [
-        { num: 1, bookingStatus: 'B3, 24 (MB)', currentStatus: 'CNF (Confirmed)' },
-        { num: 2, bookingStatus: 'B3, 25 (UB)', currentStatus: 'CNF (Confirmed)' }
-      ]
-    };
-  }
-
-  // Live Train Status Search
-  checkLiveStatus(): void {
-    if (!this.liveTrainNumber) return;
-    this.liveStatusResult = {
-      trainNumber: this.liveTrainNumber,
-      trainName: 'Vande Bharat Express',
-      currentStation: 'Rewari Junction (RE)',
-      delayMinutes: 0,
-      status: 'On Time',
-      lastUpdated: '2 mins ago',
-      upcomingStations: [
-        { name: 'Alwar Junction (AWR)', eta: '08:40', distance: '65 km' },
-        { name: 'Bandikui Junction (BKI)', eta: '09:20', distance: '120 km' },
-        { name: 'Jaipur Junction (JP)', eta: '10:05', distance: '215 km' }
-      ]
-    };
   }
 }

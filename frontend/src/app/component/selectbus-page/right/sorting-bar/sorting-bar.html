@@ -1,6 +1,6 @@
 <div class="sorting-container">
   <div class="results-meta">
-    <span class="count-pill">{{ busCount }} buses</span>
+    <span class="count-pill">{{ busCount }} {{ busCount === 1 ? 'bus' : 'buses' }}</span>
     <span class="route-label" *ngIf="departure && arrival">
       {{ departure }} <mat-icon class="arrow-icon">arrow_forward</mat-icon> {{ arrival }}
     </span>
@@ -9,7 +9,7 @@
   <div class="sort-segmented-control">
     <span class="sort-label">SORT BY:</span>
     <div class="segment-group">
-      <button *ngFor="let opt of sortOptions" type="button" class="segment-btn" [class.active]="activeSort === opt.key"
+      <button *ngFor="let opt of sortOptions" type="button" class="segment-btn" [class.active]="isOptionActive(opt.key)"
         (click)="selectSort(opt.key)">
         <mat-icon class="opt-icon">{{ opt.icon }}</mat-icon>
         <span>{{ opt.label }}</span>

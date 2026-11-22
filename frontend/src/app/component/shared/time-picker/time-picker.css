@@ -1,0 +1,219 @@
+.time-picker-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.time-trigger {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+  transition: background-color var(--transition-fast);
+}
+
+.time-trigger:hover, .time-trigger.active {
+  background-color: var(--surface-sunken);
+}
+
+.trigger-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.trigger-icon {
+  font-size: 13px;
+  color: var(--brand-text);
+}
+
+.trigger-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Popover */
+.time-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1000;
+  width: 260px;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  padding: 14px;
+  animation: fadeInDown 180ms ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 10px;
+}
+
+.popover-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.stepper-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--brand-text);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.stepper-toggle-btn:hover {
+  text-decoration: underline;
+}
+
+/* Slots List */
+.slots-list {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slot-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.slot-btn:hover:not(.disabled) {
+  background-color: var(--surface-sunken);
+  color: var(--brand-text);
+}
+
+.slot-btn.active {
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.slot-btn.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.check-icon {
+  font-size: 12px;
+}
+
+/* Custom Stepper */
+.custom-stepper-view {
+  padding: 10px 0;
+}
+
+.steppers-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stepper-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-btn {
+  width: 32px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-sunken);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.step-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.step-colon {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.step-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.period-toggle-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-subtle);
+  color: var(--brand-text);
+  border: 1px solid var(--brand-border);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.apply-stepper-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-btn);
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}

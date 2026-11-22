@@ -74,8 +74,8 @@ export class HelpPage implements OnInit {
     {
       id: 'faq-7',
       category: 'train',
-      question: 'How accurate is the PNR status and waitlist prediction?',
-      answer: 'Our PNR status is queried in real-time from the central railway reservation system. Our machine learning confirmation probability engine analyses historical charting trends to give you high-confidence waitlist clearance forecasts.'
+      question: 'How does tedRail train ticket confirmation and seat allocation work?',
+      answer: 'Our reservation system connects in real-time with Indian Railways. You receive an instant digital ticket with allocated coach and berth details immediately upon payment completion.'
     },
     {
       id: 'faq-8',
@@ -114,7 +114,7 @@ export class HelpPage implements OnInit {
   submittedTicketId: string = '';
   errorMessage: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     // Open the first FAQ by default

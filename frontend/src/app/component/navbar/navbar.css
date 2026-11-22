@@ -1,8 +1,11 @@
 /* App Header Styles */
 .app-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 100;
   background-color: var(--surface-card);
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);

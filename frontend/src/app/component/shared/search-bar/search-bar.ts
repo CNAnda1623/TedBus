@@ -1,7 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { DatePicker } from '../date-picker/date-picker';
+import { TimePicker } from '../time-picker/time-picker';
+import { CustomSelect, SelectOption } from '../custom-select/custom-select';
 
 export type ProductType = 'bus' | 'cab' | 'train' | 'custom-bus';
 
@@ -20,7 +23,7 @@ export interface SearchParams {
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, DatePicker, TimePicker, CustomSelect],
   templateUrl: './search-bar.html',
   styleUrls: ['./search-bar.css']
 })
@@ -29,52 +32,55 @@ export class SearchBar implements OnInit {
   @Input() compact: boolean = false;
   @Input() showProductTabs: boolean = false;
   @Input() showRecentSearches: boolean = false;
+  @Input() showQuickDateChips: boolean = false;
   @Input() resultCount?: number;
+  @Input() lowestFare?: number | string;
   @Input() initialParams?: Partial<SearchParams>;
 
   @Output() search = new EventEmitter<SearchParams>();
   @Output() modify = new EventEmitter<void>();
 
   isExpanded: boolean = false;
+  isSwapRotated: boolean = false;
 
   from: string = 'Delhi';
   to: string = 'Jaipur';
   date: string = '';
   minDate: string = '';
-  pickupTime: string = '10:00';
-  trainClass: string = 'All Classes';
+  pickupTime: string = '10:00 AM';
+  trainClass: string = '3A - 3 Tier AC';
   quota: string = 'General';
 
-  // Autocomplete city / station suggestions
   popularCities: string[] = [
     'Delhi', 'Jaipur', 'Mumbai', 'Pune', 'Bangalore', 'Chennai',
     'Hyderabad', 'Ahmedabad', 'Goa', 'Shimla', 'Manali', 'Agra', 'Chandigarh'
   ];
 
-  trainStations: { name: string; code: string }[] = [
-    { name: 'New Delhi', code: 'NDLS' },
-    { name: 'Jaipur Junction', code: 'JP' },
-    { name: 'Mumbai Central', code: 'MMCT' },
-    { name: 'KSR Bengaluru', code: 'SBC' },
-    { name: 'Chennai Central', code: 'MAS' },
-    { name: 'Secunderabad', code: 'SC' },
-    { name: 'Ahmedabad Junction', code: 'ADI' },
-    { name: 'Hazrat Nizamuddin', code: 'NZM' },
-    { name: 'Pune Junction', code: 'PUNE' }
+  trainClasses: SelectOption[] = [
+    { code: 'All Classes', label: 'All Classes', desc: 'Show all coaches' },
+    { code: '1A - First AC', label: '1A', desc: 'First AC (Coupe & Cabin)' },
+    { code: '2A - 2 Tier AC', label: '2A', desc: '2 Tier AC Sleeper' },
+    { code: '3A - 3 Tier AC', label: '3A', desc: '3 Tier AC Sleeper' },
+    { code: 'SL - Sleeper', label: 'SL', desc: 'Sleeper Class (Non-AC)' },
+    { code: 'CC - Chair Car', label: 'CC', desc: 'AC Executive Chair Car' },
+    { code: '2S - Second Seating', label: '2S', desc: 'Second Seating' }
   ];
 
-  trainClasses = ['All Classes', '1A - First AC', '2A - 2 Tier AC', '3A - 3 Tier AC', 'SL - Sleeper', 'CC - Chair Car'];
-  trainQuotas = ['General', 'Tatkal', 'Ladies', 'Senior Citizen'];
+  trainQuotas: SelectOption[] = [
+    { code: 'General', label: 'General', desc: 'Standard reservation quota' },
+    { code: 'Tatkal', label: 'Tatkal', desc: 'Opens 1 day prior' },
+    { code: 'Ladies', label: 'Ladies', desc: 'Reserved for female solo/groups' },
+    { code: 'Senior Citizen', label: 'Senior Citizen', desc: 'Lower berth quota' }
+  ];
 
   recentSearches: { from: string; to: string; date: string; product: ProductType }[] = [];
 
   showFromDropdown: boolean = false;
   showToDropdown: boolean = false;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private elRef: ElementRef) {}
 
   ngOnInit(): void {
-    // Current date in YYYY-MM-DD
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
     this.date = this.minDate;
@@ -91,18 +97,25 @@ export class SearchBar implements OnInit {
     this.loadRecentSearches();
   }
 
-  setToday(): void {
-    this.date = this.minDate;
+  get formattedNavigatorDate(): string {
+    if (!this.date) return 'Select Date';
+    try {
+      const d = new Date(this.date + 'T00:00:00');
+      return d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    } catch {
+      return this.date;
+    }
   }
 
-  setTomorrow(): void {
-    const d = new Date();
-    d.setDate(d.getDate() + 1);
-    this.date = d.toISOString().split('T')[0];
+  get displayLowestFare(): string {
+    if (this.lowestFare !== undefined && this.lowestFare !== null && this.lowestFare !== '') {
+      return `from ₹${this.lowestFare}`;
+    }
+    return '';
   }
 
   prevDay(): void {
-    const current = new Date(this.date);
+    const current = new Date(this.date + 'T00:00:00');
     current.setDate(current.getDate() - 1);
     const newDateStr = current.toISOString().split('T')[0];
     if (newDateStr >= this.minDate) {
@@ -112,13 +125,21 @@ export class SearchBar implements OnInit {
   }
 
   nextDay(): void {
-    const current = new Date(this.date);
+    const current = new Date(this.date + 'T00:00:00');
     current.setDate(current.getDate() + 1);
     this.date = current.toISOString().split('T')[0];
     this.onSearch();
   }
 
+  onDateChanged(newDate: string): void {
+    this.date = newDate;
+    if (this.compact && !this.isExpanded) {
+      this.onSearch();
+    }
+  }
+
   swapFromTo(): void {
+    this.isSwapRotated = !this.isSwapRotated;
     const temp = this.from;
     this.from = this.to;
     this.to = temp;
@@ -134,25 +155,27 @@ export class SearchBar implements OnInit {
     this.showToDropdown = false;
   }
 
-  switchProduct(newProduct: ProductType): void {
-    this.product = newProduct;
-    if (newProduct === 'custom-bus') {
-      this.router.navigate(['/custom-bus']);
-    } else if (newProduct === 'bus') {
-      this.router.navigate(['/landing-page']);
-    } else if (newProduct === 'cab') {
-      this.router.navigate(['/cab-book']);
-    } else if (newProduct === 'train') {
-      this.router.navigate(['/trains']);
-    }
-  }
-
   toggleModify(): void {
     this.isExpanded = !this.isExpanded;
     this.modify.emit();
   }
 
+  cancelModify(): void {
+    this.isExpanded = false;
+  }
+
+  switchProduct(type: ProductType): void {
+    this.product = type;
+  }
+
+  setQuickDateChip(offsetDays: number): void {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    this.date = d.toISOString().split('T')[0];
+  }
+
   onSearch(): void {
+    this.saveRecentSearch();
     const params: SearchParams = {
       product: this.product,
       from: this.from,
@@ -163,29 +186,24 @@ export class SearchBar implements OnInit {
       quota: this.quota
     };
 
-    this.saveRecentSearch();
     this.search.emit(params);
+    this.isExpanded = false;
 
-    if (!this.compact) {
+    // Navigate to target route if called from landing page
+    if (this.router.url === '/' || this.router.url.startsWith('/landing-page')) {
       if (this.product === 'bus') {
         this.router.navigate(['/selectbus-page'], {
-          queryParams: { from: this.from, to: this.to, date: this.date }
-        });
-      } else if (this.product === 'cab') {
-        this.router.navigate(['/cab-book'], {
-          queryParams: { from: this.from, to: this.to, date: this.date, time: this.pickupTime }
+          queryParams: { departure: this.from, arrival: this.to, date: this.date }
         });
       } else if (this.product === 'train') {
         this.router.navigate(['/trains'], {
           queryParams: { from: this.from, to: this.to, date: this.date, class: this.trainClass, quota: this.quota }
         });
+      } else if (this.product === 'cab') {
+        this.router.navigate(['/cab-book']);
       } else if (this.product === 'custom-bus') {
-        this.router.navigate(['/custom-bus'], {
-          queryParams: { from: this.from, to: this.to, date: this.date }
-        });
+        this.router.navigate(['/custom-bus']);
       }
-    } else {
-      this.isExpanded = false;
     }
   }
 
@@ -214,5 +232,22 @@ export class SearchBar implements OnInit {
     this.date = search.date >= this.minDate ? search.date : this.minDate;
     this.product = search.product;
     this.onSearch();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocClick(event: MouseEvent): void {
+    if (!this.elRef.nativeElement.contains(event.target)) {
+      this.showFromDropdown = false;
+      this.showToDropdown = false;
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.showFromDropdown = false;
+    this.showToDropdown = false;
+    if (this.isExpanded) {
+      this.cancelModify();
+    }
   }
 }
