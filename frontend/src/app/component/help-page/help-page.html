@@ -227,6 +227,8 @@
                   class="form-control"
                   placeholder="rahul@example.com"
                   [(ngModel)]="ticket.email"
+                  inputmode="email"
+                  autocomplete="email"
                   required
                 />
               </div>
@@ -242,6 +244,8 @@
                   class="form-control"
                   placeholder="+91 98765 43210"
                   [(ngModel)]="ticket.phone"
+                  inputmode="tel"
+                  autocomplete="tel"
                 />
               </div>
 
@@ -264,9 +268,11 @@
                 id="ticketBookingId"
                 type="text"
                 name="bookingId"
-                class="form-control"
+                class="form-control uppercase"
                 placeholder="e.g. TED-BUS-98234 or PNR-49281"
                 [(ngModel)]="ticket.bookingId"
+                autocomplete="off"
+                autocapitalize="characters"
               />
             </div>
 

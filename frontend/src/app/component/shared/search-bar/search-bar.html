@@ -65,6 +65,18 @@
        ====================================================================== -->
   <div class="full-search-container" *ngIf="!compact || isExpanded" [class.is-modify-inline]="compact && isExpanded">
 
+    <!-- PRODUCT TABS: Segmented control attached directly above the search bar -->
+    <div class="product-tabs-segmented" *ngIf="showProductTabs">
+      <button type="button" class="product-tab-btn" [class.active]="product === 'bus'" (click)="switchProduct('bus')">
+        <i class="fa-solid fa-bus mr-1.5"></i>
+        <span>Bus</span>
+      </button>
+      <button type="button" class="product-tab-btn" [class.active]="product === 'custom-bus'" (click)="switchProduct('custom-bus')">
+        <i class="fa-solid fa-van-shuttle mr-1.5"></i>
+        <span>Custom Bus</span>
+      </button>
+    </div>
+
     <!-- Unified 72px Capsule Container -->
     <div class="search-capsule" [ngClass]="'product-' + product">
 
@@ -116,7 +128,7 @@
         </div>
       </div>
 
-      <!-- 1px DIVIDER -->
+      <!-- 1px DIVIDER (Centered, 40px high) -->
       <div class="segment-divider"></div>
 
       <!-- SEGMENT 3: DATE PICKER -->
@@ -153,11 +165,11 @@
         </div>
       </ng-container>
 
-      <!-- SEGMENT 4: SEARCH / ACTION CTA -->
+      <!-- SEGMENT 4: SEARCH / ACTION CTA (NO divider before search button) -->
       <div class="segment-action">
-        <button type="button" class="search-submit-btn" (click)="onSearch()">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <span>{{ compact ? 'UPDATE' : 'SEARCH' }}</span>
+        <button type="button" class="search-submit-btn" (click)="onSearch()" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass search-btn-icon"></i>
+          <span class="search-btn-text">{{ compact ? 'UPDATE' : 'SEARCH' }}</span>
         </button>
 
         <button *ngIf="compact && isExpanded" type="button" class="cancel-modify-btn" (click)="cancelModify()"
@@ -167,36 +179,26 @@
       </div>
     </div>
 
-    <!-- QUICK DATE CHIPS ROW UNDER BAR (Landing Page) -->
-    <div class="quick-chips-row" *ngIf="showQuickDateChips">
-      <span class="chips-label">Quick Depart:</span>
-      <button type="button" class="date-chip" [class.active]="date === minDate"
-        (click)="setQuickDateChip(0)">Today</button>
-      <button type="button" class="date-chip" (click)="setQuickDateChip(1)">Tomorrow</button>
-      <button type="button" class="date-chip" (click)="setQuickDateChip(2)">Day After</button>
-    </div>
+    <!-- ONE COMPACT HELPERS ROW UNDER BAR (32px High: Quick Depart on Left, Recent Searches on Right) -->
+    <div class="search-helpers-row" *ngIf="showQuickDateChips || (showRecentSearches && recentSearches.length > 0)">
+      <!-- Left: Quick Depart Chips -->
+      <div class="helper-group-left" *ngIf="showQuickDateChips">
+        <span class="helper-group-label">Quick Depart:</span>
+        <button type="button" class="helper-pill-chip" [class.active]="date === minDate"
+          (click)="setQuickDateChip(0)">Today</button>
+        <button type="button" class="helper-pill-chip" (click)="setQuickDateChip(1)">Tomorrow</button>
+        <button type="button" class="helper-pill-chip" (click)="setQuickDateChip(2)">Day after</button>
+      </div>
 
-    <!-- PRODUCT SWITCHING TABS BELOW BAR (Bus | Custom Bus) -->
-    <div class="product-tabs-row" *ngIf="showProductTabs">
-      <button type="button" class="tab-chip" [class.active]="product === 'bus'" (click)="switchProduct('bus')">
-        <i class="fa-solid fa-bus"></i>
-        <span>Bus Tickets</span>
-      </button>
-      <button type="button" class="tab-chip" [class.active]="product === 'custom-bus'"
-        (click)="switchProduct('custom-bus')">
-        <i class="fa-solid fa-van-shuttle"></i>
-        <span>Custom Bus (Hire Whole Bus)</span>
-      </button>
-    </div>
-
-    <!-- RECENT SEARCHES CHIPS UNDER BAR -->
-    <div class="recent-searches-row" *ngIf="showRecentSearches && recentSearches.length > 0">
-      <span class="recent-label">Recent Searches:</span>
-      <div class="recent-chips">
-        <button type="button" class="recent-chip" *ngFor="let r of recentSearches" (click)="applyRecent(r)">
-          <i class="fa-solid fa-clock-rotate-left mr-1 opacity-70"></i>
-          <span>{{ r.from }} → {{ r.to }} ({{ r.date | date:'dd MMM' }})</span>
-        </button>
+      <!-- Right: Recent Searches -->
+      <div class="helper-group-right" *ngIf="showRecentSearches && recentSearches.length > 0">
+        <span class="helper-group-label">Recent:</span>
+        <div class="recent-chips-list">
+          <button type="button" class="helper-pill-chip recent-chip" *ngFor="let r of recentSearches.slice(0, 3)" (click)="applyRecent(r)">
+            <i class="fa-solid fa-clock-rotate-left mr-1 opacity-70"></i>
+            <span>{{ r.from }} → {{ r.to }}</span>
+          </button>
+        </div>
       </div>
     </div>
 

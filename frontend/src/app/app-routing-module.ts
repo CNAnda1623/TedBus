@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: 'dashboard', redirectTo: 'account', pathMatch: 'full' },
   { path: 'forum', redirectTo: 'community', pathMatch: 'full' },
   { path: 'chatbot', component: Chatbot },
+  { path: 'dev/forms', loadComponent: () => import('./component/dev/forms-reference/forms-reference').then(m => m.FormsReference) },
   { path: '**', redirectTo: '' }
 ];
 

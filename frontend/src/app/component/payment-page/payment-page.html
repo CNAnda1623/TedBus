@@ -117,7 +117,7 @@
               <div class="form-group">
                 <label class="input-label">Card Number</label>
                 <div class="input-with-icon">
-                  <input type="text" maxlength="19" [value]="cardNumber" (input)="onCardNumberInput($event)" placeholder="4532 •••• •••• 8892" class="form-control" />
+                  <input type="text" maxlength="19" [value]="cardNumber" (input)="onCardNumberInput($event)" placeholder="4532 •••• •••• 8892" class="form-control" inputmode="numeric" autocomplete="cc-number" />
                   <span class="card-brand-indicator">
                     <i class="fa-brands fa-cc-visa text-blue-600" *ngIf="cardBrand === 'visa'"></i>
                     <i class="fa-brands fa-cc-mastercard text-red-500" *ngIf="cardBrand === 'mastercard'"></i>
@@ -129,17 +129,17 @@
 
               <div class="form-group">
                 <label class="input-label">Cardholder Name</label>
-                <input type="text" [(ngModel)]="cardName" placeholder="Name as printed on card" class="form-control" />
+                <input type="text" [(ngModel)]="cardName" placeholder="Name as printed on card" class="form-control" autocomplete="cc-name" />
               </div>
 
               <div class="form-row">
                 <div class="form-group half">
                   <label class="input-label">Valid Thru</label>
-                  <input type="text" maxlength="5" [(ngModel)]="cardExpiry" placeholder="MM/YY" class="form-control" />
+                  <input type="text" maxlength="5" [(ngModel)]="cardExpiry" placeholder="MM/YY" class="form-control" inputmode="numeric" autocomplete="cc-exp" />
                 </div>
                 <div class="form-group half">
                   <label class="input-label">CVV / CVC</label>
-                  <input type="password" maxlength="4" [(ngModel)]="cardCvv" placeholder="•••" class="form-control" />
+                  <input type="password" maxlength="4" [(ngModel)]="cardCvv" placeholder="•••" class="form-control" inputmode="numeric" autocomplete="cc-csc" />
                 </div>
               </div>
 

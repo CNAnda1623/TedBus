@@ -51,6 +51,9 @@ import { SearchBar } from './component/shared/search-bar/search-bar';
 import { TrainPage } from './component/train-page/train-page';
 import { HelpPage } from './component/help-page/help-page';
 import { AccountPage } from './component/account-page/account-page';
+import { RouteBuilder } from './component/shared/form/route-builder/route-builder';
+import { TagInput } from './component/shared/form/tag-input/tag-input';
+import { FileDropzone } from './component/shared/form/file-dropzone/file-dropzone';
 
 
 @NgModule({
@@ -106,7 +109,10 @@ import { AccountPage } from './component/account-page/account-page';
     SearchBar,
     TrainPage,
     HelpPage,
-    AccountPage
+    AccountPage,
+    RouteBuilder,
+    TagInput,
+    FileDropzone
   ],
   exports: [
     FormDrawer

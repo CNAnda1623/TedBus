@@ -1,12 +1,20 @@
-<!-- Hero Search Section -->
+<!-- Hero Search Section (Part 5: Normal vertical flow, no overlapping layers) -->
 <section class="hero-section">
   <div class="hero-container">
-    <h1 class="hero-title">India's No. 1 Online Bus & Cab Booking Platform</h1>
-    <p class="hero-subtitle">Fast, secure bookings with real-time tracking and verified bus operators</p>
+    <!-- 1. Headline (H1) and one-line subtitle -->
+    <div class="hero-header-block">
+      <h1 class="hero-title">India's No. 1 Online Travel Booking Platform</h1>
+      <p class="hero-subtitle">Fast, verified bookings with real-time GPS tracking, clean coaches and zero booking fees</p>
+    </div>
 
-    <!-- Unified Single Search Bar Component -->
+    <!-- 2, 3, 4: Product Tabs + SearchBar + 32px Helpers Row -->
     <div class="hero-search-wrapper">
       <app-search-bar [product]="'bus'" [showProductTabs]="true" [showRecentSearches]="true" [showQuickDateChips]="true"></app-search-bar>
+    </div>
+
+    <!-- 5. Tagline rendered as real text in the flow with 32px space above it -->
+    <div class="hero-tagline-container">
+      <p class="hero-brand-tagline">"Apno ko, Sapno ko, Kareeb Laaye."</p>
     </div>
   </div>
 </section>

@@ -1,0 +1,204 @@
+<div class="reference-page-container">
+  <!-- Top Bar -->
+  <header class="ref-header">
+    <div class="ref-title-group">
+      <span class="ref-eyebrow">DEVELOPER STYLE GUIDE</span>
+      <h1 class="ref-h1">Forms & Containers Reference</h1>
+      <p class="ref-desc">Demonstration of all form primitives in all states (light & dark mode, WCAG AA compliant).</p>
+    </div>
+
+    <button type="button" class="btn-theme-toggle" (click)="toggleTheme()">
+      <i class="fa-solid" [class.fa-sun]="themeService.isDarkMode()" [class.fa-moon]="!themeService.isDarkMode()"></i>
+      <span>Switch to {{ themeService.isDarkMode() ? 'Light' : 'Dark' }} Theme</span>
+    </button>
+  </header>
+
+  <!-- 1. FormField Wrapper States -->
+  <section class="ref-section">
+    <h2 class="ref-section-title">1. FormField Wrapper States</h2>
+    <div class="ref-grid-3">
+      <!-- Default State -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Passenger Full Name</span>
+          <span class="required-star">*</span>
+        </label>
+        <input type="text" class="form-input" [(ngModel)]="defaultInput" placeholder="e.g. Priya Sharma" />
+        <div class="form-helper-line">
+          <span>Must match government ID</span>
+          <span class="form-char-counter">{{ defaultInput.length }} / 50</span>
+        </div>
+      </div>
+
+      <!-- Filled State -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Boarding Stop</span>
+          <span class="required-star">*</span>
+        </label>
+        <input type="text" class="form-input" [(ngModel)]="filledInput" />
+        <div class="form-helper-line">
+          <span>Station counter location</span>
+          <span class="form-char-counter is-valid"><i class="fa-solid fa-check mr-1"></i> Valid</span>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Journey Title</span>
+          <span class="required-star">*</span>
+        </label>
+        <input type="text" class="form-input is-invalid" [(ngModel)]="errorInput" />
+        <div class="form-helper-line">
+          <span class="form-error-msg"><i class="fa-solid fa-circle-exclamation"></i> Min 8 characters required</span>
+          <span class="form-char-counter text-danger">{{ errorInput.length }} / 8 min</span>
+        </div>
+      </div>
+
+      <!-- Disabled State -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>System Generated PNR</span>
+          <span class="optional-hint">(Read-only)</span>
+        </label>
+        <input type="text" class="form-input" [value]="disabledInput" disabled />
+        <div class="form-helper-line">
+          <span>Generated upon payment confirmation</span>
+        </div>
+      </div>
+
+      <!-- Prefix / Suffix Slots -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Mobile Number</span>
+          <span class="required-star">*</span>
+        </label>
+        <div class="input-slot-wrapper">
+          <span class="slot-prefix">+91</span>
+          <input type="tel" class="form-input slot-input" [(ngModel)]="phone" placeholder="9876543210" maxlength="10" inputmode="tel" />
+        </div>
+        <div class="form-helper-line">
+          <span>For instant SMS & live vehicle tracking</span>
+        </div>
+      </div>
+
+      <!-- Currency Amount Prefix -->
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Refundable Fare</span>
+          <span class="optional-hint">(optional)</span>
+        </label>
+        <div class="input-slot-wrapper">
+          <span class="slot-prefix">₹</span>
+          <input type="number" class="form-input slot-input" [(ngModel)]="amount" />
+        </div>
+        <div class="form-helper-line">
+          <span>Estimated net refund amount</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Textarea with Auto-grow & Counter -->
+  <section class="ref-section">
+    <h2 class="ref-section-title">2. Textarea with Live Counter</h2>
+    <div class="ref-grid-2">
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Story & Road Experience</span>
+          <span class="required-star">*</span>
+        </label>
+        <textarea class="form-textarea" [(ngModel)]="sampleStory" rows="4"></textarea>
+        <div class="form-helper-line">
+          <span>Min 50 characters</span>
+          <span class="form-char-counter is-valid">{{ sampleStory.length }} / 3000</span>
+        </div>
+      </div>
+
+      <div class="form-field-group">
+        <label class="form-label">
+          <span>Support Message Details</span>
+          <span class="required-star">*</span>
+        </label>
+        <textarea class="form-textarea" placeholder="Describe the issue you encountered..." rows="4"></textarea>
+        <div class="form-helper-line">
+          <span>Our support team answers within 15 minutes</span>
+          <span class="form-char-counter">0 / 500</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Complex Form Primitives (RouteBuilder, TagInput, Dropzone) -->
+  <section class="ref-section">
+    <h2 class="ref-section-title">3. Complex Form Primitives</h2>
+    <div class="ref-grid-2">
+      <!-- RouteBuilder -->
+      <div class="form-field-group">
+        <label class="form-label">RouteBuilder Component</label>
+        <app-route-builder [stops]="stops" (stopsChange)="stops = $event"></app-route-builder>
+      </div>
+
+      <!-- TagInput & Dropzone -->
+      <div class="ref-stack-col">
+        <div class="form-field-group">
+          <label class="form-label">TagInput (Destination Chips)</label>
+          <app-tag-input [tags]="destinations" (tagsChange)="destinations = $event"></app-tag-input>
+        </div>
+
+        <div class="form-field-group">
+          <label class="form-label">FileDropzone (5MB limit & Cover photo)</label>
+          <app-file-dropzone [photos]="photos" (photosChange)="photos = $event"></app-file-dropzone>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Selection Primitives (Checkbox, Switch, Radio) -->
+  <section class="ref-section">
+    <h2 class="ref-section-title">4. Custom Checkboxes, Switches & Radios</h2>
+    <div class="ref-grid-3">
+      <!-- Custom 20px Checkbox -->
+      <div class="custom-card-box">
+        <label class="custom-checkbox-wrapper" (click)="agreeTerms = !agreeTerms">
+          <div class="custom-checkbox-box" [class.checked]="agreeTerms">
+            <i class="fa-solid fa-check check-icon" *ngIf="agreeTerms"></i>
+          </div>
+          <span class="checkbox-text">Send instant booking confirmation to WhatsApp</span>
+        </label>
+      </div>
+
+      <!-- Custom Switch -->
+      <div class="custom-card-box">
+        <div class="flex items-center justify-between w-full">
+          <span>Live GPS Tracking</span>
+          <button type="button" class="custom-switch-toggle" [class.on]="switchActive" (click)="switchActive = !switchActive">
+            <span class="custom-switch-thumb"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Date & Time Pickers -->
+      <div class="custom-card-box">
+        <app-date-picker [selectedDate]="selectedDate" (dateChange)="selectedDate = $event" [label]="'DATE OF JOURNEY'"></app-date-picker>
+      </div>
+
+      <!-- Time Picker -->
+      <div class="custom-card-box">
+        <app-time-picker [selectedTime]="selectedTime" (timeChange)="selectedTime = $event" [label]="'PICK-UP TIME'"></app-time-picker>
+      </div>
+
+      <!-- Custom Select -->
+      <div class="custom-card-box">
+        <app-custom-select [options]="selectOptions" [selectedCode]="selectedClass" (selectChange)="selectedClass = $event" [label]="'SEAT CLASS'"></app-custom-select>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Unified Search Bar Container -->
+  <section class="ref-section">
+    <h2 class="ref-section-title">5. Unified 72px SearchBar Architecture</h2>
+    <app-search-bar [product]="'bus'" [showProductTabs]="true" [showQuickDateChips]="true" [showRecentSearches]="true"></app-search-bar>
+  </section>
+</div>

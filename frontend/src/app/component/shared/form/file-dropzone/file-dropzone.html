@@ -1,0 +1,78 @@
+<div class="file-dropzone-container">
+  <!-- Drag and Drop Active Zone -->
+  <div
+    class="dropzone-box"
+    [class.drag-over]="isDragOver"
+    [class.has-error]="!!errorMessage"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+  >
+    <input
+      #fileInput
+      type="file"
+      multiple
+      accept="image/png, image/jpeg, image/webp"
+      class="hidden-file-input"
+      (change)="onFileInput($event)"
+    />
+
+    <div class="dropzone-content" *ngIf="!isUploading">
+      <div class="dropzone-icon-circle">
+        <i class="fa-solid fa-cloud-arrow-up text-brand"></i>
+      </div>
+      <div class="dropzone-text">
+        <span class="dropzone-primary-text">Drag and drop photos here, or <strong class="text-brand">Browse</strong></span>
+        <span class="dropzone-hint">JPG, PNG or WebP • Up to {{ maxPhotos }} photos • Max 5 MB each</span>
+      </div>
+    </div>
+
+    <!-- Upload Progress Bar -->
+    <div class="dropzone-progress" *ngIf="isUploading">
+      <div class="progress-ring-box">
+        <i class="fa-solid fa-spinner fa-spin text-brand text-2xl"></i>
+      </div>
+      <span class="progress-text">Optimising and uploading photos ({{ uploadProgress }}%)...</span>
+    </div>
+  </div>
+
+  <!-- Error feedback message -->
+  <div class="dropzone-error" *ngIf="errorMessage">
+    <i class="fa-solid fa-triangle-exclamation mr-1.5"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Thumbnails Grid with Cover Marker -->
+  <div class="thumbnails-grid" *ngIf="photos.length > 0">
+    <div class="thumb-item" *ngFor="let photo of photos; let i = index">
+      <img [src]="photo" alt="Photo {{ i + 1 }}" class="thumb-img" />
+
+      <!-- Cover Photo Badge on 1st Photo -->
+      <span class="cover-badge" *ngIf="i === 0">
+        <i class="fa-solid fa-star mr-1"></i> Cover Photo
+      </span>
+
+      <!-- Action buttons -->
+      <div class="thumb-overlay">
+        <button
+          type="button"
+          class="btn-thumb-action"
+          *ngIf="i !== 0"
+          (click)="setCover(i); $event.stopPropagation()"
+          title="Make cover photo"
+        >
+          <i class="fa-solid fa-star"></i>
+        </button>
+        <button
+          type="button"
+          class="btn-thumb-action delete-action"
+          (click)="removePhoto(i); $event.stopPropagation()"
+          title="Remove photo"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

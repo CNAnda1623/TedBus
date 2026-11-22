@@ -1,0 +1,94 @@
+<div class="route-builder-container">
+  <!-- Read-Only Route Chip Preview -->
+  <div class="route-preview-bar" *ngIf="routePreview">
+    <div class="preview-badge">
+      <i class="fa-solid fa-route text-brand mr-1.5"></i>
+      <span class="preview-text">{{ routePreview }}</span>
+    </div>
+  </div>
+
+  <!-- Ordered Stops List -->
+  <div class="stops-stack">
+    <div class="stop-row" *ngFor="let stop of stops; let i = index; let isFirst = first; let isLast = last">
+      <!-- Stop Indicator Circle -->
+      <div class="stop-indicator" [class.is-origin]="isFirst" [class.is-dest]="isLast" [class.is-via]="!isFirst && !isLast">
+        <i class="fa-solid fa-location-dot" *ngIf="isFirst"></i>
+        <i class="fa-solid fa-flag-checkered" *ngIf="isLast"></i>
+        <span *ngIf="!isFirst && !isLast">{{ i }}</span>
+      </div>
+
+      <!-- City Input & Autocomplete Dropdown -->
+      <div class="stop-input-wrap">
+        <label class="stop-label">
+          {{ isFirst ? 'Origin *' : (isLast ? 'Destination *' : ('Via Stop ' + i)) }}
+        </label>
+        <div class="input-container">
+          <input
+            type="text"
+            class="form-input stop-field"
+            [(ngModel)]="stops[i]"
+            (focus)="activeDropdownIndex = i"
+            (ngModelChange)="emitChange()"
+            placeholder="{{ isFirst ? 'Enter departure city (e.g. Delhi)' : (isLast ? 'Enter arrival city (e.g. Manali)' : 'Enter intermediate city') }}"
+            required
+          />
+
+          <!-- City Autocomplete Popover -->
+          <div class="city-suggestions" *ngIf="activeDropdownIndex === i">
+            <div class="suggestions-header">POPULAR CORRIDOR CITIES</div>
+            <div
+              class="city-option"
+              *ngFor="let city of getFilteredCities(stops[i])"
+              (mousedown)="selectCity(i, city)"
+            >
+              <i class="fa-solid fa-city mr-2 text-muted"></i>
+              <span>{{ city }}</span>
+            </div>
+            <div class="custom-place-item" *ngIf="stops[i] && !seededCities.includes(stops[i])" (mousedown)="activeDropdownIndex = -1">
+              <span>Use <strong>"{{ stops[i] }}"</strong> as custom stop</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions (Reorder / Remove) -->
+      <div class="stop-actions">
+        <button
+          type="button"
+          class="btn-icon-move"
+          [disabled]="isFirst || i === 1"
+          (click)="moveUp(i)"
+          title="Move stop earlier"
+          *ngIf="!isFirst && !isLast"
+        >
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+        <button
+          type="button"
+          class="btn-icon-move"
+          [disabled]="isLast || i === stops.length - 2"
+          (click)="moveDown(i)"
+          title="Move stop later"
+          *ngIf="!isFirst && !isLast"
+        >
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <button
+          type="button"
+          class="btn-icon-remove"
+          *ngIf="!isFirst && !isLast"
+          (click)="removeStop(i)"
+          title="Remove stop"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Via Stop Button -->
+  <button type="button" class="btn-add-stop" (click)="addViaStop()" [disabled]="stops.length >= 8">
+    <i class="fa-solid fa-plus mr-1.5"></i>
+    <span>Add Via Stop</span>
+  </button>
+</div>

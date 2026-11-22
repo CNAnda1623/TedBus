@@ -1,0 +1,44 @@
+<div class="tag-input-container">
+  <!-- Chips wrapper with inline input -->
+  <div class="tags-box" (click)="tagInput.focus()">
+    <span class="tag-chip" *ngFor="let tag of tags; let i = index">
+      <span>{{ tag }}</span>
+      <button type="button" class="btn-remove-tag" (click)="removeTag(i); $event.stopPropagation()" aria-label="Remove tag">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </span>
+
+    <input
+      #tagInput
+      type="text"
+      class="inline-tag-input"
+      [(ngModel)]="inputText"
+      (keydown)="onKeyDown($event)"
+      (focus)="showDropdown = true"
+      placeholder="{{ tags.length === 0 ? placeholder : (tags.length < maxTags ? '+ Add more' : '') }}"
+      [disabled]="tags.length >= maxTags"
+    />
+  </div>
+
+  <!-- Suggestions Dropdown -->
+  <div class="tag-suggestions" *ngIf="showDropdown && availableSuggestions.length > 0">
+    <div class="suggestions-header">POPULAR DESTINATIONS</div>
+    <div class="suggestion-tag-list">
+      <button
+        type="button"
+        class="suggestion-btn"
+        *ngFor="let s of availableSuggestions"
+        (mousedown)="addTag(s)"
+      >
+        <i class="fa-solid fa-plus mr-1 text-brand"></i>
+        <span>{{ s }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Helper line -->
+  <div class="tag-meta-line">
+    <span class="tag-hint">Press Enter or comma to add (Max {{ maxTags }} destinations)</span>
+    <span class="tag-counter" [class.is-limit]="tags.length >= maxTags">{{ tags.length }} / {{ maxTags }}</span>
+  </div>
+</div>

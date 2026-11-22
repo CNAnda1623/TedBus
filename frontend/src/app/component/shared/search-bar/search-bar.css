@@ -197,42 +197,107 @@
   animation: fadeInDown 200ms ease;
 }
 
+/* ==========================================================================
+   2. PRODUCT TABS (ATTACHED DIRECTLY ABOVE SEARCH BAR)
+   ========================================================================== */
+.product-tabs-segmented {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.product-tab-btn {
+  height: 36px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.product-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.product-tab-btn.active {
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================================
+   3. FULL SEARCH CAPSULE (72px Grid Architecture, Contained Button & Segments)
+   ========================================================================== */
+.full-search-container {
+  width: 100%;
+}
+
+.full-search-container.is-modify-inline {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  box-shadow: var(--shadow-md);
+  animation: fadeInDown 200ms ease;
+}
+
 .search-capsule {
   display: grid;
-  align-items: stretch;
-  height: 72px;
+  align-items: center;
+  min-height: 72px;
+  padding: 8px;
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: visible;
+  box-sizing: border-box;
 }
 
-/* Grid templates per product */
-.search-capsule.product-bus,
-.search-capsule.product-custom-bus {
-  grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1.2fr) auto minmax(220px, 1fr) auto;
+/* Grid templates per product (Desktop >= 1024px) */
+@media (min-width: 1024px) {
+  .search-capsule.product-bus,
+  .search-capsule.product-custom-bus {
+    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1.2fr) auto minmax(200px, 1fr) auto;
+  }
+
+  .search-capsule.product-cab {
+    grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 1.1fr) auto minmax(200px, 1fr) auto minmax(160px, 0.8fr) auto;
+  }
+
+  .search-capsule.product-train {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(200px, 1fr) auto minmax(160px, 1fr) auto minmax(140px, 1fr) auto;
+  }
 }
 
-.search-capsule.product-cab {
-  grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 1.1fr) auto minmax(200px, 1fr) auto minmax(160px, 0.8fr) auto;
-}
-
-.search-capsule.product-train {
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(200px, 1fr) auto minmax(160px, 190px) auto minmax(140px, 170px) auto;
-}
-
-/* Segments */
+/* Segments: 56px inner height, vertically centered */
 .segment-cell {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 12px 20px;
+  height: 56px;
+  padding: 8px 20px;
   min-width: 0;
   cursor: pointer;
+  align-self: center;
+  border-radius: 10px;
   transition: background-color var(--transition-fast);
+  box-sizing: border-box;
 }
 
 .segment-cell:hover {
@@ -240,11 +305,15 @@
 }
 
 .segment-from {
-  padding-right: 32px; /* Reserve space for swap button */
+  padding-right: 28px; /* Reserve space for swap button */
 }
 
 .segment-to {
-  padding-left: 32px; /* Reserve space for swap button */
+  padding-left: 28px; /* Reserve space for swap button */
+}
+
+.segment-date {
+  min-width: 200px;
 }
 
 .segment-label {
@@ -270,7 +339,7 @@
   border: none;
   background: transparent;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-primary);
   outline: none;
   padding: 0;
@@ -278,15 +347,17 @@
 }
 
 .segment-input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.75;
+  color: var(--field-placeholder);
+  opacity: 1;
 }
 
-/* 1px Vertical Divider */
+/* 1px Vertical Dividers: identical 40px height centered */
 .segment-divider {
   width: 1px;
+  height: 40px;
   background-color: var(--border-subtle);
-  height: 100%;
+  align-self: center;
+  flex-shrink: 0;
 }
 
 .divider-wrapper {
@@ -295,8 +366,10 @@
   align-items: center;
   justify-content: center;
   width: 1px;
-  height: 100%;
+  height: 40px;
+  align-self: center;
   overflow: visible;
+  flex-shrink: 0;
 }
 
 /* Swap button sitting on divider */
@@ -318,7 +391,7 @@
   cursor: pointer;
   z-index: 15;
   box-shadow: 0 0 0 3px var(--surface-card), var(--shadow-sm);
-  transition: transform 200ms ease, background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: transform 200ms ease, background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .swap-btn:hover {
@@ -326,21 +399,29 @@
   border-color: var(--brand-primary);
 }
 
+.swap-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--surface-card), 0 0 0 5px var(--field-focus-ring);
+}
+
 .swap-btn.rotated {
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
-/* Action Segment CTA Button */
+/* Action Segment CTA Button: Fully contained inside 8px padding */
 .segment-action {
   display: flex;
   align-items: center;
+  align-self: center;
+  height: 56px;
+  padding: 0 4px;
   gap: 8px;
-  padding: 10px 14px;
 }
 
 .search-submit-btn {
-  height: 100%;
-  padding: 0 28px;
+  height: 56px;
+  min-width: 140px;
+  padding: 0 24px;
   border-radius: 12px;
   background-color: var(--brand-primary);
   color: #FFFFFF;
@@ -356,6 +437,7 @@
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .search-submit-btn:hover {
@@ -363,9 +445,14 @@
   transform: translateY(-1px);
 }
 
+.search-submit-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--field-focus-ring);
+}
+
 .cancel-modify-btn {
+  height: 56px;
   padding: 0 16px;
-  height: 100%;
   border-radius: 12px;
   background-color: var(--surface-sunken);
   color: var(--text-secondary);
@@ -378,6 +465,18 @@
 .cancel-modify-btn:hover {
   color: var(--text-primary);
   border-color: var(--border-strong);
+}
+
+/* Narrower desktop button collapsing to icon */
+@media (min-width: 1024px) and (max-width: 1140px) {
+  .search-submit-btn {
+    min-width: 56px;
+    width: 56px;
+    padding: 0;
+  }
+  .search-btn-text {
+    display: none;
+  }
 }
 
 /* Autocomplete Dropdown */
@@ -426,91 +525,36 @@
   color: var(--text-muted);
 }
 
-/* Quick Chips & Product Tabs */
-.quick-chips-row {
+/* ==========================================================================
+   4. ONE COMPACT HELPERS ROW (32px High Chips)
+   ========================================================================== */
+.search-helpers-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.chips-label {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.date-chip {
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-subtle);
-  background-color: var(--surface-card);
-  color: var(--text-primary);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.date-chip:hover, .date-chip.active {
-  background-color: var(--brand-primary);
-  color: #FFFFFF;
-  border-color: var(--brand-primary);
-}
-
-.product-tabs-row {
-  display: flex;
-  gap: 8px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 14px;
+  width: 100%;
 }
 
-.tab-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-subtle);
-  background-color: var(--surface-card);
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.tab-chip:hover {
-  color: var(--text-primary);
-  border-color: var(--border-strong);
-}
-
-.tab-chip.active {
-  background-color: var(--brand-subtle);
-  color: var(--brand-text);
-  border-color: var(--brand-border);
-}
-
-.recent-searches-row {
+.helper-group-left, .helper-group-right {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.recent-label {
+.helper-group-label {
   font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
+  margin-right: 2px;
 }
 
-.recent-chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.recent-chip {
-  padding: 4px 12px;
+.helper-pill-chip {
+  height: 32px;
+  padding: 0 14px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-subtle);
   background-color: var(--surface-card);
@@ -518,36 +562,86 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
-.recent-chip:hover {
+.helper-pill-chip:hover, .helper-pill-chip.active {
+  background-color: var(--brand-subtle);
   border-color: var(--brand-primary);
   color: var(--brand-text);
 }
 
+.recent-chips-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 /* ==========================================================================
-   MOBILE RESPONSIVE (< 768px)
+   5. RESPONSIVE ARCHITECTURE
    ========================================================================== */
-@media (max-width: 992px) {
+
+/* 768px to 1023px: 2 rows (From/To row 1, Date/Search row 2) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .search-capsule,
   .search-capsule.product-bus,
   .search-capsule.product-custom-bus,
   .search-capsule.product-cab,
   .search-capsule.product-train {
-    height: auto;
+    min-height: 140px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    padding: 10px;
+    gap: 8px 0;
+  }
+
+  .segment-from { grid-column: 1; grid-row: 1; }
+  .divider-wrapper { grid-column: 2; grid-row: 1; }
+  .segment-to { grid-column: 3; grid-row: 1; }
+
+  .segment-divider { display: none; }
+  .divider-wrapper { display: flex; }
+
+  .segment-date { grid-column: 1; grid-row: 2; }
+  .segment-time, .segment-class, .segment-quota { grid-column: 2; grid-row: 2; }
+  .segment-action { grid-column: 3; grid-row: 2; }
+
+  .search-submit-btn { width: 100%; }
+}
+
+/* < 768px: Stacked card with each segment 64px high, horizontal dividers */
+@media (max-width: 767px) {
+  .search-capsule,
+  .search-capsule.product-bus,
+  .search-capsule.product-custom-bus,
+  .search-capsule.product-cab,
+  .search-capsule.product-train {
+    min-height: auto;
     grid-template-columns: 1fr;
     border-radius: 20px;
+    padding: 12px;
+    gap: 0;
+  }
+
+  .segment-cell {
+    height: 64px;
+    padding: 10px 16px;
   }
 
   .segment-divider {
     width: 100%;
     height: 1px;
+    margin: 0;
   }
 
   .divider-wrapper {
     width: 100%;
     height: 1px;
+    margin: 0;
   }
 
   .swap-btn {
@@ -562,8 +656,20 @@
   }
 
   .segment-from, .segment-to {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .segment-action {
+    width: 100%;
+    height: auto;
+    margin-top: 8px;
+    padding: 0;
+  }
+
+  .search-submit-btn {
+    width: 100%;
+    height: 52px;
   }
 
   .compact-bar {
@@ -574,11 +680,7 @@
     gap: 8px;
   }
 
-  .compact-left {
-    justify-content: space-between;
-  }
-
-  .compact-right {
+  .compact-left, .compact-right {
     justify-content: space-between;
   }
 }

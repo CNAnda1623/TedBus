@@ -317,138 +317,427 @@
   <!-- ======================================================================
        MODAL: CREATE POST WIZARD (4 TEMPLATES)
        ====================================================================== -->
+  <!-- ======================================================================
+       MODAL: CREATE POST WIZARD (Part 3: 3 Zones, 4 Templates, Accessible)
+       ====================================================================== -->
   <div class="modal-backdrop" *ngIf="showCreateModal" (click)="closeCreateModal()"></div>
-  <div class="create-post-modal" *ngIf="showCreateModal">
+  
+  <div class="create-post-modal" *ngIf="showCreateModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    
+    <!-- 1. FIXED HEADER -->
     <div class="create-modal-header">
-      <h2 class="create-heading">Share with Travel Community</h2>
-      <button class="close-modal-btn" (click)="closeCreateModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <!-- Template Selector Tabs -->
-    <div class="template-choice-tabs">
-      <button type="button" class="choice-tab" [class.active]="createTemplate === 'story'" (click)="createTemplate = 'story'">
-        <i class="fa-solid fa-book-open mr-1"></i> Trip Story
-      </button>
-      <button type="button" class="choice-tab" [class.active]="createTemplate === 'itinerary'" (click)="createTemplate = 'itinerary'">
-        <i class="fa-solid fa-calendar-days mr-1"></i> Itinerary
-      </button>
-      <button type="button" class="choice-tab" [class.active]="createTemplate === 'tip'" (click)="createTemplate = 'tip'">
-        <i class="fa-solid fa-lightbulb mr-1"></i> Quick Tip
-      </button>
-      <button type="button" class="choice-tab" [class.active]="createTemplate === 'review'" (click)="createTemplate = 'review'">
-        <i class="fa-solid fa-star-half-stroke mr-1"></i> Route Review
+      <div class="modal-header-titles">
+        <h2 id="modal-title" class="create-heading">Create a post</h2>
+        <p class="create-subheading">Pick a format, then share the details with fellow travellers</p>
+      </div>
+      <button type="button" class="close-modal-btn" (click)="closeCreateModal()" aria-label="Close dialog">
+        <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
 
-    <form class="create-modal-form" (ngSubmit)="submitNewPost()">
+    <!-- Stepper Navigation -->
+    <div class="modal-stepper-bar">
+      <div class="modal-step-item" [class.active]="currentStep === 1" [class.completed]="currentStep > 1" (click)="currentStep = 1">
+        <span class="step-circle">1</span>
+        <span class="step-name">Details</span>
+      </div>
+      <div class="modal-step-line" [class.active]="currentStep >= 2"></div>
+      <div class="modal-step-item" [class.active]="currentStep === 2" [class.completed]="currentStep > 2" (click)="isStep1Valid() ? currentStep = 2 : null">
+        <span class="step-circle">2</span>
+        <span class="step-name">Photos</span>
+      </div>
+      <div class="modal-step-line" [class.active]="currentStep >= 3"></div>
+      <div class="modal-step-item" [class.active]="currentStep === 3" (click)="isStep1Valid() ? currentStep = 3 : null">
+        <span class="step-circle">3</span>
+        <span class="step-name">Preview</span>
+      </div>
+    </div>
+
+    <!-- 2. SCROLLABLE BODY (Never scrolls page behind) -->
+    <div class="create-modal-body">
+      
+      <!-- Template Selector (4 Equal Tiles sitting on modal surface) -->
+      <div class="template-tiles-segmented" *ngIf="currentStep === 1">
+        <button
+          type="button"
+          class="template-tile-btn"
+          *ngFor="let opt of templateOptions"
+          [class.selected]="createTemplate === opt.id"
+          (click)="switchCreateTemplate(opt.id)"
+        >
+          <div class="tile-icon-box">
+            <i [class]="opt.icon"></i>
+          </div>
+          <div class="tile-content">
+            <span class="tile-title">{{ opt.name }}</span>
+            <span class="tile-desc">{{ opt.desc }}</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Error Banner -->
       <div class="form-error-banner" *ngIf="formError">
-        <i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ formError }}
+        <i class="fa-solid fa-circle-exclamation mr-1.5"></i>
+        <span>{{ formError }}</span>
       </div>
 
-      <!-- Title Input -->
-      <div class="form-group">
-        <label class="form-label">Journey Title * (min 8 chars)</label>
-        <input type="text" class="custom-input" [(ngModel)]="newPost.title" name="title" placeholder="e.g. Scenic overnight bus ride from Delhi to Manali" required />
-      </div>
-
-      <div class="form-row-2">
-        <div class="form-group">
-          <label class="form-label">Route (Origin → Destination)</label>
-          <input type="text" class="custom-input" [(ngModel)]="newPost.route" name="route" placeholder="e.g. Delhi → Chandigarh → Manali" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Destination City *</label>
-          <input type="text" class="custom-input" [(ngModel)]="newPost.city" name="city" placeholder="e.g. Manali, Goa, Jaipur" required />
-        </div>
-      </div>
-
-      <!-- Template-Specific Fields -->
-      <div class="template-extra-fields" *ngIf="createTemplate === 'itinerary'">
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="form-label">Duration (Days)</label>
-            <input type="number" class="custom-input" [(ngModel)]="newPost.itineraryDays" name="itineraryDays" min="1" max="30" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Budget Range</label>
-            <input type="text" class="custom-input" [(ngModel)]="newPost.budgetRange" name="budgetRange" placeholder="e.g. ₹6,000 - ₹9,000" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Best Season</label>
-            <input type="text" class="custom-input" [(ngModel)]="newPost.bestSeason" name="bestSeason" placeholder="e.g. Oct - Mar" />
+      <!-- STEP 1: FORM DETAILS -->
+      <div class="step-content-pane" *ngIf="currentStep === 1">
+        
+        <!-- Journey Title -->
+        <div class="form-field-group">
+          <label class="form-label" for="post-title">
+            <span>Journey Title</span>
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="post-title"
+            type="text"
+            class="form-input"
+            [(ngModel)]="newPost.title"
+            (ngModelChange)="onFieldChange()"
+            placeholder="e.g. Scenic overnight bus ride from Delhi to Manali"
+            maxlength="100"
+            required
+          />
+          <div class="form-helper-line">
+            <span class="helper-text">Summarise your transit route and key experience</span>
+            <span class="form-char-counter" [class.is-valid]="newPost.title && newPost.title.length >= 8">
+              {{ newPost.title ? newPost.title.length : 0 }} / 100
+            </span>
           </div>
         </div>
-      </div>
 
-      <div class="template-extra-fields" *ngIf="createTemplate === 'review'">
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="form-label">Mode</label>
-            <select class="custom-input" [(ngModel)]="newPost.reviewMode" name="reviewMode">
-              <option value="bus">Bus Journey</option>
-              <option value="train">Train Journey</option>
-              <option value="cab">Cab Rental</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Operator / Train Name</label>
-            <input type="text" class="custom-input" [(ngModel)]="newPost.operator" name="operator" placeholder="e.g. Zingbus / Vande Bharat" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Rating (1 to 5)</label>
-            <input type="number" class="custom-input" [(ngModel)]="newPost.rating" name="rating" min="1" max="5" />
+        <!-- Route Builder (Replaces free text route) -->
+        <div class="form-field-group" *ngIf="createTemplate !== 'tip'">
+          <label class="form-label">
+            <span>Route Stops</span>
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <app-route-builder
+            [stops]="routeStops"
+            (stopsChange)="onRouteStopsChange($event)"
+          ></app-route-builder>
+          <div class="form-helper-line">
+            <span class="helper-text">Add boarding, via-halts and destination cities</span>
           </div>
         </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Pros</label>
-            <input type="text" class="custom-input" [(ngModel)]="newPost.pros" name="pros" placeholder="Punctual, clean blankets" />
+
+        <!-- Destination TagInput (Normalized Destination Chips) -->
+        <div class="form-field-group">
+          <label class="form-label">
+            <span>Destination Tags</span>
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <app-tag-input
+            [tags]="destinationTags"
+            (tagsChange)="onDestinationTagsChange($event)"
+            [placeholder]="'Select or type destination (e.g. Manali, Jaipur)'"
+          ></app-tag-input>
+          <div class="form-helper-line">
+            <span class="helper-text">Tags help travellers find posts when filtering by city</span>
           </div>
-          <div class="form-group">
-            <label class="form-label">Cons</label>
-            <input type="text" class="custom-input" [(ngModel)]="newPost.cons" name="cons" placeholder="AC was slightly cold" />
+        </div>
+
+        <!-- TEMPLATE: ITINERARY SPECIFIC -->
+        <ng-container *ngIf="createTemplate === 'itinerary'">
+          <div class="form-row-grid-2">
+            <!-- Number of days stepper -->
+            <div class="form-field-group">
+              <label class="form-label">Total Days</label>
+              <div class="stepper-counter-box">
+                <button type="button" class="stepper-btn" (click)="decrementDays()" [disabled]="newPost.itineraryDays <= 1">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <span class="stepper-value">{{ newPost.itineraryDays }} Days</span>
+                <button type="button" class="stepper-btn" (click)="incrementDays()" [disabled]="newPost.itineraryDays >= 30">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Budget Range -->
+            <div class="form-field-group">
+              <label class="form-label">Estimated Budget</label>
+              <input type="text" class="form-input" [(ngModel)]="newPost.budgetRange" (ngModelChange)="onFieldChange()" placeholder="e.g. ₹5,000 - ₹10,000 per person" />
+            </div>
+          </div>
+
+          <!-- Best Season Chips -->
+          <div class="form-field-group">
+            <label class="form-label">Best Season to Travel</label>
+            <div class="season-chips-list">
+              <button
+                type="button"
+                class="pill-chip"
+                *ngFor="let s of seasonOptions"
+                [class.selected]="newPost.bestSeason === s"
+                (click)="newPost.bestSeason = s; onFieldChange()"
+              >
+                {{ s }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Day-by-Day Plan Repeatable Cards -->
+          <div class="form-field-group">
+            <div class="itinerary-header-row">
+              <label class="form-label">Day-by-Day Plan</label>
+              <button type="button" class="btn-ghost btn-compact" (click)="addItineraryDay()">
+                <i class="fa-solid fa-plus mr-1"></i> Add Day
+              </button>
+            </div>
+
+            <div class="day-cards-list">
+              <div class="day-plan-card" *ngFor="let d of itineraryDays; let i = index">
+                <div class="day-card-header">
+                  <span class="day-badge">Day {{ d.day }}</span>
+                  <input type="text" class="form-input day-title-input" [(ngModel)]="d.title" (ngModelChange)="onFieldChange()" placeholder="e.g. Arrival & Evening Walk" />
+                  <button type="button" class="btn-delete-day" (click)="removeItineraryDay(i)" *ngIf="itineraryDays.length > 1" title="Remove day">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+                <textarea class="form-textarea day-notes-textarea" [(ngModel)]="d.notes" (ngModelChange)="onFieldChange()" rows="2" placeholder="Activities, recommended transit stops, food recommendations..."></textarea>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- TEMPLATE: QUICK TIP SPECIFIC -->
+        <ng-container *ngIf="createTemplate === 'tip'">
+          <div class="form-field-group">
+            <label class="form-label">Tip Category</label>
+            <div class="season-chips-list">
+              <button
+                type="button"
+                class="pill-chip"
+                *ngFor="let cat of tipCategoryOptions"
+                [class.selected]="newPost.tipCategory === cat"
+                (click)="newPost.tipCategory = cat; onFieldChange()"
+              >
+                {{ cat }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- TEMPLATE: ROUTE REVIEW SPECIFIC -->
+        <ng-container *ngIf="createTemplate === 'review'">
+          <div class="form-row-grid-2">
+            <!-- Mode -->
+            <div class="form-field-group">
+              <label class="form-label">Transport Mode</label>
+              <div class="segmented-mode-control">
+                <button type="button" class="mode-btn" [class.active]="newPost.reviewMode === 'bus'" (click)="newPost.reviewMode = 'bus'; onFieldChange()"><i class="fa-solid fa-bus mr-1"></i> Bus</button>
+                <button type="button" class="mode-btn" [class.active]="newPost.reviewMode === 'train'" (click)="newPost.reviewMode = 'train'; onFieldChange()"><i class="fa-solid fa-train mr-1"></i> Train</button>
+                <button type="button" class="mode-btn" [class.active]="newPost.reviewMode === 'cab'" (click)="newPost.reviewMode = 'cab()'; onFieldChange()"><i class="fa-solid fa-taxi mr-1"></i> Cab</button>
+              </div>
+            </div>
+
+            <!-- Operator -->
+            <div class="form-field-group">
+              <label class="form-label">Operator / Train Name</label>
+              <input type="text" class="form-input" [(ngModel)]="newPost.operator" (ngModelChange)="onFieldChange()" placeholder="e.g. Zingbus / Vande Bharat" />
+            </div>
+          </div>
+
+          <!-- Interactive 5-Star Rating Control -->
+          <div class="form-field-group">
+            <label class="form-label">Overall Rating</label>
+            <div class="star-rating-control">
+              <div class="stars-group">
+                <button
+                  type="button"
+                  class="star-btn"
+                  *ngFor="let star of [1, 2, 3, 4, 5]"
+                  [class.filled]="newPost.rating >= star"
+                  (click)="newPost.rating = star; onFieldChange()"
+                  [attr.aria-label]="'Rate ' + star + ' stars'"
+                >
+                  <i class="fa-solid fa-star"></i>
+                </button>
+              </div>
+              <span class="rating-text-label">{{ ratingLabels[newPost.rating] || '4 - Very Good' }}</span>
+            </div>
+          </div>
+
+          <div class="form-row-grid-2">
+            <div class="form-field-group">
+              <label class="form-label">Pros <span class="optional-hint">(optional)</span></label>
+              <input type="text" class="form-input" [(ngModel)]="newPost.pros" (ngModelChange)="onFieldChange()" placeholder="e.g. Punctual, clean blankets, smooth driving" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-label">Cons <span class="optional-hint">(optional)</span></label>
+              <input type="text" class="form-input" [(ngModel)]="newPost.cons" (ngModelChange)="onFieldChange()" placeholder="e.g. High food stall prices at dinner stop" />
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Main Body (Story / Tip / Review text) with Live Counter & Auto-grow -->
+        <div class="form-field-group">
+          <label class="form-label" for="post-story">
+            <span>{{ createTemplate === 'tip' ? 'Travel Tip Body' : 'Story & Transit Experience' }}</span>
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <textarea
+            id="post-story"
+            class="form-textarea"
+            [(ngModel)]="newPost.story"
+            (ngModelChange)="onFieldChange()"
+            rows="5"
+            placeholder="{{ createTemplate === 'tip' ? 'Share your practical tip (packing, ticketing, budget, food stops)...' : 'Describe the road condition, stops, onboard comfort, cleanliness, and memorable moments...' }}"
+            required
+          ></textarea>
+          <div class="form-helper-line">
+            <span class="helper-text">{{ createTemplate === 'tip' ? 'Min 20 characters' : 'Min 50 characters' }}</span>
+            <span class="form-char-counter" [class.is-valid]="newPost.story && newPost.story.length >= (createTemplate === 'tip' ? 20 : 50)">
+              {{ newPost.story ? newPost.story.length : 0 }} / {{ createTemplate === 'tip' ? 280 : 3000 }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Key Tip for Stories -->
+        <div class="form-field-group" *ngIf="createTemplate === 'story'">
+          <label class="form-label">
+            <span>One Key Tip for Future Travellers</span>
+            <span class="optional-hint">(optional)</span>
+          </label>
+          <input
+            type="text"
+            class="form-input"
+            [(ngModel)]="newPost.tips"
+            (ngModelChange)="onFieldChange()"
+            placeholder="e.g. Book lower sleeper berths for lesser bumps near mountain hairpin turns"
+            maxlength="200"
+          />
+          <div class="form-helper-line">
+            <span class="helper-text">Highlight the single most helpful piece of advice</span>
+            <span class="form-char-counter">{{ newPost.tips ? newPost.tips.length : 0 }} / 200</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 2: PHOTOS UPLOAD (FileDropzone) -->
+      <div class="step-content-pane" *ngIf="currentStep === 2">
+        <div class="form-field-group">
+          <label class="form-label">
+            <span>Add Photos</span>
+            <span class="optional-hint">(up to 5 photos)</span>
+          </label>
+          <app-file-dropzone
+            [photos]="newPost.photos"
+            (photosChange)="onPhotosChange($event)"
+          ></app-file-dropzone>
+          <div class="form-helper-line">
+            <span class="helper-text">First photo will be featured as the cover image</span>
+            <span class="form-char-counter" [class.is-valid]="newPost.photos.length > 0">{{ newPost.photos.length }} / 5</span>
           </div>
         </div>
       </div>
 
-      <!-- Story / Body -->
-      <div class="form-group">
-        <label class="form-label">
-          <span>{{ createTemplate === 'tip' ? 'Travel Tip Body * (min 20 chars)' : 'Your Travel Story & Experience * (min 50 chars)' }}</span>
-        </label>
-        <textarea class="custom-textarea" [(ngModel)]="newPost.story" name="story" rows="4" placeholder="Describe the road condition, stops, cleanliness, food breaks..."></textarea>
-      </div>
-
-      <!-- Pro Tip Callout (for stories) -->
-      <div class="form-group" *ngIf="createTemplate === 'story'">
-        <label class="form-label">One Key Tip for Future Travellers</label>
-        <input type="text" class="custom-input" [(ngModel)]="newPost.tips" name="tips" placeholder="e.g. Book lower sleeper berths for lesser bumps near curves" />
-      </div>
-
-      <!-- Photos Upload Preview (Up to 5) -->
-      <div class="photo-upload-box">
-        <div class="upload-trigger-btn" (click)="fileInp.click()">
-          <i class="fa-solid fa-camera text-brand mr-2"></i>
-          <span>Add Photos (Max 5)</span>
-          <input #fileInp type="file" multiple accept="image/*" (change)="onPhotoSelected($event)" class="hidden" />
+      <!-- STEP 3: PREVIEW STEP (Exact Feed Card Representation) -->
+      <div class="step-content-pane preview-pane" *ngIf="currentStep === 3">
+        <div class="preview-explanation">
+          <i class="fa-solid fa-eye text-brand mr-1.5"></i>
+          <span>Here is how your post will appear in the Community feed:</span>
         </div>
 
-        <div class="uploaded-previews-row" *ngIf="newPost.photos.length > 0">
-          <div class="preview-thumb" *ngFor="let p of newPost.photos; let idx = index">
-            <img [src]="p" alt="Thumb" />
-            <i class="fa-solid fa-xmark remove-thumb" (click)="removePhoto(idx)"></i>
+        <article class="community-post-card preview-card">
+          <div class="card-cover-container" [style.background]="getGradientForDestination(destinationTags[0] || 'India')">
+            <img *ngIf="newPost.photos.length > 0" [src]="newPost.photos[0]" class="post-cover-img" alt="Preview cover" />
+            <div class="cover-gradient-overlay"></div>
+            <div class="cover-badges-top">
+              <span class="template-badge">{{ createTemplate | uppercase }}</span>
+              <span class="city-badge" *ngIf="destinationTags.length > 0">{{ destinationTags[0] }}</span>
+            </div>
           </div>
-        </div>
+
+          <div class="card-content-body">
+            <div class="author-timestamp-row">
+              <span class="author-name">{{ loggedInUser?.name || 'You (Traveller)' }}</span>
+              <span class="dot-separator">•</span>
+              <span class="post-date">Just now</span>
+            </div>
+
+            <h3 class="card-post-title">{{ newPost.title }}</h3>
+
+            <div class="post-route-pill" *ngIf="newPost.route">
+              <i class="fa-solid fa-route text-brand"></i>
+              <span>{{ newPost.route }}</span>
+            </div>
+
+            <p class="post-snippet">{{ newPost.story }}</p>
+
+            <div class="card-footer-stats">
+              <div class="stats-left">
+                <span class="stat-item"><i class="fa-solid fa-heart mr-1 text-red-500"></i> 0 Likes</span>
+                <span class="stat-item"><i class="fa-regular fa-comment mr-1"></i> 0 Comments</span>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
 
-      <!-- Submit Action -->
-      <div class="modal-form-actions">
-        <button type="button" class="btn-secondary" (click)="closeCreateModal()">Cancel</button>
-        <button type="submit" class="btn-primary" [disabled]="isSubmitting">
-          <span *ngIf="!isSubmitting">Publish Story</span>
+    </div>
+
+    <!-- 3. FIXED FOOTER -->
+    <div class="create-modal-footer">
+      <div class="footer-left-status">
+        <span class="step-indicator-text">Step {{ currentStep }} of 3: {{ currentStep === 1 ? 'Details' : (currentStep === 2 ? 'Photos' : 'Preview') }}</span>
+        <span class="autosave-pill">
+          <i class="fa-solid fa-cloud-arrow-up mr-1 text-green-500"></i>
+          {{ autoSaveStatus }}
+        </span>
+      </div>
+
+      <div class="footer-right-actions">
+        <!-- Cancel / Back button -->
+        <button type="button" class="btn-secondary" (click)="currentStep > 1 ? prevStep() : closeCreateModal()">
+          <span>{{ currentStep > 1 ? 'Back' : 'Cancel' }}</span>
+        </button>
+
+        <!-- Continue (Steps 1 & 2) -->
+        <button
+          type="button"
+          class="btn-primary"
+          *ngIf="currentStep < 3"
+          (click)="nextStep()"
+          [disabled]="currentStep === 1 && !isStep1Valid()"
+          [title]="getMissingFieldsHint()"
+        >
+          <span>Continue</span>
+          <i class="fa-solid fa-arrow-right ml-1"></i>
+        </button>
+
+        <!-- Publish CTA (Step 3) -->
+        <button
+          type="button"
+          class="btn-primary"
+          *ngIf="currentStep === 3"
+          (click)="submitNewPost()"
+          [disabled]="isSubmitting || !isStep1Valid()"
+        >
+          <span *ngIf="!isSubmitting">Publish Post</span>
           <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Publishing...</span>
         </button>
       </div>
-    </form>
+    </div>
+
+  </div>
+
+  <!-- DISCARD UNCHECKED DRAFT CONFIRM DIALOG -->
+  <div class="discard-confirm-overlay" *ngIf="showDiscardConfirm">
+    <div class="discard-dialog-card">
+      <div class="dialog-icon-box">
+        <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+      </div>
+      <h3 class="dialog-title">Discard draft?</h3>
+      <p class="dialog-desc">You have unsaved changes in your post. If you leave now, your current edits will be cleared.</p>
+      <div class="dialog-actions">
+        <button type="button" class="btn-secondary" (click)="keepEditing()">Keep Editing</button>
+        <button type="button" class="btn-danger-dialog" (click)="confirmDiscard()">Discard Draft</button>
+      </div>
+    </div>
   </div>
 </div>

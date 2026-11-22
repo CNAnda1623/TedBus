@@ -68,26 +68,52 @@ export class CommunityHub implements OnInit {
     'All', 'Goa', 'Shimla', 'Manali', 'Jaipur', 'Udaipur', 'Kerala', 'Rishikesh', 'Varanasi', 'Ooty'
   ];
 
-  // Create Post Modal State
+  // Create Post Wizard State (Part 3)
   showCreateModal: boolean = false;
+  showDiscardConfirm: boolean = false;
+  currentStep: number = 1; // 1: Details, 2: Photos, 3: Preview
   createTemplate: PostTemplate = 'story';
+  autoSaveStatus: string = 'All changes saved';
+  hasUnsavedChanges: boolean = false;
+  private autoSaveTimer: any;
+
+  templateOptions = [
+    { id: 'story' as PostTemplate, name: 'Trip Story', icon: 'fa-solid fa-book-open', desc: 'Narrative transit experience with tips and road memories' },
+    { id: 'itinerary' as PostTemplate, name: 'Itinerary', icon: 'fa-solid fa-calendar-days', desc: 'Structured day-by-day travel plan with budget & season' },
+    { id: 'tip' as PostTemplate, name: 'Quick Tip', icon: 'fa-solid fa-lightbulb', desc: 'Bite-sized advice on packing, stops, ticketing or food' },
+    { id: 'review' as PostTemplate, name: 'Route Review', icon: 'fa-solid fa-star-half-stroke', desc: 'Detailed transit review with star rating, pros & cons' }
+  ];
+
+  seasonOptions = ['Oct - Mar', 'Apr - Jun', 'Jul - Sep', 'All Year Round'];
+  tipCategoryOptions = ['Packing & Transit', 'Budget Saving', 'Safety & Comfort', 'Food & Stops'];
+  ratingLabels = ['', '1 - Poor', '2 - Fair', '3 - Good', '4 - Very Good', '5 - Excellent'];
+
+  routeStops: string[] = ['Delhi', 'Jaipur'];
+  destinationTags: string[] = ['Jaipur'];
+
+  itineraryDays: { day: number; title: string; notes: string }[] = [
+    { day: 1, title: 'Arrival & Check-in', notes: 'Check in to hotel, evening street food tour and market walk.' },
+    { day: 2, title: 'Sightseeing & Transit', notes: 'Full day local attractions, fort tour and sunset viewpoint.' }
+  ];
+
   newPost: any = {
     title: '',
     story: '',
-    route: '',
-    city: '',
+    route: 'Delhi → Jaipur',
+    city: 'Jaipur',
     tips: '',
-    itineraryDays: 3,
+    itineraryDays: 2,
     budgetRange: '₹5,000 - ₹10,000',
     bestSeason: 'Oct - Mar',
     tipCategory: 'Packing & Transit',
     reviewMode: 'bus',
-    operator: '',
+    operator: 'Zingbus Electric',
     rating: 4,
-    pros: '',
-    cons: '',
+    pros: 'Punctual departure, comfortable seats, USB charging points',
+    cons: 'Slightly cold AC at night',
     photos: []
   };
+
   formError: string = '';
   isSubmitting: boolean = false;
   toastMessage: string = '';
@@ -288,41 +314,171 @@ export class CommunityHub implements OnInit {
     });
   }
 
-  // Create Post Methods
+  // Create Post Methods (Part 3)
   openCreateModal(): void {
     this.showCreateModal = true;
+    this.currentStep = 1;
     this.formError = '';
+    this.hasUnsavedChanges = false;
+    this.loadDraft();
+    document.body.style.overflow = 'hidden';
+
+    // Autosave draft every 5 seconds
+    this.autoSaveTimer = setInterval(() => {
+      if (this.hasUnsavedChanges) {
+        this.saveDraft();
+      }
+    }, 5000);
   }
 
   closeCreateModal(): void {
-    this.showCreateModal = false;
-    this.formError = '';
-  }
-
-  onPhotoSelected(event: any): void {
-    const files: FileList = event.target.files;
-    if (files && files.length > 0) {
-      for (let i = 0; i < Math.min(files.length, 5); i++) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          if (this.newPost.photos.length < 5) {
-            this.newPost.photos.push(e.target.result);
-            this.saveDraft();
-          }
-        };
-        reader.readAsDataURL(files[i]);
-      }
+    if (this.hasUnsavedChanges) {
+      this.showDiscardConfirm = true;
+    } else {
+      this.forceCloseModal();
     }
   }
 
-  removePhoto(index: number): void {
-    this.newPost.photos.splice(index, 1);
-    this.saveDraft();
+  confirmDiscard(): void {
+    this.showDiscardConfirm = false;
+    localStorage.removeItem('tedbus_community_draft');
+    this.resetForm();
+    this.forceCloseModal();
+  }
+
+  keepEditing(): void {
+    this.showDiscardConfirm = false;
+  }
+
+  forceCloseModal(): void {
+    this.showCreateModal = false;
+    this.showDiscardConfirm = false;
+    this.formError = '';
+    this.hasUnsavedChanges = false;
+    document.body.style.overflow = '';
+    if (this.autoSaveTimer) {
+      clearInterval(this.autoSaveTimer);
+      this.autoSaveTimer = null;
+    }
+  }
+
+  onFieldChange(): void {
+    this.hasUnsavedChanges = true;
+    this.autoSaveStatus = 'Unsaved changes...';
+  }
+
+  switchCreateTemplate(tmpl: PostTemplate): void {
+    this.createTemplate = tmpl;
+    this.onFieldChange();
+  }
+
+  onRouteStopsChange(stops: string[]): void {
+    this.routeStops = stops;
+    this.newPost.route = stops.filter(s => s && s.trim().length > 0).join(' → ');
+    this.onFieldChange();
+  }
+
+  onDestinationTagsChange(tags: string[]): void {
+    this.destinationTags = tags;
+    this.newPost.city = tags.join(', ');
+    this.onFieldChange();
+  }
+
+  onPhotosChange(photos: string[]): void {
+    this.newPost.photos = photos;
+    this.onFieldChange();
+  }
+
+  addItineraryDay(): void {
+    const nextDayNum = this.itineraryDays.length + 1;
+    this.itineraryDays.push({
+      day: nextDayNum,
+      title: `Day ${nextDayNum} Exploration`,
+      notes: ''
+    });
+    this.newPost.itineraryDays = this.itineraryDays.length;
+    this.onFieldChange();
+  }
+
+  removeItineraryDay(index: number): void {
+    if (this.itineraryDays.length <= 1) return;
+    this.itineraryDays.splice(index, 1);
+    this.itineraryDays.forEach((d, i) => d.day = i + 1);
+    this.newPost.itineraryDays = this.itineraryDays.length;
+    this.onFieldChange();
+  }
+
+  isStep1Valid(): boolean {
+    if (!this.newPost.title || this.newPost.title.trim().length < 8) return false;
+    if (this.createTemplate === 'tip') {
+      return (this.newPost.story && this.newPost.story.trim().length >= 20) && this.destinationTags.length > 0;
+    }
+    const minStory = 50;
+    if (!this.newPost.story || this.newPost.story.trim().length < minStory) return false;
+    if (!this.destinationTags || this.destinationTags.length === 0) return false;
+    return true;
+  }
+
+  getMissingFieldsHint(): string {
+    const missing: string[] = [];
+    if (!this.newPost.title || this.newPost.title.trim().length < 8) {
+      missing.push('Title (min 8 chars)');
+    }
+    const minLen = this.createTemplate === 'tip' ? 20 : 50;
+    if (!this.newPost.story || this.newPost.story.trim().length < minLen) {
+      missing.push(`Body (min ${minLen} chars)`);
+    }
+    if (!this.destinationTags || this.destinationTags.length === 0) {
+      missing.push('Destination tag');
+    }
+    return missing.length > 0 ? `Required: ${missing.join(', ')}` : 'Ready to proceed';
+  }
+
+  nextStep(): void {
+    this.formError = '';
+    if (this.currentStep === 1) {
+      if (!this.isStep1Valid()) {
+        this.formError = this.getMissingFieldsHint();
+        return;
+      }
+      this.currentStep = 2; // Photos
+    } else if (this.currentStep === 2) {
+      this.currentStep = 3; // Preview
+    }
+  }
+
+  prevStep(): void {
+    this.formError = '';
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+  incrementDays(): void {
+    if (this.newPost.itineraryDays < 30) {
+      this.newPost.itineraryDays++;
+      this.onFieldChange();
+    }
+  }
+
+  decrementDays(): void {
+    if (this.newPost.itineraryDays > 1) {
+      this.newPost.itineraryDays--;
+      this.onFieldChange();
+    }
   }
 
   saveDraft(): void {
     try {
-      localStorage.setItem('tedbus_community_draft', JSON.stringify(this.newPost));
+      const draftData = {
+        newPost: this.newPost,
+        createTemplate: this.createTemplate,
+        routeStops: this.routeStops,
+        destinationTags: this.destinationTags,
+        itineraryDays: this.itineraryDays
+      };
+      localStorage.setItem('tedbus_community_draft', JSON.stringify(draftData));
+      this.autoSaveStatus = 'Saved just now';
     } catch {}
   }
 
@@ -330,7 +486,12 @@ export class CommunityHub implements OnInit {
     try {
       const draft = localStorage.getItem('tedbus_community_draft');
       if (draft) {
-        this.newPost = Object.assign(this.newPost, JSON.parse(draft));
+        const parsed = JSON.parse(draft);
+        if (parsed.newPost) this.newPost = Object.assign(this.newPost, parsed.newPost);
+        if (parsed.createTemplate) this.createTemplate = parsed.createTemplate;
+        if (parsed.routeStops) this.routeStops = parsed.routeStops;
+        if (parsed.destinationTags) this.destinationTags = parsed.destinationTags;
+        if (parsed.itineraryDays) this.itineraryDays = parsed.itineraryDays;
       }
     } catch {}
   }
@@ -338,26 +499,26 @@ export class CommunityHub implements OnInit {
   submitNewPost(): void {
     this.formError = '';
 
-    if (!this.newPost.title || this.newPost.title.trim().length < 8) {
-      this.formError = 'Journey Title must be at least 8 characters long.';
-      return;
-    }
-
-    const minBody = this.createTemplate === 'tip' ? 20 : 50;
-    if (!this.newPost.story || this.newPost.story.trim().length < minBody) {
-      this.formError = `Your story / review must be at least ${minBody} characters long.`;
-      return;
-    }
-
-    if (!this.newPost.city) {
-      this.formError = 'Please specify destination city.';
+    if (!this.isStep1Valid()) {
+      this.formError = this.getMissingFieldsHint();
+      this.currentStep = 1;
       return;
     }
 
     this.isSubmitting = true;
 
+    // Build story with itinerary day cards if template is itinerary
+    let finalStory = this.newPost.story;
+    if (this.createTemplate === 'itinerary' && this.itineraryDays.length > 0) {
+      const dayNotes = this.itineraryDays.map(d => `Day ${d.day}: ${d.title}\n${d.notes}`).join('\n\n');
+      finalStory = `${this.newPost.story}\n\n--- ITINERARY ---\n${dayNotes}`;
+    }
+
     const payload = {
       ...this.newPost,
+      story: finalStory,
+      route: this.routeStops.join(' → '),
+      city: this.destinationTags.join(', '),
       template: this.createTemplate,
       posterName: this.loggedInUser?.name || 'Traveller',
       posterPhoto: this.loggedInUser?.picture || ''
@@ -367,7 +528,7 @@ export class CommunityHub implements OnInit {
       next: (created) => {
         this.isSubmitting = false;
         this.posts.unshift(created);
-        this.showCreateModal = false;
+        this.forceCloseModal();
         this.toastMessage = '🎉 Story published successfully to Community Hub!';
         setTimeout(() => this.toastMessage = '', 4000);
         localStorage.removeItem('tedbus_community_draft');
@@ -375,27 +536,33 @@ export class CommunityHub implements OnInit {
       },
       error: (err) => {
         this.isSubmitting = false;
-        this.formError = err?.error?.message || 'Failed to publish post. Please check connection.';
+        this.formError = err?.error?.message || 'Failed to publish post. Please check connection and retry.';
       }
     });
   }
 
   resetForm(): void {
+    this.routeStops = ['Delhi', 'Jaipur'];
+    this.destinationTags = ['Jaipur'];
+    this.itineraryDays = [
+      { day: 1, title: 'Arrival & Check-in', notes: 'Check in to hotel, evening street food tour and market walk.' },
+      { day: 2, title: 'Sightseeing & Transit', notes: 'Full day local attractions, fort tour and sunset viewpoint.' }
+    ];
     this.newPost = {
       title: '',
       story: '',
-      route: '',
-      city: '',
+      route: 'Delhi → Jaipur',
+      city: 'Jaipur',
       tips: '',
-      itineraryDays: 3,
+      itineraryDays: 2,
       budgetRange: '₹5,000 - ₹10,000',
       bestSeason: 'Oct - Mar',
       tipCategory: 'Packing & Transit',
       reviewMode: 'bus',
-      operator: '',
+      operator: 'Zingbus Electric',
       rating: 4,
-      pros: '',
-      cons: '',
+      pros: 'Punctual departure, comfortable seats, USB charging points',
+      cons: 'Slightly cold AC at night',
       photos: []
     };
   }
