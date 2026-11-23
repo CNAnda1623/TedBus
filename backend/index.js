@@ -1,0 +1,80 @@
+require('dotenv').config();
+const express = require('express');
+const bodyparser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+const app = express();
+const path = require('path');
+const communityRoutes = require('./routes/communityRoutes');
+app.use('/uploads/community', express.static(path.join(__dirname, 'uploads/community')));
+
+// ✅ Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyparser.json());
+// ✅ CORS setup
+const allowedOrigins = [
+  'https://get-bus.netlify.app',
+  'http://localhost:4200',
+  process.env.FRONTEND_URL,
+  process.env.CORS_ORIGIN
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com') || origin.includes('localhost')) {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
+  credentials: true
+}));
+
+// ✅ Routes
+const cabBookingRoutes = require('./routes/cabBooking');
+app.use('/api/cab-booking', cabBookingRoutes);
+app.use('/cab-booking', cabBookingRoutes);
+app.use('/api/booking', require('./routes/booking'));
+app.use('/booking', require('./routes/booking'));
+app.use('/api', require('./routes/customer'));
+app.use('/api', require('./routes/route'));
+app.use('/api', require('./routes/busRoutes'));
+app.use('/api/community', communityRoutes);
+app.use('/api/support', require('./routes/supportRoutes'));
+
+// Compatibility endpoints
+app.use('/cabpayment', (req, res) => res.status(200).json({ message: 'Cab payment processed' }));
+app.use('/cabcustomers/latest', async (req, res) => {
+  const CabCustomer = require('./models/CabCustomer');
+  const latest = await CabCustomer.findOne().sort({ createdAt: -1 });
+  res.json(latest);
+});
+app.use('/cabbookings/latest', async (req, res) => {
+  const CabBooking = require('./models/cabBooking');
+  const latest = await CabBooking.findOne().sort({ createdAt: -1 });
+  res.json(latest);
+});
+
+
+
+// ✅ MongoDB connection
+const DBURL = process.env.MONGODB_URI || process.env.DBURL || 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';
+
+mongoose.connect(DBURL)
+  .then(() => console.log('MongoDB connected ✅'))
+  .catch(err => console.error('MongoDB connection error ❌:', err));
+
+// ✅ Default route
+app.get('/', (req, res) => {
+  res.send('🚀 Ted Bus server is running');
+});
+
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🟢 Server is running on port ${PORT}`);
+});
+
