@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
@@ -16,15 +17,17 @@ app.use(bodyparser.json());
 // ✅ CORS setup
 const allowedOrigins = [
   'https://get-bus.netlify.app',
-  'http://localhost:4200'
-];
+  'http://localhost:4200',
+  process.env.FRONTEND_URL,
+  process.env.CORS_ORIGIN
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com') || origin.includes('localhost')) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, true);
     }
   },
   credentials: true
@@ -58,7 +61,7 @@ app.use('/cabbookings/latest', async (req, res) => {
 
 
 // ✅ MongoDB connection
-const DBURL = 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';
+const DBURL = process.env.MONGODB_URI || process.env.DBURL || 'mongodb+srv://chetannanda62:P6pld7Kfp6psfWEi@tedbus.fcvedwg.mongodb.net/?retryWrites=true&w=majority&appName=TedBus';
 
 mongoose.connect(DBURL)
   .then(() => console.log('MongoDB connected ✅'))
